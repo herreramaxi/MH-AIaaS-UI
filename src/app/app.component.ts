@@ -12,7 +12,7 @@ export class AppComponent {
 
   message = '';
   isAuthenticated$ = this.auth.isAuthenticated$;
-  constructor(private auth: AuthService, public messageService: MessageService) { }
+  constructor(public auth: AuthService, public messageService: MessageService) { }
 
   ngOnInit(): void {
     this.messageService.getAdminResource().subscribe((response) => {
