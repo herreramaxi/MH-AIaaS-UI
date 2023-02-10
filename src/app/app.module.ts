@@ -20,6 +20,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { PublicComponent } from './public/public.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatButtonModule,
     MatButtonToggleModule,
     MatNativeDateModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
