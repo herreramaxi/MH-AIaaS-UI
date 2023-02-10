@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <a class="navbar-brand" [routerLink]="'.'">AIaaS</a>
+
+
+    <div class="navbar acollapse navbar-collapse" *ngIf="auth.user$ | async as user">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                    *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                    routerLink="/public">Public</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/demo" routerLinkActive="active">View demo</a>
+            </li>
+        </ul>
+        <div class="col text-right">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+                <!-- <mat-icon *ngIf="showIcon">account_circle</mat-icon> -->
+                <!-- <app-user-profile-image [userId]="loggedInUserId"></app-user-profile-image> -->
+            </button>
+
+        </div>
+
+    </div>
+</nav>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+</mat-menu>
