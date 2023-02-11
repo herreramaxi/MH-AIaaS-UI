@@ -10,21 +10,4 @@ import { MessageService } from './core/services';
 export class AppComponent {
   title = 'AIaaS_UI';
 
-  message = '';
-  isAuthenticated$ = this.auth.isAuthenticated$;
-  constructor(public auth: AuthService, public messageService: MessageService) { }
-
-  ngOnInit(): void {
-    this.messageService.getAdminResource().subscribe((response) => {
-      const { data, error } = response;
-
-      if (data) {
-        this.message = JSON.stringify(data, null, 2);
-      }
-
-      if (error) {
-        this.message = JSON.stringify(error, null, 2);
-      }
-    });
-  }
 }

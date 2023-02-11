@@ -3,19 +3,5 @@
 </div>
 
 <div class="content" role="main">
-  <nav>
-    <div *ngIf="auth.user$ | async as user">
-      <a *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')" routerLink="/public">Public</a>
-    </div>
-  </nav>
-
   <router-outlet></router-outlet>
-  <app-login-button></app-login-button>
-  <app-logout-button></app-logout-button>
-  <app-user-profile></app-user-profile>
-
-  <ng-container *ngIf="isAuthenticated$ | async">
-    <h1>Authenticated</h1>
-    <h2>{{message}}</h2>
-  </ng-container>
 </div>

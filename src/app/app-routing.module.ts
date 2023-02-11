@@ -3,10 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { PublicComponent } from './public/public.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
     path: 'public', component: PublicComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] }
+  },
+  {
+    path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]
   }
 ];
 
