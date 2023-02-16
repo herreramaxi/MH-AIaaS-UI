@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>
+  <mat-icon [ngStyle]="{ color: data.color }">{{data.icon}}</mat-icon>
+  <span>Edit {{ data.name }}</span>
+</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="form" autocomplete="off">
+    <section class="input-section" *ngFor="let config of data.config">
+      <label [for]="config.name">
+        <span>{{ config.name }}</span>
+        <mat-icon [matTooltip]="config.description" matTooltipPosition="right"
+          >help</mat-icon
+        >
+      </label>
+      <textarea
+        [name]="config.name"
+        cols="30"
+        rows="6"
+        [formControlName]="config.name"
+        *ngIf="config.type === 'textarea'; else default"
+      ></textarea>
+      <ng-template #default>
+        <input
+          [name]="config.name"
+          [type]="config.type"
+          [formControlName]="config.name"
+        />
+      </ng-template>
+    </section>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button (click)="onSave()" cdkFocusInitial color="primary">
+    Save
+  </button>
+</mat-dialog-actions>

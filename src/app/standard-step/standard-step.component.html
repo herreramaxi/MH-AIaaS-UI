@@ -1,0 +1,19 @@
+<div #canvasContent class="step">
+  <div class="header">
+    <mat-icon [ngStyle]="{ color: data.color }">{{ data.icon }}</mat-icon>
+    <span class="step-name">{{ name }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onEdit()">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </mat-menu>
+</div>

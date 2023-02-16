@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
@@ -21,6 +24,16 @@ import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { PublicComponent } from './public/public.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MlWorkflowDesignerComponent } from './ml-workflow-designer/ml-workflow-designer.component';
+import { NgFlowchartModule } from '@joelwenzel/ng-flowchart';
+import { CustomStepComponent } from './custom-step/custom-step.component';
+import { FormStepComponent } from './form-step/form-step.component';
+import { NestedFlowComponent } from './nested-flow/nested-flow.component';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { StandardStepComponent } from './standard-step/standard-step.component';
+import { EditStepComponent } from './standard-step/edit-step/edit-step.component';
+import { RouterStepComponent } from './router-step/router-step.component';
+import { RouteStepComponent } from './custom-step/route-step/route-step.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +43,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserProfileComponent,
     PublicComponent,
     HeaderComponent,
+    MlWorkflowDesignerComponent,
+    CustomStepComponent,
+    FormStepComponent,
+    NestedFlowComponent,
+    StandardStepComponent,
+    EditStepComponent,
+    RouterStepComponent,
+    RouteStepComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +63,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     }),
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatInputModule,
     MatIconModule,
@@ -51,6 +74,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatButtonToggleModule,
     MatNativeDateModule,
     NgbModule,
+    NgFlowchartModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

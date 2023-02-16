@@ -1,0 +1,45 @@
+h2 {
+    display: flex;
+    align-items: center;
+
+    & mat-icon {
+        margin-right: 12px;
+    }
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0.3em;
+    border-bottom: 1px solid grey;
+
+
+    & input {
+        min-width: 300px;
+        padding: 0.8em;
+        background: #565656;
+    }
+
+    & textarea {
+        background: #565656;
+        color: white;
+        padding: .5em;
+        outline: none;
+        border: none;
+    }
+
+    & label {
+        margin-bottom: 0.6em;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+    }
+
+    mat-icon {
+        margin: 0 .5em;
+        height: 18px;
+        font-size: 18px;
+        width: auto;
+        cursor: default;
+    }
+}
