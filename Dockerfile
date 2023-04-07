@@ -7,6 +7,7 @@ RUN sudo npm install
 RUN sudo npm install -g @angular/cli
 COPY . .
 
+RUN sudo npm cache clean --force 
 RUN sudo npm run build
 
 CMD ["npm", "start"]
