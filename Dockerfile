@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM node:16-alpine
+FROM cimg/node:18.10
 ENV NODE_ENV=production
 ENV ENV=production
 COPY ["package.json","package-lock.json", "./"]
-RUN npm install
-RUN npm install -g @angular/cli
+RUN sudo npm install
+RUN sudo npm install -g @angular/cli
 COPY . .
 
-RUN npm run build
-EXPOSE 4040
+RUN sudo npm run build
+
 CMD ["npm", "start"]
