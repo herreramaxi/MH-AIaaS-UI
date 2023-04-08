@@ -31,7 +31,6 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0", 
     "ts-node": "^10.9.1",
-    "@angular/cli": "~15.1.5",
     "dotenv": "^16.0.1"
   },
   "devDependencies": {
