@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM cimg/node:18.10
+FROM node:16-alpine
 ENV NODE_ENV=production
 ENV ENV=production
 COPY ["package.json","package-lock.json", "./"]
 RUN sudo npm install
 COPY . .
 
-RUN sudo npm run build
-
+RUN npm run build
+EXPOSE 4040
 CMD ["npm", "start"]
