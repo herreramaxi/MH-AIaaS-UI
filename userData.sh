@@ -13,6 +13,9 @@ sudo chown deployer /home/deployer/.ssh/authorized_keys
 
 sudo yum update -y
 
+# install mc
+sudo yum install mc -y 
+
 echo "installing docker..."
 
 sudo amazon-linux-extras install docker -y
@@ -40,7 +43,7 @@ docker-compose version
 sudo yum install -y git
 
 # install openssl and generate private key (privatekey.pem) and certificate (server.crt)
-sudo apt-get install -y openssl
+# sudo apt-get install -y openssl
 openssl req -x509 -newkey rsa:4096 -keyout privatekey.pem -out server.crt -days 10000 -nodes -subj "/C=IE/ST=Leinster/L=Dublin/O=National College of Ireland/OU=School of Computing/CN=ncirl.ie"
 
 sudo cp privatekey.pem /home/ec2-user
@@ -64,13 +67,13 @@ nginx -v
 sudo chkconfig nginx on
 
 # Install dotnet runtime
-wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-sudo chmod +x ./dotnet-install.sh
-sudo ./dotnet-install.sh --version 6.0.0 --runtime dotnet
+# wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+# sudo chmod +x ./dotnet-install.sh
+# sudo ./dotnet-install.sh --version 6.0.0 --runtime dotnet
 
 # Set environment variables system-wide
-export DOTNET_ROOT=$HOME/.dotnet
-export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
+# export DOTNET_ROOT=$HOME/.dotnet
+# export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
 
 #Reboot to verify it all loads fine on its own.
 sudo reboot
