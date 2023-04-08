@@ -4,7 +4,6 @@ ENV NODE_ENV=production
 ENV ENV=production
 COPY ["package.json","package-lock.json", "./"]
 RUN sudo npm install
-RUN sudo npm install -g @angular/cli
 COPY . .
 
 RUN sudo npm run build
