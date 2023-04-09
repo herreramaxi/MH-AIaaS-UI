@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "env": "ts-node set-env.ts",
-    "start": "npm run env && node server.js",
+    "start-heroku": "npm run env && node server.js",
+    "start": "npm run env && ng serve",
     "build": "npm run env && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
