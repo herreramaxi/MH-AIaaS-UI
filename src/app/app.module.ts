@@ -34,6 +34,7 @@ import { StandardStepComponent } from './standard-step/standard-step.component';
 import { EditStepComponent } from './standard-step/edit-step/edit-step.component';
 import { RouterStepComponent } from './router-step/router-step.component';
 import { RouteStepComponent } from './custom-step/route-step/route-step.component';
+import { DatasetListComponent } from './dataset-list/dataset-list.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RouteStepComponent } from './custom-step/route-step/route-step.componen
     StandardStepComponent,
     EditStepComponent,
     RouterStepComponent,
-    RouteStepComponent
+    RouteStepComponent,
+    DatasetListComponent
   ],
   imports: [
     BrowserModule,
