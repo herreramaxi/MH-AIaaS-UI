@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup">
+            
+    <div style="display: flex; flex-direction: column">
+        
+        <kendo-fileselect formControlName="file"></kendo-fileselect> 
+        <!-- <mat-form-field appearance="fill"> -->
+        <!-- <kendo-upload formControlName="file" [autoUpload]="false" [saveUrl]="uploadSaveUrl"
+            [removeUrl]="uploadRemoveUrl" [restrictions]="myRestrictions">
+        </kendo-upload> -->
+        <!-- </mat-form-field> -->
+
+    </div>
+    <div>
+        <button mat-button matStepperNext>Next</button>
+    </div>
+</form>

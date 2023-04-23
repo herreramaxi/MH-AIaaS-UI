@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { DatasetCreateComponent } from './dataset-create/dataset-create.component';
+import { DatasetEditComponent } from './dataset-edit/dataset-edit.component';
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { MlWorkflowDesignerComponent } from './ml-workflow-designer/ml-workflow-designer.component';
@@ -11,7 +13,9 @@ const routes: Routes = [
   { path: '', component: MlWorkflowDesignerComponent },
   { path: 'public', component: PublicComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-  { path: 'datasets', component: DatasetListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } }
+  { path: 'datasets', component: DatasetListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'dataseEdit/:id', component: DatasetEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } }
 ]
 
 @NgModule({

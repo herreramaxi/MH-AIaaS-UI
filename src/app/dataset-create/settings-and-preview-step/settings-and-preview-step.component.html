@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+        <mat-label>Delimiter</mat-label>
+        <input matInput formControlName="delimiter" placeholder="Delimiter">
+    </mat-form-field>
+
+    <div *ngIf="fileAnalysis">
+
+        <table class="table">
+            <thead *ngIf="header?.length">
+                <tr>
+                    <th scope="col" *ngFor="let headerName of header">
+                        {{headerName}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="rows?.length">
+                <tr *ngFor="let row of rows ">
+                    <td *ngFor="let cell of row">
+                        {{cell}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+    </div>
+</form>

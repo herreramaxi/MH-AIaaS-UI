@@ -1,0 +1,17 @@
+<form [formGroup]="formGroup">
+    <ng-template matStepLabel>Basic settings</ng-template>
+    <div style="display: flex; flex-direction: column">
+        <mat-form-field appearance="fill">
+            <mat-label>Dataset Name</mat-label>
+            <input matInput placeholder="Dataset Name" formControlName="datasetName" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="example-full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput  formControlName="datasetDescription"  placeholder="Description"></textarea>
+        </mat-form-field>   
+
+    </div>
+    <div>
+        <button mat-button matStepperNext>Next</button>
+    </div>
+</form>

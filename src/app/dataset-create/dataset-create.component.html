@@ -1,0 +1,27 @@
+<h1>{{firstFormGroup.get("datasetName")?.value ?firstFormGroup.get("datasetName")?.value :  "New Dataset"}}</h1>
+
+<mat-stepper linear #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+        <ng-template matStepLabel>Basic Settings</ng-template>
+        <app-basic-settings-step [formGroup]="firstFormGroup"></app-basic-settings-step>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <ng-template matStepLabel>File Selection</ng-template>
+        <app-file-selection-step [formGroup]="secondFormGroup" [firstFormGroup]="firstFormGroup" [stepper]="stepper"></app-file-selection-step>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+        <ng-template matStepLabel>Settings and Preview</ng-template>
+        <app-settings-and-preview-step [formGroup]="thirdFormGroup" [secondFormGroup]="secondFormGroup"
+            [stepper]="stepper"></app-settings-and-preview-step>
+    </mat-step>
+    <mat-step [stepControl]="forthFormGroup">
+        <ng-template matStepLabel>Schema</ng-template>
+        <app-schema-step [formGroup]="forthFormGroup" [thirdFormGroup]="thirdFormGroup" [stepper]="stepper"></app-schema-step>
+     
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+            <button mat-button (click)="save()">Create</button>
+        </div>
+    </mat-step>
+</mat-stepper>

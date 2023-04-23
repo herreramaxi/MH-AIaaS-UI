@@ -4,7 +4,12 @@
 sudo adduser deployer
 sudo mkdir /home/deployer/.ssh
 sudo touch /home/deployer/.ssh/authorized_keys
-sudo curl http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key | sudo tee -a /home/deployer/.ssh/authorized_keys
+#previous version IMDSv1
+#sudo curl http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key | sudo tee -a /home/deployer/.ssh/authorized_keys
+
+#IMDSv2
+TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+&& curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key | sudo tee -a /home/deployer/.ssh/authorized_keys
 
 sudo chmod 700 /home/deployer/.ssh
 sudo chmod 600 /home/deployer/.ssh/authorized_keys
