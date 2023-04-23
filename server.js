@@ -9,6 +9,17 @@ if (process.env.NODE_ENV !== 'production') {
 else {
     console.log("starting production mode....")
 
+    const helmet = require("helmet")
+    app.use(helmet())
+    app.use(
+        helmet.contentSecurityPolicy({
+            useDefaults: true,
+            directives: {
+                "script-src-attr": ["'unsafe-inline'"]
+            },
+        })
+    );
+
     var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
     const ignoreHosts = [];
     const ignoreRoutes = [];
