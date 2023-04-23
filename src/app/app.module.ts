@@ -46,7 +46,6 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { UploadInterceptor } from './infrastructure/UploadInterceptor';
 import { BasicSettingsStepComponent } from './dataset-create/basic-settings-step/basic-settings-step.component';
 import { FileSelectionStepComponent } from './dataset-create/file-selection-step/file-selection-step.component';
 import { SchemaStepComponent } from './dataset-create/schema-step/schema-step.component';
@@ -113,8 +112,7 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     NotificationModule
   ],
   providers: [
-    { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },    
-    { provide: HTTP_INTERCEPTORS, useClass: UploadInterceptor, multi: true, },
+    { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     AuthGuardByRole
