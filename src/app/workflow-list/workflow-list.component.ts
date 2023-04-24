@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
-import { DatasetService } from '../core/services/dataset.service';
-import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
-@Component({
-  selector: 'app-dataset-list',
-  templateUrl: './dataset-list.component.html',
-  styleUrls: ['./dataset-list.component.css']
-})
+import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
+import { WorkflowService } from '../core/services/workflow.service';
 
-export class DatasetListComponent implements OnInit {
+@Component({
+  selector: 'app-workflow-list',
+  templateUrl: './workflow-list.component.html',
+  styleUrls: ['./workflow-list.component.css']
+})
+export class WorkflowListComponent  implements OnInit {
   public view: any;
   private data: any;
   public gridState: State = {
@@ -18,11 +18,11 @@ export class DatasetListComponent implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private datasetService: DatasetService) { }
+  constructor(private router: Router, private datasetService: WorkflowService) { }
 
   ngOnInit(): void {
 
-    this.datasetService.getDatasets().subscribe(data => {
+    this.datasetService.getWorkflows().subscribe(data => {
       if (!data) return;
       this.data = data;
       // this.view = process(data, this.gridState);
@@ -32,12 +32,12 @@ export class DatasetListComponent implements OnInit {
   }
 
   public addHandler(args: AddEvent): void {
-    this.router.navigate(['/datasetCreate']);
+    this.router.navigate(['/workflowCreate']);
   }
 
   public editHandler(args: AddEvent): void {
     var editDataItem = args.dataItem;
-    this.router.navigate(['/dataseEdit', editDataItem.Id]);
+    this.router.navigate(['/workflowEdit', editDataItem.Id]);
   }
 
   public filter: CompositeFilterDescriptor;

@@ -8,14 +8,16 @@ import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { MlWorkflowDesignerComponent } from './ml-workflow-designer/ml-workflow-designer.component';
 import { PublicComponent } from './public/public.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 
 const routes: Routes = [
   { path: '', component: MlWorkflowDesignerComponent },
   { path: 'public', component: PublicComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'datasets', component: DatasetListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
-  { path: 'dataseEdit/:id', component: DatasetEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
-  { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } }
+  { path: 'datasetEdit/:id', component: DatasetEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'workflows', component: WorkflowListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
 ]
 
 @NgModule({

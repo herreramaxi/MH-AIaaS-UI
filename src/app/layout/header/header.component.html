@@ -19,6 +19,11 @@
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
                         routerLink="/datasets">Datasets</a>
                 </div>
+                <div *ngIf="auth.user$ | async as user">
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/workflows">Workflows</a>
+                </div>
                 <!-- </li> -->
             </ul>
 

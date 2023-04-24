@@ -50,6 +50,7 @@ import { BasicSettingsStepComponent } from './dataset-create/basic-settings-step
 import { FileSelectionStepComponent } from './dataset-create/file-selection-step/file-selection-step.component';
 import { SchemaStepComponent } from './dataset-create/schema-step/schema-step.component';
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     SettingsAndPreviewStepComponent,
     BasicSettingsStepComponent,
     FileSelectionStepComponent,
-    SchemaStepComponent
+    SchemaStepComponent,
+    WorkflowListComponent
   ],
   imports: [
     BrowserModule,

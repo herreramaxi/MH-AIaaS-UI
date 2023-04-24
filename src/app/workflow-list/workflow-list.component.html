@@ -1,0 +1,18 @@
+<h1>Workflows</h1>
+<kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
+    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)">
+    <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>Add new</button>
+    </ng-template>
+    <kendo-grid-column field="name" title="Name">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <a [routerLink]="['/dataset', dataItem.id]"> {{dataItem.name}}</a>
+        </ng-template>
+    </kendo-grid-column> 
+    <kendo-grid-column field="createdBy" title="Created By"></kendo-grid-column>  
+    <kendo-grid-column field="modifiedOn" title="Modified On" filter="date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>   
+</kendo-grid>
