@@ -9,6 +9,10 @@ if (process.env.NODE_ENV !== 'production') {
 else {
     console.log("starting production mode....")
 
+    if (!process.env.DISABLE_CORS) {
+        console.log("Enabling cors in prod, this is temporary")
+        app.use(cors());
+    }
     // const helmet = require("helmet")
     // app.use(helmet())
     // app.use(
