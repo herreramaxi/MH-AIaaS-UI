@@ -1,11 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
+import { Workflow } from '../core/models/workflow.model';
+import { WorkflowService } from '../core/services/workflow.service';
 import { CustomStepComponent } from '../custom-step/custom-step.component';
 import { RouteStepComponent } from '../custom-step/route-step/route-step.component';
 import { FormStepComponent } from '../form-step/form-step.component';
 import { NestedFlowComponent } from '../nested-flow/nested-flow.component';
 import { RouterStepComponent } from '../router-step/router-step.component';
 import { StandardStepComponent } from '../standard-step/standard-step.component';
+import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 
 @Component({
   selector: 'app-ml-workflow-designer',
@@ -105,30 +111,28 @@ export class MlWorkflowDesignerComponent implements OnInit {
   ]
 
   showMenu = false;
+  disabled = false;
+  workflow?: Workflow;
 
-
-  constructor(
-    private registry: NgFlowchartStepRegistry
-  ) { }
-
+  constructor(public dialog: MatDialog, private service: WorkflowService, private registry: NgFlowchartStepRegistry, private activatedRoute: ActivatedRoute) {
+  }
+  
   ngOnInit(): void {
     this.operations.forEach(op => {
       this.registry.registerStep(op.type, op.template);
     });
     this.registry.registerStep('route', StandardStepComponent);
+   
+    this.activatedRoute.paramMap.subscribe(params => {
+      var id = +this.activatedRoute.snapshot.params['id'];
+
+      this.loadWorkflow(id);
+    });
   }
 
   ngAfterViewInit() {
 
   }
-
-
-
-  get stackBlitzLink() {
-    return null;
-  }
-
-
 
   downloadFlow() {
 
@@ -169,6 +173,27 @@ export class MlWorkflowDesignerComponent implements OnInit {
     }
   }
 
+  loadWorkflow(id: number) {
+    this.service.getWorkflowById(id).subscribe(data => {
+      this.workflow = data;
+    })
+  }
+
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
 
+  openDialog(): void {
+    if (!this.workflow)
+      return;
+
+    const dialogRef = this.dialog.open(DialogChangeNameComponent, {
+      data: { workflow: this.workflow },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result || !this.workflow) return;
+
+      this.loadWorkflow(this.workflow.id);
+    });
+  };
 }

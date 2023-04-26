@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{formGroup.get('name')?.value}}</h1>
+<div mat-dialog-content>
+  <form class="example-form" [formGroup]="formGroup" (submit)="onSubmit()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Workflow name</mat-label>
+      <input matInput formControlName="name" placeholder="Workflow name" required>
+      <mat-hint>Enter workflow name</mat-hint>
+      <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+        Workflow name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Description</mat-label>
+      <input type="text" matInput formControlName="description" placeholder="Description">
+      <mat-hint>Enter workflow description</mat-hint>
+      <mat-error *ngIf="formGroup.get('description')?.hasError('required')">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button type="button" mat-button (click)="onNoClick()">Cancel</button>
+      <button type="submit" mat-button cdkFocusInitial>Save</button>
+    </div>
+  </form>
+</div>

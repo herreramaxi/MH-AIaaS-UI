@@ -4,3 +4,4 @@ export * from './auth0-resource.model';
 export * from './message.model';
 export * from './request-config.model';
 export * from './user-profile.model';
+export * from './workflow.model';

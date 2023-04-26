@@ -1,124 +1,46 @@
+<h1>Workflow designer</h1>
+
+<div style="display: flex; align-items: center;">
+  <div>{{workflow?.name }}</div>
+  <a style="margin-left: 5px;" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a>
+</div>
+
 <section class="page">
-    <div class="content">
-      <div id="palette">
-        <div id="palette-heading">
-          <h2 id="palette-title">Palette</h2>
-          <span style="flex-grow: 1"></span>
-        </div>
-  
-        <section class="palette-section">
-          <div
-            class="operation"
-            *ngFor="let op of operations"
-            [ngFlowchartStep]="{
+  <div class="content">
+    <div id="palette">
+      <div id="palette-heading">
+        <h2 id="palette-title">Operations</h2>
+        <span style="flex-grow: 1"></span>
+      </div>
+
+      <section class="palette-section">
+        <div class="operation node" *ngFor="let op of operations" [ngFlowchartStep]="{
               template: op.template,
               data: op.data,
               type: op.type
-            }"
-          >
-            <mat-icon [ngStyle]="{ color: op.data.color }">{{
-              op.data.icon
+            }">
+          <mat-icon [ngStyle]="{ color: op.data.color }">{{
+            op.data.icon
             }}</mat-icon>
-            <h4>{{ op.name }}</h4>
-          </div>
-        </section>
-        <section class="palette-section">
-          <div class="sub-section">
-            <label for="step-gap-select" class="wide">Step Gap</label>
-            <select
-              name="step-gap-select"
-              id="step-gap-select"
-              class="wide"
-              (change)="onGapChanged($event)"
-            >
-              <option value="30">30</option>
-              <option value="40" selected>40</option>
-              <option value="60">60</option>
-            </select>
-          </div>
-          <div class="sub-section">
-            <label for="sequential">Sequential</label>
-            <input
-              type="checkbox"
-              name="sequential"
-              (change)="onSequentialChange($event)"
-            />
-          </div>
-        </section>
-        <div class="links">
-          <a
-            class="link"
-            target="_blank"
-            href="https://github.com/joel-wenzel/ng-flowchart/tree/master/projects/ng-flowchart"
-          >
-            <mat-icon svgIcon="github"></mat-icon>
-            <span>Github</span>
-          </a>
-          <a
-            class="link"
-            target="_blank"
-            href="https://www.npmjs.com/package/@joelwenzel/ng-flowchart"
-          >
-            <mat-icon svgIcon="npm"></mat-icon>
-            <span>NPM</span>
-          </a>
+          <h4>{{ op.name }}</h4>
         </div>
-      </div>
-      <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options">
-        <div class="menu">
-          <h1 id="watermark">NgFlowchart</h1>
-          <div class="canvas-menu">
-            <button
-              mat-mini-fab
-              color="primary"
-              id="menu-btn"
-              (click)="showMenu = !showMenu"
-              aria-label="Example icon button with a menu icon"
-            >
-              <mat-icon>menu</mat-icon>
-            </button>
-            <div class="canvas-menu-options" *ngIf="showMenu">
-              <button
-                mat-mini-fab
-                color="green"
-                class="menu-option-btn"
-                matTooltip="Show flow source"
-                (click)="downloadFlow(); showMenu = false"
-              >
-                <mat-icon>get_app</mat-icon>
-              </button>
-              <button
-                mat-mini-fab
-                color="orange"
-                class="menu-option-btn"
-                matTooltip="Upload sample flow"
-                (click)="uploadFlow(); showMenu = false"
-              >
-                <mat-icon>publish</mat-icon>
-              </button>
-              <a
-                mat-mini-fab
-                color="blue"
-                class="menu-option-btn"
-                matTooltip="View on Stackblitz"
-                [href]="stackBlitzLink"
-                target="_blank"
-              >
-                <mat-icon>code</mat-icon>
-              </a>
-              <button
-                mat-mini-fab
-                color="pink"
-                class="menu-option-btn"
-                matTooltip="Clear canvas"
-                (click)="clearCanvas(); showMenu = false"
-              >
-                <mat-icon>layers_clear</mat-icon>
-              </button>
-            </div>
-          </div>
+      </section>
+      <section class="palette-section">
+        <div class="sub-section">
+          <label for="step-gap-select" class="wide">Step Gap</label>
+          <select name="step-gap-select" id="step-gap-select" class="wide" (change)="onGapChanged($event)">
+            <option value="30">30</option>
+            <option value="40" selected>40</option>
+            <option value="60">60</option>
+          </select>
         </div>
-      </div>
+        <div class="sub-section">
+          <label for="sequential">Sequential</label>
+          <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
+        </div>
+      </section>
     </div>
-  </section>
-  
+    <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options">
+    </div>
+  </div>
+</section>

@@ -18,11 +18,11 @@ export class WorkflowListComponent  implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private datasetService: WorkflowService) { }
+  constructor(private router: Router, private service: WorkflowService) { }
 
   ngOnInit(): void {
 
-    this.datasetService.getWorkflows().subscribe(data => {
+    this.service.getWorkflows().subscribe(data => {
       if (!data) return;
       this.data = data;
       // this.view = process(data, this.gridState);
@@ -32,12 +32,18 @@ export class WorkflowListComponent  implements OnInit {
   }
 
   public addHandler(args: AddEvent): void {
-    this.router.navigate(['/workflowCreate']);
+    this.service.createWorkflow().subscribe(data => {
+      if (!data) return;
+
+      this.router.navigate(['/workflow-designer',data.id ]);
+    })
+   
   }
 
   public editHandler(args: AddEvent): void {
+    console.log(args.dataItem)
     var editDataItem = args.dataItem;
-    this.router.navigate(['/workflowEdit', editDataItem.Id]);
+    this.router.navigate(['/workflow-designer', editDataItem.id]);
   }
 
   public filter: CompositeFilterDescriptor;

@@ -6,7 +6,7 @@
     </ng-template>
     <kendo-grid-column field="name" title="Name">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <a [routerLink]="['/dataset', dataItem.id]"> {{dataItem.name}}</a>
+            <a [routerLink]="['/workflow-designer', dataItem.id]"> {{dataItem.name}}</a>
         </ng-template>
     </kendo-grid-column> 
     <kendo-grid-column field="createdBy" title="Created By"></kendo-grid-column>  
@@ -15,4 +15,10 @@
             {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
         </ng-template>
     </kendo-grid-column>   
+    <kendo-grid-command-column title="Command" [width]="220">
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand [primary]="true">Edit</button>
+            <button kendoGridRemoveCommand>Remove</button>
+        </ng-template>
+    </kendo-grid-command-column>
 </kendo-grid>

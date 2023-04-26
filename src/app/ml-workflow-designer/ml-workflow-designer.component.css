@@ -35,17 +35,17 @@ section.palette-section {
     padding: 0.5em 0;
 }
 
-div#palette {
+#palette {
     width: 240px;
     height: 100%;
-    background: #343434;
+    background: white !important;
     padding: 16px;
     position: relative;
 
     & .operation {
         display: flex;
         align-items: center;
-
+        color: black;
         font-size: 0.95em;
         padding: 0.5em 1em;
         border-radius: 3px;
@@ -71,6 +71,12 @@ div#palette {
             margin: 0;
         }
     }
+
+   
+}
+
+.palette-section {
+    color: black;
 }
 
 /** The drop icon outer circle */
@@ -81,6 +87,22 @@ div#palette {
 /** The drop icon inner circle */
 ::ng-deep.ngflowchart-step-wrapper[ngflowchart-drop-hover]::before {
     background: #2196f3 !important;
+}
+
+::ng-deep.ngflowchart-step-wrapper{
+    border-radius: 4px;
+    cursor: move;
+    font-size: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    width: 280px;
+    border-color: rgb(1, 92, 218);
+    background-color: rgb(243, 248, 253);
+    border-style: solid;
+    border-width: 1px;
+    color: rgb(0, 0, 0);
 }
 
 .links {
@@ -126,12 +148,12 @@ mat-icon.hidden {
     cursor: default;
 }
 
-div#palette-heading {
+#palette-heading {
     display: flex;
     border-bottom: 1px solid grey;
     margin-bottom: 1em;
     align-items: center;
-    color: #f0f0f0;
+    color: black;
 }
 
 h2#palette-title {
@@ -141,11 +163,28 @@ h2#palette-title {
 }
 
 div#canvas {
+    background: #f0f0f0;
     position: relative;
     flex-grow: 1;
     background-size: 30px 30px;
-    background-image: linear-gradient(to right, #343434 1px, transparent 1px),
-        linear-gradient(to bottom, #343434 1px, transparent 1px);
+    background-image: linear-gradient(to right, #d9d9d9 1px, transparent 1px),
+        linear-gradient(to bottom, #d9d9d9 1px, transparent 1px);
+
+        & .node {
+            border-radius: 4px;
+            cursor: move;
+            font-size: 12px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            height: 70px;
+            width: 280px;
+            border-color: rgb(1, 92, 218);
+            background-color: rgb(243, 248, 253);
+            border-style: solid;
+            border-width: 1px;
+            color: rgb(0, 0, 0);
+        }
 }
 
 div.menu {
@@ -196,3 +235,5 @@ h1#watermark {
 .menu-option-btn {
     margin: 0.3em;
 }
+
+

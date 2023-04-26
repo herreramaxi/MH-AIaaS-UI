@@ -51,6 +51,9 @@ import { FileSelectionStepComponent } from './dataset-create/file-selection-step
 import { SchemaStepComponent } from './dataset-create/schema-step/schema-step.component';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { WorkflowListComponent } from './workflow-list/workflow-list.component';
+import { WorkflowCreateComponent } from './workflow-create/workflow-create.component';
+import { HomeComponent } from './home/home.component';
+import { DialogChangeNameComponent } from './ml-workflow-designer/dialog-change-name/dialog-change-name.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,10 @@ import { WorkflowListComponent } from './workflow-list/workflow-list.component';
     BasicSettingsStepComponent,
     FileSelectionStepComponent,
     SchemaStepComponent,
-    WorkflowListComponent
+    WorkflowListComponent,
+    WorkflowCreateComponent,
+    HomeComponent,
+    DialogChangeNameComponent
   ],
   imports: [
     BrowserModule,
