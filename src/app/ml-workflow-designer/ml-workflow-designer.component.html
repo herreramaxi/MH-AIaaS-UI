@@ -1,8 +1,24 @@
-<h1>Workflow designer</h1>
-
 <div style="display: flex; align-items: center;">
-  <div>{{workflow?.name }}</div>
-  <a style="margin-left: 5px;" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a>
+  <div style="font-size: 20px;font-weight: 600;">{{workflow?.name }}</div>
+  <button mat-icon-button matTooltip="Edit name and description" style="color: rgb(1, 92, 218);" class="material-symbols-sharp" (click)="openDialog()">
+    <mat-icon>mode_edit</mat-icon>
+  </button>
+
+  <!-- <a style="margin-left: 5px; color: rgb(1, 92, 218);" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a> -->
+
+
+  <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto">
+    <mat-icon>undo</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Redo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
+    <mat-icon>redo</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="save()">
+    <mat-icon>save</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
+    <mat-icon>publish</mat-icon>
+  </button>
 </div>
 
 <section class="page">
@@ -37,6 +53,9 @@
         <div class="sub-section">
           <label for="sequential">Sequential</label>
           <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
+          <!-- <button type="button" name="download" (click)="downloadFlow()">Download</button>
+          <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
+          <button type="button" name="save" (click)="save()">Save</button> -->
         </div>
       </section>
     </div>

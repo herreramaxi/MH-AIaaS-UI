@@ -236,4 +236,10 @@ h1#watermark {
     margin: 0.3em;
 }
 
-
+.material-symbols-sharp {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 100,
+  'GRAD' 0,
+  'opsz' 48
+}

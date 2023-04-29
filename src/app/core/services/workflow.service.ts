@@ -25,7 +25,13 @@ export class WorkflowService {
   }
 
 
+  getOperators() {
+    return this.http.get<any[]>('api/operators');
+  }
 
+  save(workflow: Workflow){
+    return this.http.put<Workflow>('api/workflows', workflow);
+  }
   // uploadDataset(file: any, id:any) {
   //   const formData = new FormData();
   //   formData.append('file', file);
