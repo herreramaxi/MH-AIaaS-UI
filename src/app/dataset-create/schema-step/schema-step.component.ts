@@ -4,7 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 
 import { Keys } from '@progress/kendo-angular-common';
 import { GridDataResult, EditService, CellClickEvent, CellCloseEvent, AddEvent, CancelEvent, SaveEvent, RemoveEvent, GridComponent } from '@progress/kendo-angular-grid';
-import { State, process } from '@progress/kendo-data-query';
+import { State, process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { Observable, map } from 'rxjs';
 import { ColumnSetting } from 'src/app/core/models/coulumn-setting';
 
@@ -24,11 +24,25 @@ export class SchemaStepComponent implements OnInit {
   stepper: MatStepper;
   
   public view: any;
+  private data: any;
   public gridState: State = {
-    sort: [],
+    sort: [
+      {
+        field: "columnName",
+        dir: "asc",
+      },
+    ],
     skip: 0,
     take: 5,
   };
+
+  
+  public sort: SortDescriptor[] = [
+    {
+      field: "columnName",
+      dir: "asc",
+    },
+  ];
 
   public changes = {};
 
@@ -47,7 +61,9 @@ export class SchemaStepComponent implements OnInit {
         
         if (!fileAnalysis) return;
      
-        this.view = process(fileAnalysis.columnsSettings, this.gridState);
+        
+        this.data = fileAnalysis.columnsSettings;
+       this.loadData();
       }
     })
 
@@ -59,6 +75,18 @@ export class SchemaStepComponent implements OnInit {
     // this.editService.read();
   }
 
+  public sortChange(sort: SortDescriptor[]): void {
+    this.sort = sort;
+    this.loadData();
+  }
+
+  
+  private loadData(): void {
+    this.view = {
+      data: orderBy(this.data, this.sort),
+      total: this.data.length,
+    };
+  }
   public cellClickHandler(args: CellClickEvent): void {
     console.log("cellClickHandler")
     console.log(args.isEdited)

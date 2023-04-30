@@ -50,7 +50,7 @@ export class SettingsAndPreviewStepComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', file);
 
-        this.http.post('api/Dataset/Preview', formData, file.name)
+        this.http.post('api/datasets/preview', formData, file.name)
           .subscribe((res:any) => {
             console.log(res);
             this.fileAnalysis = res;

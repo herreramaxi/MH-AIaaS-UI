@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
+import { NotificationService } from '@progress/kendo-angular-notification';
 import { Workflow } from '../core/models/workflow.model';
 import { WorkflowService } from '../core/services/workflow.service';
 import { CustomStepComponent } from '../custom-step/custom-step.component';
@@ -289,7 +290,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   disabled = false;
   workflow?: Workflow;
 
-  constructor(public dialog: MatDialog, private service: WorkflowService, private registry: NgFlowchartStepRegistry, private activatedRoute: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private service: WorkflowService, private registry: NgFlowchartStepRegistry, private activatedRoute: ActivatedRoute, private notificationService: NotificationService) {
     // this.operations.push(this.dataset);
   }
 
@@ -418,6 +419,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.service.save(this.workflow).subscribe(data => {
       console.log("all good");
       console.log(data)
+
+      this.notificationService.show({
+        content: "Workflow successfully saved",
+        position: { horizontal: "center", vertical: "top" },
+        animation: { type: "fade", duration: 500 },
+        closable: false,
+        type: { style: "success", icon: true },
+      });
     })
   }
 }
