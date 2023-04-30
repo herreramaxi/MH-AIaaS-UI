@@ -1,9 +1,7 @@
-export interface Dataset {
+import { AuditModel } from "./audit.model";
+
+export interface Dataset extends AuditModel{
     id: number;
     name: string;
     description: string;
-    createdBy: string;
-    createdOn: Date;
-    ModifiedBy: string;
-    ModifiedOn?: Date;
 }

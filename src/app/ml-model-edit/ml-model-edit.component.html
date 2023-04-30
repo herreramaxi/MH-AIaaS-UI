@@ -1,0 +1,10 @@
+<div *ngIf="model">
+    <h1>{{model.name}}</h1>
+    <p>Status: {{model.status}}</p>
+    <p>Workflow: <a [routerLink]="['/workflow-designer', model.workflow.id]"> {{model.workflow.name}}</a></p>
+    <p>Created on: {{model.createdOn}}</p>
+    <p>Created by: {{model.createdBy}}</p>
+    <p>Modified on: {{model.ModifiedOn}}</p>
+    <p>Modified by: {{model.ModifiedBy}}</p>
+
+</div>

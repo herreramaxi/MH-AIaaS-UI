@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
-import { DatasetService } from '../core/services/dataset.service';
-import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
-@Component({
-  selector: 'app-dataset-list',
-  templateUrl: './dataset-list.component.html',
-  styleUrls: ['./dataset-list.component.css']
-})
+import { CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy, State } from '@progress/kendo-data-query';
+import { MlModelService } from '../core/services/ml-model.service';
 
-export class DatasetListComponent implements OnInit {
+@Component({
+  selector: 'app-ml-model-list',
+  templateUrl: './ml-model-list.component.html',
+  styleUrls: ['./ml-model-list.component.css']
+})
+export class MlModelListComponent implements OnInit {
   public view: any;
   private data: any;
   public gridState: State = {
@@ -18,11 +18,11 @@ export class DatasetListComponent implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private datasetService: DatasetService) { }
+  constructor(private router: Router, private service: MlModelService) { }
 
   ngOnInit(): void {
 
-    this.datasetService.getDatasets().subscribe(data => {
+    this.service.getMlModels().subscribe(data => {
       if (!data) return;
       this.data = data;
       // this.view = process(data, this.gridState);
@@ -32,12 +32,12 @@ export class DatasetListComponent implements OnInit {
   }
 
   public addHandler(args: AddEvent): void {
-    this.router.navigate(['/datasetCreate']);
+    this.router.navigate(['/ml-model-create']);
   }
 
   public editHandler(args: AddEvent): void {
     var editDataItem = args.dataItem;
-    this.router.navigate(['/dataseEdit', editDataItem.id]);
+    this.router.navigate(['/models',editDataItem.id]);
   }
 
   public filter: CompositeFilterDescriptor;

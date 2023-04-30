@@ -1,0 +1,32 @@
+<h1>Models</h1>
+<kendo-grid [data]="view"  (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
+    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)">
+    <!-- <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>Add new</button>
+    </ng-template> -->
+    <kendo-grid-column field="name" title="Name" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <a [routerLink]="['/models', dataItem.id]"> {{dataItem.name}}</a>
+        </ng-template>
+    </kendo-grid-column>
+    <!-- <kendo-grid-column field="name" title="Name"></kendo-grid-column> -->
+    <kendo-grid-column field="status" title="Status"></kendo-grid-column>
+    <kendo-grid-column field="createdOn" title="Created On" filter="date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.createdOn | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="createdBy" title="Created By"></kendo-grid-column>
+    <kendo-grid-column field="modifiedOn" title="Modified On" filter="date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="modifiedBy" title="Modified By"></kendo-grid-column>
+    <kendo-grid-command-column title="Command" [width]="220">
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand [primary]="true">Edit</button>
+            <button kendoGridRemoveCommand>Remove</button>
+        </ng-template>
+    </kendo-grid-command-column>
+</kendo-grid>

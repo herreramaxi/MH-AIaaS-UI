@@ -1,24 +1,12 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { NgFlowchartModule } from '@joelwenzel/ng-flowchart';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GridModule } from '@progress/kendo-angular-grid';
+
 // import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { environment as env, environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -37,23 +25,23 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { MlWorkflowDesignerComponent } from './ml-workflow-designer/ml-workflow-designer.component';
 import { NestedFlowComponent } from './nested-flow/nested-flow.component';
-import { PublicComponent } from './public/public.component';
 import { RouterStepComponent } from './router-step/router-step.component';
 import { EditStepComponent } from './standard-step/edit-step/edit-step.component';
 import { StandardStepComponent } from './standard-step/standard-step.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UploadsModule } from '@progress/kendo-angular-upload';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { BasicSettingsStepComponent } from './dataset-create/basic-settings-step/basic-settings-step.component';
 import { FileSelectionStepComponent } from './dataset-create/file-selection-step/file-selection-step.component';
 import { SchemaStepComponent } from './dataset-create/schema-step/schema-step.component';
-import { NotificationModule } from '@progress/kendo-angular-notification';
-import { WorkflowListComponent } from './workflow-list/workflow-list.component';
-import { WorkflowCreateComponent } from './workflow-create/workflow-create.component';
+
+import { AngularKendoModule } from './angular.kendo.modules';
+import { AngularMaterialModule } from './angular.material.modules';
 import { HomeComponent } from './home/home.component';
 import { DialogChangeNameComponent } from './ml-workflow-designer/dialog-change-name/dialog-change-name.component';
+import { WorkflowCreateComponent } from './workflow-create/workflow-create.component';
+import { WorkflowListComponent } from './workflow-list/workflow-list.component';
+import { MlModelListComponent } from './ml-model-list/ml-model-list.component';
+import { MlModelEditComponent } from './ml-model-edit/ml-model-edit.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +49,6 @@ import { DialogChangeNameComponent } from './ml-workflow-designer/dialog-change-
     LoginButtonComponent,
     LogoutButtonComponent,
     UserProfileComponent,
-    PublicComponent,
     HeaderComponent,
     MlWorkflowDesignerComponent,
     CustomStepComponent,
@@ -81,7 +68,9 @@ import { DialogChangeNameComponent } from './ml-workflow-designer/dialog-change-
     WorkflowListComponent,
     WorkflowCreateComponent,
     HomeComponent,
-    DialogChangeNameComponent
+    DialogChangeNameComponent,
+    MlModelListComponent,
+    MlModelEditComponent
   ],
   imports: [
     BrowserModule,
@@ -98,26 +87,8 @@ import { DialogChangeNameComponent } from './ml-workflow-designer/dialog-change-
     ReactiveFormsModule,
     NgbModule,
     NgFlowchartModule,
-    GridModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
-    MatListModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatStepperModule,
-    // MaterialFileInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    InputsModule,
-    UploadsModule,
-    ButtonsModule,
-    NotificationModule
+    AngularKendoModule,
+    AngularMaterialModule
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },

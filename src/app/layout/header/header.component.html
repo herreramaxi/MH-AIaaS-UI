@@ -9,11 +9,7 @@
                 <a class="nav-link active" mat-button aria-current="page" href="#">Home</a>
                 <!-- </li> -->
                 <!-- <li class="nav-item" *ngIf="auth.user$ | async as user"> -->
-                <div *ngIf="auth.user$ | async as user">
-                    <a class="nav-link" mat-button
-                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
-                        routerLink="/public">Public</a>
-                </div>
+         
                 <div *ngIf="auth.user$ | async as user">
                     <a class="nav-link" mat-button
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
@@ -24,7 +20,11 @@
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
                         routerLink="/workflows">Workflows</a>
                 </div>
-                <!-- </li> -->
+                <div *ngIf="auth.user$ | async as user">
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/models">Models</a>
+                </div>
             </ul>
 
             <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
