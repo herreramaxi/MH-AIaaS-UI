@@ -1,6 +1,7 @@
 <h1>Workflows</h1>
 <kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
-    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)">
+    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)"
+    (remove)="removeHandler($event)">
     <ng-template kendoGridToolbarTemplate>
         <button kendoGridAddCommand>Add new</button>
     </ng-template>
@@ -8,13 +9,13 @@
         <ng-template kendoGridCellTemplate let-dataItem>
             <a [routerLink]="['/workflow-designer', dataItem.id]"> {{dataItem.name}}</a>
         </ng-template>
-    </kendo-grid-column> 
-    <kendo-grid-column field="createdBy" title="Created By"></kendo-grid-column>  
+    </kendo-grid-column>
+    <kendo-grid-column field="createdBy" title="Created By"></kendo-grid-column>
     <kendo-grid-column field="modifiedOn" title="Modified On" filter="date">
         <ng-template kendoGridCellTemplate let-dataItem>
             {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
         </ng-template>
-    </kendo-grid-column>   
+    </kendo-grid-column>
     <kendo-grid-command-column title="Command" [width]="220">
         <ng-template kendoGridCellTemplate let-isNew="isNew">
             <button kendoGridEditCommand [primary]="true">Edit</button>

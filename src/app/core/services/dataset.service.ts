@@ -23,4 +23,8 @@ export class DatasetService {
 
     return this.http.post(`api/datasets/upload/${id}`, formData, file.name);
   }
+
+  remove(id: number) {
+    return this.http.delete(`api/datasets/${id}`);
+  }  
 }

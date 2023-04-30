@@ -1,6 +1,7 @@
 <h1>Datasets</h1>
 <kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
-    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)">
+    (remove)="removeHandler($event)" filterable="menu" [sortable]="true" [sort]="sort"
+    (sortChange)="sortChange($event)">
     <ng-template kendoGridToolbarTemplate>
         <button kendoGridAddCommand>Add new</button>
     </ng-template>

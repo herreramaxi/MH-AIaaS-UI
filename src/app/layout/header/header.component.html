@@ -5,11 +5,6 @@
         <a class="navbar-brand" href="#">AIaaS</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- <li class="nav-item"> -->
-                <a class="nav-link active" mat-button aria-current="page" href="#">Home</a>
-                <!-- </li> -->
-                <!-- <li class="nav-item" *ngIf="auth.user$ | async as user"> -->
-         
                 <div *ngIf="auth.user$ | async as user">
                     <a class="nav-link" mat-button
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
@@ -27,7 +22,7 @@
                 </div>
             </ul>
 
-            <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+            <ng-container *ngIf="auth.user$ | async; else loggedOut">
                 <app-logout-button></app-logout-button>
             </ng-container>
             <ng-template #loggedOut>
@@ -44,9 +39,7 @@
 </app-navbar>
 
 <mat-menu #menu="matMenu">
-    <!-- <button mat-menu-item>Profile</button>    -->
     <div class="p-2">
         <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
-        <a class="nav-link" routerLink="/profile" routerLinkActive="active">Whatever</a>
     </div>
 </mat-menu>

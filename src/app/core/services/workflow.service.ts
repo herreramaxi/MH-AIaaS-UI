@@ -32,6 +32,10 @@ export class WorkflowService {
   save(workflow: Workflow){
     return this.http.put<Workflow>('api/workflows', workflow);
   }
+
+  remove(id:number){
+    return this.http.delete<Workflow>(`api/workflows/${id}`);
+  }
   // uploadDataset(file: any, id:any) {
   //   const formData = new FormData();
   //   formData.append('file', file);

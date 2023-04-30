@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
 import { DatasetService } from '../core/services/dataset.service';
 import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import { NotificationService } from '@progress/kendo-angular-notification';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',
@@ -18,17 +19,22 @@ export class DatasetListComponent implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private datasetService: DatasetService) { }
+  constructor(private router: Router, private datasetService: DatasetService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
 
+    this.GetDatasets();
+
+  }
+
+  private GetDatasets() {
     this.datasetService.getDatasets().subscribe(data => {
-      if (!data) return;
+      if (!data)
+        return;
       this.data = data;
       // this.view = process(data, this.gridState);
       this.loadData();
-    })
-
+    });
   }
 
   public addHandler(args: AddEvent): void {
@@ -37,7 +43,25 @@ export class DatasetListComponent implements OnInit {
 
   public editHandler(args: AddEvent): void {
     var editDataItem = args.dataItem;
-    this.router.navigate(['/dataseEdit', editDataItem.id]);
+    this.router.navigate(['/datasetEdit', editDataItem.id]);
+  }
+
+  public removeHandler(args: AddEvent): void {
+
+    var editDataItem = args.dataItem;
+
+    this.datasetService.remove(editDataItem.id).subscribe(data => {
+
+      this.GetDatasets();
+
+      this.notificationService.show({
+        content: "Dataset successfully deleted",
+        position: { horizontal: "center", vertical: "top" },
+        animation: { type: "fade", duration: 500 },
+        closable: false,
+        type: { style: "success", icon: true },
+      });
+    });
   }
 
   public filter: CompositeFilterDescriptor;

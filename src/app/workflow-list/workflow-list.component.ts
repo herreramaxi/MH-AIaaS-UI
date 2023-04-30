@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
+import { NotificationService } from '@progress/kendo-angular-notification';
 import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
 import { WorkflowService } from '../core/services/workflow.service';
 
@@ -9,7 +10,7 @@ import { WorkflowService } from '../core/services/workflow.service';
   templateUrl: './workflow-list.component.html',
   styleUrls: ['./workflow-list.component.css']
 })
-export class WorkflowListComponent  implements OnInit {
+export class WorkflowListComponent implements OnInit {
   public view: any;
   private data: any;
   public gridState: State = {
@@ -18,32 +19,55 @@ export class WorkflowListComponent  implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private service: WorkflowService) { }
+  constructor(private router: Router, private service: WorkflowService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
 
+    this.GetWorkflows();
+
+  }
+
+  private GetWorkflows() {
     this.service.getWorkflows().subscribe(data => {
-      if (!data) return;
+      if (!data)
+        return;
       this.data = data;
       // this.view = process(data, this.gridState);
       this.loadData();
-    })
-
+    });
   }
 
   public addHandler(args: AddEvent): void {
     this.service.createWorkflow().subscribe(data => {
       if (!data) return;
 
-      this.router.navigate(['/workflow-designer',data.id ]);
+      this.router.navigate(['/workflow-designer', data.id]);
     })
-   
+
   }
 
   public editHandler(args: AddEvent): void {
     console.log(args.dataItem)
     var editDataItem = args.dataItem;
     this.router.navigate(['/workflow-designer', editDataItem.id]);
+  }
+
+
+  public removeHandler(args: AddEvent): void {
+    var editDataItem = args.dataItem;
+
+    this.service.remove(editDataItem.id).subscribe(data => {
+
+      this.GetWorkflows();
+
+      this.notificationService.show({
+        content: "Workflow successfully deleted",
+        position: { horizontal: "center", vertical: "top" },
+        animation: { type: "fade", duration: 500 },
+        closable: false,
+        type: { style: "success", icon: true },
+      });
+    });
   }
 
   public filter: CompositeFilterDescriptor;

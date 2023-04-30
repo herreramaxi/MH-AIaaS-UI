@@ -14,7 +14,7 @@ import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardByRole] },
   { path: 'datasets', component: DatasetListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'datasetEdit/:id', component: DatasetEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
