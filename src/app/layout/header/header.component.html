@@ -5,25 +5,27 @@
         <a class="navbar-brand" href="#">AIaaS</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="auth.user$ | async as user">
-                <a class="nav-link" mat-button
-                    *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
-                    routerLink="/datasets">Datasets</a>
-                <a class="nav-link" mat-button
-                    *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
-                    routerLink="/workflows">Workflows</a>
-                <a class="nav-link" mat-button
-                    *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
-                    routerLink="/models">Models</a>
-                <a class="nav-link" mat-button
-                    *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
-                    routerLink="/endpoints">Endpoints</a>
+                <ng-container *ngIf="auth.user$ | async as user">
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/datasets">Datasets</a>
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/workflows">Workflows</a>
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/models">Models</a>
+                    <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/endpoints">Endpoints</a>
+                </ng-container>
             </ul>
 
             <ng-container *ngIf="auth.user$ | async; else loggedOut">
                 <app-logout-button></app-logout-button>
             </ng-container>
             <ng-template #loggedOut>
-                <app-login-button></app-login-button>
+                <app-login-button class="ms-auto"></app-login-button>
             </ng-template>
             <div class="ad-flex aflex-row aw-auto" *ngIf="auth.user$ | async as user">
                 <button mat-button [matMenuTriggerFor]="menu">
