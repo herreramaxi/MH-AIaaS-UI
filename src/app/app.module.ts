@@ -42,6 +42,8 @@ import { WorkflowCreateComponent } from './workflow-create/workflow-create.compo
 import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 import { MlModelListComponent } from './ml-model-list/ml-model-list.component';
 import { MlModelEditComponent } from './ml-model-edit/ml-model-edit.component';
+import { EndpointListComponent } from './endpoint-list/endpoint-list.component';
+import { EndpointEditComponent } from './endpoint-edit/endpoint-edit.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { MlModelEditComponent } from './ml-model-edit/ml-model-edit.component';
     HomeComponent,
     DialogChangeNameComponent,
     MlModelListComponent,
-    MlModelEditComponent
+    MlModelEditComponent,
+    EndpointListComponent,
+    EndpointEditComponent
   ],
   imports: [
     BrowserModule,
