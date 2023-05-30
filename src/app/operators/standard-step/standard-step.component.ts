@@ -19,14 +19,17 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
 
 
   name: string;
-  
+
 
   constructor(private matdialog: MatDialog) {
     super();
   }
 
   override ngOnInit(): void {
+    debugger;
     this.name = this.data.name;
+    console.log(`ngOnInit: ${this.name}`)
+    console.log(this.data)
   }
 
   onDelete() {
@@ -39,10 +42,10 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
       width: '500px'
     });
     let sub = dialogRef.beforeClosed().subscribe(data => {
-      if(data) {
+      if (data) {
         this.data.config = data;
       }
-      
+
       sub.unsubscribe();
     })
   }

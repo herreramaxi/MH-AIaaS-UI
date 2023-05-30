@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ColumnSetting } from '../models/column-setting';
 import { Dataset } from '../models/dataset.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatasetService {
-
   constructor(private http: HttpClient) { }
 
   getDatasets() {
@@ -27,4 +27,8 @@ export class DatasetService {
   remove(id: number) {
     return this.http.delete(`api/datasets/${id}`);
   }  
+  getDatasetColumns(datasetId: any) {
+    return this.http.get<ColumnSetting[]>(`api/datasets/${datasetId}/columns`);
+  }
+
 }

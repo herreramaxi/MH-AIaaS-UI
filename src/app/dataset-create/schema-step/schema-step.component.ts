@@ -6,7 +6,7 @@ import { Keys } from '@progress/kendo-angular-common';
 import { GridDataResult, EditService, CellClickEvent, CellCloseEvent, AddEvent, CancelEvent, SaveEvent, RemoveEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { State, process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { Observable, map } from 'rxjs';
-import { ColumnSetting } from 'src/app/core/models/coulumn-setting';
+import { ColumnSetting } from 'src/app/core/models/column-setting';
 
 @Component({
   selector: 'app-schema-step',

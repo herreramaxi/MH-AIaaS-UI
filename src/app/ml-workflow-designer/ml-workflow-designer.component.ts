@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
@@ -6,24 +6,22 @@ import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { Workflow } from '../core/models/workflow.model';
 import { WorkflowService } from '../core/services/workflow.service';
-import { CustomStepComponent } from '../custom-step/custom-step.component';
-import { RouteStepComponent } from '../custom-step/route-step/route-step.component';
-import { FormStepComponent } from '../form-step/form-step.component';
-import { NestedFlowComponent } from '../nested-flow/nested-flow.component';
-import { RouterStepComponent } from '../router-step/router-step.component';
-import { StandardStepComponent } from '../standard-step/standard-step.component';
+import { DatasetOperatorComponent } from '../operators/dataset-operator/dataset-operator.component';
+import { RouterStepComponent } from '../operators/router-step/router-step.component';
+import { StandardStepComponent } from '../operators/standard-step/standard-step.component';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
+import {OperatorType} from '../core/models/enums/enums';
 
 @Component({
   selector: 'app-ml-workflow-designer',
   templateUrl: './ml-workflow-designer.component.html',
   styleUrls: ['./ml-workflow-designer.component.css']
 })
-export class MlWorkflowDesignerComponent implements OnInit {
+
+export class MlWorkflowDesignerComponent implements OnInit { 
 
   @ViewChild(NgFlowchartCanvasDirective)
   chart: NgFlowchartCanvasDirective;
-
 
   options: NgFlowchart.Options = new NgFlowchart.Options();
 
@@ -32,7 +30,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     "root": {
         "id": "s1682629419035",
         "type": "dataset",
-        "data": {
+        "data": { 
             "name": "Dataset",
             "config": [
                 {
@@ -315,26 +313,29 @@ export class MlWorkflowDesignerComponent implements OnInit {
       this.loadWorkflow(id);
     });
   }
-  getTemplate(type: any): any {
+  getTemplate(type: OperatorType): any {
     // op.type === "dataset" ? StandardStepComponent : RouterStepComponent;
-    return StandardStepComponent;
+    switch (type) {
+      case OperatorType.Dataset: return DatasetOperatorComponent;
+      default: return StandardStepComponent;
+    }
   }
 
-  getIcon(type: any): any {
+  getIcon(type: OperatorType): any {
     switch (type) {
-      case "dataset": return "dataset";
-      case "clean": return "cleaning_services";
-      case "split": return "call_split";
-      case "train": return "model_training";
-      case "evaluate": return "analytics";
+      case OperatorType.Dataset: return "dataset";
+      case OperatorType.Clean: return "cleaning_services";
+      case OperatorType.Split: return "call_split";
+      case OperatorType.Train: return "model_training";
+      case OperatorType.Evaluate: return "analytics";
       default: return "calculate"
     }
   }
 
-  getColor(type: any): any {
+  getColor(type: OperatorType): any {
     switch (type) {
-      case "dataset": return "#00b894";
-      case "clean": return "#e84393";
+      case OperatorType.Dataset: return "#00b894";
+      case OperatorType.Clean: return "#e84393";
       default: return "#e17055"
     }
   }
@@ -344,7 +345,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   downloadFlow() {
-
+    debugger
     console.log("download")
     let json = this.chart.getFlow().toJSON(4);
     var x = window.open();
@@ -415,8 +416,28 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     const json = this.chart.getFlow().toJSON();
     this.workflow.root = json;
-    
+
     this.service.save(this.workflow).subscribe(data => {
+      console.log("all good");
+      console.log(data)
+
+      this.notificationService.show({
+        content: "Workflow successfully saved",
+        position: { horizontal: "center", vertical: "top" },
+        animation: { type: "fade", duration: 500 },
+        closable: false,
+        type: { style: "success", icon: true },
+      });
+    })
+  }
+
+  generateModel() {
+    if (!this.workflow) return;
+
+    const json = this.chart.getFlow().toJSON();
+    this.workflow.root = json;
+
+    this.service.run(this.workflow).subscribe(data => {
       console.log("all good");
       console.log(data)
 

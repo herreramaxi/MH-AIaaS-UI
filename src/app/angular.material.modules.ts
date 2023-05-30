@@ -14,6 +14,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     exports: [
@@ -34,6 +35,7 @@ import {MatCardModule} from '@angular/material/card';
         MatIconModule,
         MatGridListModule,
         MatCardModule,
+        MatSelectModule,
     ]
 }
 )

@@ -16,7 +16,7 @@
   <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="save()">
     <mat-icon>save</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
+  <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="generateModel()">
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
@@ -56,9 +56,9 @@
         <div class="sub-section">
           <label for="sequential">Sequential</label>
           <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
-          <!-- <button type="button" name="download" (click)="downloadFlow()">Download</button>
-          <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
-          <button type="button" name="save" (click)="save()">Save</button> -->
+           <button type="button" name="download" (click)="downloadFlow()">Download</button>
+          <!-- <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
+          <button type="button" name="save" (click)="save()">Save</button>  -->
         </div>
       </section>
     </div>

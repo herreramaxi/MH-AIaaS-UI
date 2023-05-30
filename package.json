@@ -39,6 +39,7 @@
     "@progress/kendo-angular-intl": "11.6.0",
     "@progress/kendo-angular-l10n": "11.6.0",
     "@progress/kendo-angular-label": "11.6.0",
+    "@progress/kendo-angular-listbox": "^11.6.0",
     "@progress/kendo-angular-notification": "^11.6.0",
     "@progress/kendo-angular-pdf-export": "11.6.0",
     "@progress/kendo-angular-popup": "11.6.0",
