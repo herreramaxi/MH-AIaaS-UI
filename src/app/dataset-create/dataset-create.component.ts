@@ -4,6 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { FileRestrictions, FileInfo } from "@progress/kendo-angular-upload";
 import { DatasetService } from '../core/services/dataset.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dataset-create',
@@ -31,7 +32,7 @@ export class DatasetCreateComponent {
     schema: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private datasetService: DatasetService, private notificationService: NotificationService) {
+  constructor(private formBuilder: FormBuilder, private datasetService: DatasetService, private notificationService: NotificationService, private router: Router) {
   }
 
   save() {
@@ -72,6 +73,8 @@ export class DatasetCreateComponent {
               closable: false,
               type: { style: "success", icon: true },
             });
+
+            this.router.navigate([`/datasets`]);
           },
           error: err => {
             console.log('Error when uploading file storage', err);

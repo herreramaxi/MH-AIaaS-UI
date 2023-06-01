@@ -56,7 +56,7 @@ export class SettingsAndPreviewStepComponent implements OnInit {
             this.fileAnalysis = res;
 
 
-            this.header = res.data[0];
+            this.header = res.header;
             this.rows =  res.data.slice(1);
 
             this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);
