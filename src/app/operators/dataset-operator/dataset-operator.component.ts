@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { disableDebugTools } from '@angular/platform-browser';
-import { NgFlowchart, NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
+import { AddChildOptions, NgFlowchart, NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
 import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
+import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { OperatorType } from 'src/app/core/models/enums/enums';
 
 @Component({
   selector: 'app-dataset-operator',
@@ -10,17 +12,23 @@ import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
   styleUrls: ['./dataset-operator.component.css']
 })
 export class DatasetOperatorComponent extends NgFlowchartStepComponent {
-
-
   name: string;
+  isValid?: boolean;
+  validationMessage: string;
 
-
-  constructor(private matdialog: MatDialog) {
+  constructor(private matdialog: MatDialog, private operatorSupportService: OperatorSupportService) {
     super();
   }
 
   override ngOnInit(): void {
+    super.ngOnInit();
+    debugger;
     this.name = this.data.name;
+    this.data.color = this.operatorSupportService.getColor(OperatorType.Dataset);
+    this.data.icon = this.operatorSupportService.getIcon(OperatorType.Dataset);
+
+    this.isValid = this.data.isValid;
+    this.validationMessage = this.data.validationMessage;
     console.log(`ngOnInit: ${this.name}`)
     console.log(this.data)
   }
@@ -30,14 +38,15 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
+    debugger;
     const dialogRef = this.matdialog.open(EditDatasetComponent, {
       data: this.data,
       width: '700px',
       height: '500px'
     });
-    debugger
+
     let sub = dialogRef.beforeClosed().subscribe(data => {
-      debugger
+
       if (data) {
         this.data.config = data;
       }
@@ -48,7 +57,6 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
   override getDropPositionsForStep(step: NgFlowchart.Step | NgFlowchart.Connector): NgFlowchart.DropPosition[] {
     return ['BELOW'];
-  
-  }
 
+  }
 }

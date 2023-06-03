@@ -36,7 +36,6 @@ export class EditDatasetComponent implements OnInit {
       this.datasets = data;
     })
 
-    debugger
     const selectedDatasetId = this.data.config.find(x => x.name === "Dataset")?.value;
     this.selectedColumns = this.data.config.find(x => x.name === "SelectedColumns")?.value ?? [];
 
@@ -51,7 +50,6 @@ export class EditDatasetComponent implements OnInit {
 
     this.formGroup.get("Dataset")?.valueChanges.subscribe(x => {
       
-      debugger;
       if (!x) return;
 
       this.selectedColumns = [];
@@ -74,7 +72,6 @@ export class EditDatasetComponent implements OnInit {
   }
 
   onSave() {
-    debugger;
 
     this.formGroup.value["SelectedColumns"].value = this.selectedColumns;
 
