@@ -16,5 +16,11 @@
       <mat-icon>delete</mat-icon>
       <span>Delete</span>
     </button>
+    <button *ngIf="modelMetricsId" mat-menu-item (click)="visualizeMetrics()">
+      <mat-icon>monitoring</mat-icon>
+      <span>Visualize</span>
+    </button>
+
+    
   </mat-menu>
 </div>

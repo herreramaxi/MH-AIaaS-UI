@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MlModel } from '../models/ml-model.model';
+import { ModelMetrics } from '../models/model-metrics';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,9 @@ export class MlModelService {
 
   getMlModelById(id: number) {
     return this.http.get<MlModel>(`api/mlModels/${id}`);
+  }
+
+  getMlModelMetrics(id: number) {
+    return this.http.get<ModelMetrics>(`api/mlModels/getModelMetrics/${id}`);
   }
 } 

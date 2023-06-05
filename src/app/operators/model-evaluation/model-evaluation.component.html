@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>
+    <mat-icon >bar_chart_4_bars</mat-icon>
+    <span>Model metrics</span>
+</h2>
+<mat-dialog-content class="mat-typography" *ngIf="metrics">
+    <ul>
+        <li> MeanSquaredError: {{metrics.MeanSquaredError | number }} </li>
+        <li> RootMeanSquaredError: {{metrics.RootMeanSquaredError | number }} </li>
+        <li> LossFunction: {{metrics.LossFunction | number }} </li>
+        <li> RSquared: {{metrics.RSquared | number }} </li>
+    </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
+

@@ -47,6 +47,7 @@ import { StandardStepComponent } from './operators/standard-step/standard-step.c
 import { WorkflowCreateComponent } from './workflow-create/workflow-create.component';
 import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 import { OperatorStatusComponent } from './operators/operator-status/operator-status.component';
+import { ModelEvaluationComponent } from './operators/model-evaluation/model-evaluation.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { OperatorStatusComponent } from './operators/operator-status/operator-st
     EndpointEditComponent,
     DatasetOperatorComponent,
     EditDatasetComponent,
-    OperatorStatusComponent
+    OperatorStatusComponent,
+    ModelEvaluationComponent
   ],
   imports: [
     BrowserModule,
