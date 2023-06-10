@@ -1,4 +1,4 @@
 <!-- <div>     -->
-<mat-icon *ngIf="!isValid" [ngStyle]="{ color: 'red' }" matTooltip="{{message}}">error</mat-icon>
-<mat-icon *ngIf="isValid" [ngStyle]="{ color: 'green' }" matTooltip="Successfully Executed">done</mat-icon>
+<mat-icon *ngIf="isFailed" [ngStyle]="{ color: 'red' }" matTooltip="{{message}}">error</mat-icon>
+<mat-icon *ngIf="!isFailed" [ngStyle]="{ color: 'green' }" matTooltip="Successfully Executed">done</mat-icon>
 <!-- </div> -->

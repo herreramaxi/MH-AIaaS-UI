@@ -8,7 +8,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 export class OperatorStatusComponent implements OnInit {
 
   @Input()
-  isValid?: boolean;
+  isFailed?: boolean;
   @Input()
   message: string;
 
@@ -19,8 +19,8 @@ export class OperatorStatusComponent implements OnInit {
 
   // ngOnChanges(changes: SimpleChanges) {
 
-  //   if (changes['isValid'].currentValue) {
-  //     this.isValid = changes['isValid'].currentValue;
+  //   if (changes['isFailed'].currentValue) {
+  //     this.isFailed = changes['isFailed'].currentValue;
   //   }
   //   if (changes['message'].currentValue) {
   //     this.message = changes['message'].currentValue;

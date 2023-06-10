@@ -13,7 +13,7 @@ import { OperatorType } from 'src/app/core/models/enums/enums';
 })
 export class DatasetOperatorComponent extends NgFlowchartStepComponent {
   name: string;
-  isValid?: boolean;
+  isFailed?: boolean;
   validationMessage: string;
 
   constructor(private matdialog: MatDialog, private operatorSupportService: OperatorSupportService) {
@@ -22,15 +22,13 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
   override ngOnInit(): void {
     super.ngOnInit();
-    debugger;
+    
     this.name = this.data.name;
     this.data.color = this.operatorSupportService.getColor(OperatorType.Dataset);
     this.data.icon = this.operatorSupportService.getIcon(OperatorType.Dataset);
 
-    this.isValid = this.data.isValid;
+    this.isFailed = this.data.isFailed;
     this.validationMessage = this.data.validationMessage;
-    console.log(`ngOnInit: ${this.name}`)
-    console.log(this.data)
   }
 
   onDelete() {
@@ -38,7 +36,7 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
-    debugger;
+    
     const dialogRef = this.matdialog.open(EditDatasetComponent, {
       data: this.data,
       width: '700px',

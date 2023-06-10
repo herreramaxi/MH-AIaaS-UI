@@ -48,6 +48,7 @@ import { WorkflowCreateComponent } from './workflow-create/workflow-create.compo
 import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 import { OperatorStatusComponent } from './operators/operator-status/operator-status.component';
 import { ModelEvaluationComponent } from './operators/model-evaluation/model-evaluation.component';
+import { EditCleanOperatorComponent } from './operators/edit-clean-operator/edit-clean-operator.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { ModelEvaluationComponent } from './operators/model-evaluation/model-eva
     DatasetOperatorComponent,
     EditDatasetComponent,
     OperatorStatusComponent,
-    ModelEvaluationComponent
+    ModelEvaluationComponent,
+    EditCleanOperatorComponent
   ],
   imports: [
     BrowserModule,

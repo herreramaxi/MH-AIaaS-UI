@@ -18,6 +18,5 @@ export class FormStepComponent
   }
 
   override ngOnInit(): void {
-    console.log(this.data);
   }
 }

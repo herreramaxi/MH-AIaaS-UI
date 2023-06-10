@@ -1,6 +1,7 @@
 <div style="display: flex; align-items: center;">
   <div style="font-size: 20px;font-weight: 600;">{{workflow?.name }}</div>
-  <button mat-icon-button matTooltip="Edit name and description" style="color: rgb(1, 92, 218);" class="material-symbols-sharp" (click)="openDialog()">
+  <button mat-icon-button matTooltip="Edit name and description" style="color: rgb(1, 92, 218);"
+    class="material-symbols-sharp" (click)="openDialog()">
     <mat-icon>mode_edit</mat-icon>
   </button>
 
@@ -13,10 +14,12 @@
   <button mat-icon-button matTooltip="Redo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
     <mat-icon>redo</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="save()">
+  <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+    (click)="save()">
     <mat-icon>save</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="generateModel()">
+  <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);"
+    class="material-symbols-sharp ams-auto" (click)="generateModel()">
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
@@ -56,13 +59,13 @@
         <div class="sub-section">
           <label for="sequential">Sequential</label>
           <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
-           <button type="button" name="download" (click)="downloadFlow()">Download</button>
+          <button type="button" name="download" (click)="downloadFlow()">Download</button>
           <!-- <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
           <button type="button" name="save" (click)="save()">Save</button>  -->
         </div>
       </section>
     </div>
-    <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options">
+    <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks" >
     </div>
   </div>
 </section>

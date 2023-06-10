@@ -28,17 +28,91 @@ export class MlWorkflowDesignerComponent implements OnInit {
   showMenu = false;
   disabled = false;
   workflow?: Workflow;
+  callbacks: NgFlowchart.Callbacks = {};
 
   constructor(public dialog: MatDialog,
-     private service: WorkflowService, 
-     private registry: NgFlowchartStepRegistry, 
-     private activatedRoute: ActivatedRoute,
-      private notificationService: NotificationService,
-      private operatorService: OperatorSupportService) {
-    // this.operations.push(this.dataset);
+    private service: WorkflowService,
+    private registry: NgFlowchartStepRegistry,
+    private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
+    private operatorService: OperatorSupportService) {
+    
+    this.callbacks.onLinkConnector = () => {
+      console.log("onLinkConnector")
+    }
+
+    this.callbacks.afterRender = () => {
+      console.log("afterRender")
+    }
+    this.callbacks.onDropStep = (x) => {
+      console.log(`onDropStep: ${x.step.data.name}`)
+    
+      this.validate2()
+     
+      //yes
+
+    };
+
+
+    this.callbacks.afterDeleteStep = (x) => {
+      //yes      
+      console.log(`afterDeleteStep: ${x.data.name}`);
+      this.validate2()     
+    }
+  }
+
+  validate2() {    
+    if (!this.workflow) return;
+
+    const json = this.chart.getFlow().toJSON();
+    this.workflow.root = json;
+
+    this.service.validate(this.workflow).subscribe(data => {
+      if (!data?.root) {
+        console.log("no root node found from webapi tree")
+        return
+      }
+
+      const validatedTree = JSON.parse(data?.root);
+      console.log(validatedTree)
+
+      if (!validatedTree?.root) {
+        console.log("no root node found from validated tree")
+        return
+      }
+
+      var flow = this.chart.getFlow();
+      var tree = flow.toObject();
+      this.traverse(tree?.root, validatedTree.root);
+
+    })
+  }
+
+  traverse(node: any, validatedTreeNode: any): any {
+    if (!node) return node;
+
+    if (node.data) {
+      const validatedNode = this.getNodeFromTree(validatedTreeNode, node.id)
+
+      if (validatedNode?.data) {
+        node.data.isFailed = validatedNode.data.isFailed;
+        node.data.validationMessage =validatedNode.data.validationMessage;
+      }
+    }
+
+    const child = node.children?.find((o: any) => true);
+    return this.traverse(child, validatedTreeNode);
+  }
+
+  getNodeFromTree(node: any, id: any): any {
+    if (!node || node.id === id) return node;
+
+    const child = node.children?.find((o: any) => true);
+    return this.getNodeFromTree(child, id)
   }
 
   ngOnInit(): void {
+
     this.service.getOperators().subscribe(ops => {
       this.operations = ops;
 
@@ -57,6 +131,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
       var id = +this.activatedRoute.snapshot.params['id'];
 
       this.loadWorkflow(id);
+
+
     });
   }
 
@@ -102,8 +178,9 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.service.getWorkflowById(id).subscribe(data => {
       this.workflow = data;
 
-      if (this.workflow.root)
+      if (this.workflow.root) {
         this.chart.getFlow().upload(this.workflow.root);
+      }
     })
   }
 
@@ -150,7 +227,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   generateModel() {
     if (!this.workflow) return;
 
-    debugger;
+
     const json = this.chart.getFlow().toJSON();
     this.workflow.root = json;
 
@@ -175,3 +252,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     })
   }
 }
+
+
+

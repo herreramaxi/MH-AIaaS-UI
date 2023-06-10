@@ -40,6 +40,10 @@ export class WorkflowService {
   run(workflow: Workflow){
     return this.http.post<Workflow>('api/workflows/run', workflow);
   }
+
+  validate(workflow: Workflow){
+    return this.http.post<Workflow>('api/workflows/validate', workflow);
+  }
   // uploadDataset(file: any, id:any) {
   //   const formData = new FormData();
   //   formData.append('file', file);

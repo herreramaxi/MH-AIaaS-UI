@@ -36,7 +36,6 @@ export class DialogChangeNameComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log("onSUbmit")
     if (!this.formGroup.valid) return;
 
     var name = this.formGroup.get("name")?.value;

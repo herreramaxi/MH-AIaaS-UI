@@ -2,7 +2,7 @@
   <div class="header">
     <mat-icon [ngStyle]="{ color: data.color }">{{ data.icon }}</mat-icon>
     <span class="step-name">{{ name }}</span>
-    <app-operator-status [isValid]="data.isValid" [message]="data.validationMessage"></app-operator-status>
+    <app-operator-status [isFailed]="data.isFailed" [message]="data.validationMessage"></app-operator-status>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -17,7 +17,7 @@
       <span>Delete</span>
     </button>
     <button *ngIf="modelMetricsId" mat-menu-item (click)="visualizeMetrics()">
-      <mat-icon>monitoring</mat-icon>
+      <mat-icon>bar_chart_4_bars</mat-icon>
       <span>Visualize</span>
     </button>
 

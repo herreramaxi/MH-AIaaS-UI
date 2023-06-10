@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { OperatorType } from '../models/enums/enums';
 import { DatasetOperatorComponent } from 'src/app/operators/dataset-operator/dataset-operator.component';
 import { StandardStepComponent } from 'src/app/operators/standard-step/standard-step.component';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperatorSupportService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getTemplate(type: OperatorType): any {
     // op.type === "dataset" ? StandardStepComponent : RouterStepComponent;
@@ -35,5 +36,10 @@ export class OperatorSupportService {
       case OperatorType.Clean: return "#e84393";
       default: return "#e17055"
     }
+  }
+
+  getCleaningModes(){
+    return this.http.get<any[]>('api/operators/getCleaningModes');
+//GetReplacementModes
   }
 }
