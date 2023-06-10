@@ -49,6 +49,7 @@ import { WorkflowListComponent } from './workflow-list/workflow-list.component';
 import { OperatorStatusComponent } from './operators/operator-status/operator-status.component';
 import { ModelEvaluationComponent } from './operators/model-evaluation/model-evaluation.component';
 import { EditCleanOperatorComponent } from './operators/edit-clean-operator/edit-clean-operator.component';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { EditCleanOperatorComponent } from './operators/edit-clean-operator/edit
     NgFlowchartModule,
     AngularKendoModule,
     AngularMaterialModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },
