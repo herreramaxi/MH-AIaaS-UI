@@ -49,6 +49,7 @@ import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/m
     AngularKendoModule,
     AngularMaterialModule,
     StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },
