@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
-import { DatasetService } from '../core/services/dataset.service';
 import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { NotificationService } from '@progress/kendo-angular-notification';
+import { DatasetService } from 'src/app/core/services/dataset.service';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',

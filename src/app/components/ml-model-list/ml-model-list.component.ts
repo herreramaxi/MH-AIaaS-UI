@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy, State } from '@progress/kendo-data-query';
-import { MlModelService } from '../core/services/ml-model.service';
+import { MlModelService } from 'src/app/core/services/ml-model.service';
 
 @Component({
   selector: 'app-ml-model-list',

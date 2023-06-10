@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { WorkflowService } from '../core/services/workflow.service';
 import { DialogChangeNameComponent } from '../ml-workflow-designer/dialog-change-name/dialog-change-name.component';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
 
 @Component({
   selector: 'app-workflow-create',

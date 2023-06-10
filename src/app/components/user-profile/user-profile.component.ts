@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { map } from 'rxjs';
-import { MessageService } from '../core/services';
+import { MessageService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-user-profile',

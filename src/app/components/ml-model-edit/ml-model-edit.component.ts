@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MlModel } from '../core/models/ml-model.model';
-import { MlModelService } from '../core/services/ml-model.service';
+import { MlModel } from 'src/app/core/models/ml-model.model';
+import { MlModelService } from 'src/app/core/services/ml-model.service';
 
 @Component({
   selector: 'app-ml-model-edit',

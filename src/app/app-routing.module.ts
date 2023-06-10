@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DatasetCreateComponent } from './dataset-create/dataset-create.component';
-import { DatasetEditComponent } from './dataset-edit/dataset-edit.component';
-import { DatasetListComponent } from './dataset-list/dataset-list.component';
-import { EndpointEditComponent } from './endpoint-edit/endpoint-edit.component';
-import { EndpointListComponent } from './endpoint-list/endpoint-list.component';
-import { HomeComponent } from './home/home.component';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
-import { MlModelEditComponent } from './ml-model-edit/ml-model-edit.component';
-import { MlModelListComponent } from './ml-model-list/ml-model-list.component';
-import { MlWorkflowDesignerComponent } from './ml-workflow-designer/ml-workflow-designer.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { WorkflowListComponent } from './workflow-list/workflow-list.component';
+import { DatasetCreateComponent } from './components/dataset-create/dataset-create.component';
+import { DatasetEditComponent } from './components/dataset-edit/dataset-edit.component';
+import { DatasetListComponent } from './components/dataset-list/dataset-list.component';
+import { EndpointEditComponent } from './components/endpoint-edit/endpoint-edit.component';
+import { EndpointListComponent } from './components/endpoint-list/endpoint-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { MlModelEditComponent } from './components/ml-model-edit/ml-model-edit.component';
+import { MlModelListComponent } from './components/ml-model-list/ml-model-list.component';
+import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

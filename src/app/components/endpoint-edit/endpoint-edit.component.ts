@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Endpoint } from '../core/models/endpoint.model';
-import { EndpointService } from '../core/services/endpoint.service';
+import { Endpoint } from 'src/app/core/models/endpoint.model';
+import { EndpointService } from 'src/app/core/services/endpoint.service';
 
 @Component({
   selector: 'app-endpoint-edit',

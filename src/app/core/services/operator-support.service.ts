@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { OperatorType } from '../models/enums/enums';
-import { DatasetOperatorComponent } from 'src/app/operators/dataset-operator/dataset-operator.component';
-import { StandardStepComponent } from 'src/app/operators/standard-step/standard-step.component';
 import { HttpClient } from '@angular/common/http';
+import { DatasetOperatorComponent } from 'src/app/components/operators/dataset-operator/dataset-operator.component';
+import { StandardStepComponent } from 'src/app/components/operators/standard-step/standard-step.component';
 
 @Injectable({
   providedIn: 'root'

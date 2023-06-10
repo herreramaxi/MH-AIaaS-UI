@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { AddEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
-import { WorkflowService } from '../core/services/workflow.service';
+import { CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy, State } from '@progress/kendo-data-query';
+import { EndpointService } from 'src/app/core/services/endpoint.service';
+
 
 @Component({
-  selector: 'app-workflow-list',
-  templateUrl: './workflow-list.component.html',
-  styleUrls: ['./workflow-list.component.css']
+  selector: 'app-endpoint-list',
+  templateUrl: './endpoint-list.component.html',
+  styleUrls: ['./endpoint-list.component.css']
 })
-export class WorkflowListComponent implements OnInit {
+export class EndpointListComponent implements OnInit {
   public view: any;
   private data: any;
   public gridState: State = {
@@ -19,16 +21,16 @@ export class WorkflowListComponent implements OnInit {
     take: 5,
   };
 
-  constructor(private router: Router, private service: WorkflowService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private endpointService: EndpointService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
 
-    this.GetWorkflows();
+    this.GetDatasets();
 
   }
 
-  private GetWorkflows() {
-    this.service.getWorkflows().subscribe(data => {
+  private GetDatasets() {
+    this.endpointService.getEndpoints().subscribe(data => {
       if (!data)
         return;
       this.data = data;
@@ -38,30 +40,24 @@ export class WorkflowListComponent implements OnInit {
   }
 
   public addHandler(args: AddEvent): void {
-    this.service.createWorkflow().subscribe(data => {
-      if (!data) return;
-
-      this.router.navigate(['/workflow-designer', data.id]);
-    })
-
+    this.router.navigate(['/endpointCreate']);
   }
 
   public editHandler(args: AddEvent): void {
-    console.log(args.dataItem)
     var editDataItem = args.dataItem;
-    this.router.navigate(['/workflow-designer', editDataItem.id]);
+    this.router.navigate(['/endpoint', editDataItem.id]);
   }
 
-
   public removeHandler(args: AddEvent): void {
+
     var editDataItem = args.dataItem;
 
-    this.service.remove(editDataItem.id).subscribe(data => {
+    this.endpointService.remove(editDataItem.id).subscribe(data => {
 
-      this.GetWorkflows();
+      this.GetDatasets();
 
       this.notificationService.show({
-        content: "Workflow successfully deleted",
+        content: "Endpoint successfully deleted",
         position: { horizontal: "center", vertical: "top" },
         animation: { type: "fade", duration: 500 },
         closable: false,

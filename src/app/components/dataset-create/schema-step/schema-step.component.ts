@@ -15,14 +15,14 @@ import { ColumnSetting } from 'src/app/core/models/column-setting';
 })
 
 
-export class SchemaStepComponent implements OnInit {  
+export class SchemaStepComponent implements OnInit {
   @Input()
   formGroup: FormGroup
   @Input()
   thirdFormGroup: FormGroup
   @Input()
   stepper: MatStepper;
-  
+
   public view: any;
   private data: any;
   public gridState: State = {
@@ -36,7 +36,7 @@ export class SchemaStepComponent implements OnInit {
     take: 5,
   };
 
-  
+
   public sort: SortDescriptor[] = [
     {
       field: "columnName",
@@ -48,7 +48,7 @@ export class SchemaStepComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
 
@@ -58,12 +58,12 @@ export class SchemaStepComponent implements OnInit {
         var fileAnalysis = this.thirdFormGroup.get("fileAnalysis")?.value;
         console.log('fileAnalysis')
         console.log(fileAnalysis)
-        
+
         if (!fileAnalysis) return;
-     
-        
+
+
         this.data = fileAnalysis.columnsSettings;
-       this.loadData();
+        this.loadData();
       }
     })
 
@@ -80,7 +80,7 @@ export class SchemaStepComponent implements OnInit {
     this.loadData();
   }
 
-  
+
   private loadData(): void {
     this.view = {
       data: orderBy(this.data, this.sort),
@@ -112,7 +112,7 @@ export class SchemaStepComponent implements OnInit {
         return;
       }
 
-      Object.assign(dataItem,  formGroup.value);
+      Object.assign(dataItem, formGroup.value);
       // this.editService.assignValues(dataItem, formGroup.value);
       // this.editService.update(dataItem);
     }
@@ -126,7 +126,7 @@ export class SchemaStepComponent implements OnInit {
     });
   }
 
-  public hasChanges(){
-return true;
+  public hasChanges() {
+    return true;
   }
 }

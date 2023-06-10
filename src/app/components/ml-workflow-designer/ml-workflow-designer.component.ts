@@ -4,14 +4,12 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { Workflow } from '../core/models/workflow.model';
-import { WorkflowService } from '../core/services/workflow.service';
-import { DatasetOperatorComponent } from '../operators/dataset-operator/dataset-operator.component';
-import { RouterStepComponent } from '../operators/router-step/router-step.component';
-import { StandardStepComponent } from '../operators/standard-step/standard-step.component';
+
+import { Workflow } from 'src/app/core/models';
+import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
-import { OperatorType } from '../core/models/enums/enums';
-import { OperatorSupportService } from '../core/services/operator-support.service';
+
 
 @Component({
   selector: 'app-ml-workflow-designer',
@@ -36,7 +34,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private operatorService: OperatorSupportService) {
-    
+
     this.callbacks.onLinkConnector = () => {
       console.log("onLinkConnector")
     }
@@ -46,9 +44,9 @@ export class MlWorkflowDesignerComponent implements OnInit {
     }
     this.callbacks.onDropStep = (x) => {
       console.log(`onDropStep: ${x.step.data.name}`)
-    
+
       this.validate2()
-     
+
       //yes
 
     };
@@ -57,11 +55,11 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.callbacks.afterDeleteStep = (x) => {
       //yes      
       console.log(`afterDeleteStep: ${x.data.name}`);
-      this.validate2()     
+      this.validate2()
     }
   }
 
-  validate2() {    
+  validate2() {
     if (!this.workflow) return;
 
     const json = this.chart.getFlow().toJSON();
@@ -96,7 +94,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
       if (validatedNode?.data) {
         node.data.isFailed = validatedNode.data.isFailed;
-        node.data.validationMessage =validatedNode.data.validationMessage;
+        node.data.validationMessage = validatedNode.data.validationMessage;
       }
     }
 
