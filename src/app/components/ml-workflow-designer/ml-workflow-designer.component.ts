@@ -68,7 +68,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   save() {
     if (!this.workflow) return;
 
-    debugger
+    
     const json = this.chart.getFlow().toJSON();
 
     this.store.dispatch(workflowSave({ workflow: { ...this.workflow, root: json } }));
@@ -84,7 +84,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   private triggerWorkflowChange() {
     const json = this.chart.getFlow().toJSON();
     if (this.workflow) {
-      debugger;
+      
 
       this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
     }
@@ -112,6 +112,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
       if (validatedNode?.data) {
         node.data.isFailed = validatedNode.data.isFailed;
         node.data.validationMessage = validatedNode.data.validationMessage;
+        node.data.parameters = validatedNode.data.parameters;
       }
     }
 
@@ -141,7 +142,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
       // this.registry.registerStep('route', StandardStepComponent);
     });
 
-    debugger
+    
     // this.data$ = this.store.pipe(select(selectWorkflow));
     this.workflow$ = this.store.select(selectWorkflow);
     this.workflowValidated$ = this.store.select(selectWorkflowValidated);
@@ -161,7 +162,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflow$.subscribe(m => {
       if (!m) return;
 
-      debugger;
+      
       console.log("this.workflow$.subscribe")
 
       this.workflow = m;
@@ -175,14 +176,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflowValidated$.subscribe(m => {
       if (!m) return;
 
-      debugger;
+      
       console.log("this.workflowValidated$.subscribe")
 
       this.validate(m);
     })
 
     this.operatorSaved$.subscribe(data => {
-      debugger;
+      
       if (!data) return;
 
       this.triggerWorkflowChange();

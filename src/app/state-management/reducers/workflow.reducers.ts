@@ -37,7 +37,7 @@ export const workflowReducer = createReducer(
         return ({ workflow: result, isLoading: false, isLoadingSuccess: true, operatorSaved: false })
     }),
     on(workflowChangedSuccess, (state, result) => {
-        debugger
+        
         console.log("workflowReducer-workflowChangedSuccess")
         return ({ workflowValidated: result, isLoading: false, isLoadingSuccess: true })
     }),
@@ -46,22 +46,22 @@ export const workflowReducer = createReducer(
         return ({ ...state, isLoading: true, operatorSaved: true })
     }),
     on(workflowSave, (state) => {
-        debugger
+        
         console.log("workflowReducer-workflowSave")
         return ({ ...state, isLoading: true, status: "Saving..." })
     }),
     on(workflowSavedSuccess, (state, result) => {
-        debugger
+        
         console.log("workflowReducer-workflowSaveSuccess")
         return ({ ...state, isLoading: false, isLoadingSuccess: true, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
     }),
     on(workflowRun, (state) => {
-        debugger
+        
         console.log("workflowReducer-workflowRun")
         return ({ ...state, isLoading: true, status: "Running..." })
     }),
     on(workflowRunSuccess, (state, result) => {
-        debugger
+        
         console.log("workflowReducer-workflowRunSuccess")
         return ({ ...state, workflowValidated: result, isLoading: false, isLoadingSuccess: true, status: `Finished running` })
     }),

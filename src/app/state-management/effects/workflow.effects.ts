@@ -13,7 +13,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.getWorkflowById(action.workflowId)
             .pipe(
                 map(response => {
-                    debugger
+                    
                     console.log("WorkflowEffects-loadWorkflow")
                     return workflowLoadSuccess(response)
                 }),
@@ -26,7 +26,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.validate(action.workflow)
             .pipe(
                 map(response => {
-                    debugger
+                    
                     console.log("WorkflowEffects-workflowChanged")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowChangedSuccess(response)
@@ -44,7 +44,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
-                    debugger
+                    
                     console.log("WorkflowEffects-workflowSaved")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowSavedSuccess(response)
@@ -61,7 +61,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.run(action.workflow)
             .pipe(
                 map(response => {
-                    debugger
+                    
                     console.log("WorkflowEffects-workflowRun")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowRunSuccess(response)

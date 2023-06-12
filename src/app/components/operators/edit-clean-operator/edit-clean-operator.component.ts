@@ -67,7 +67,7 @@ export class EditCleanOperatorComponent implements OnInit {
     //     value: this.formGroup.value[config.name].value
     //   }
     // }));
-debugger
+
     this.dialogref.close(this.data.config.map(config => {
       return {
         ...config,

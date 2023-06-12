@@ -27,7 +27,6 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   name: string;
   isFailed?: boolean;
   validationMessage: string;
-  modelMetricsId?: number;
   operatorType?: OperatorType;
 
   constructor(private matdialog: MatDialog,
@@ -38,7 +37,11 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   override ngOnInit(): void {
+
     super.ngOnInit();
+
+    console.log("ngOnInit: " + this.operatorType)
+
     this.name = this.data.name;
     this.isFailed = this.data.isFailed;
     this.validationMessage = this.data.validationMessage;
@@ -47,21 +50,12 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     this.operatorType = OperatorType[operatorTypeString ?? OperatorType.Nop]
     this.data.color = this.operatorSupportService.getColor(this.operatorType);
     this.data.icon = this.operatorSupportService.getIcon(this.operatorType);
+  }
 
-    // if (this.name === "CleanData") {
-
-    // }
-
-    // if (this.parent?.data.name === "Dataset") {
-    //   var config = this.parent.data.config.find((x: any) => x.name === "SelectedColumns");
-
-    //   if (!config) return;
-
-    // }
-
-    if (this.operatorType === OperatorType.Evaluate && this.data?.parameters) {
-      this.modelMetricsId = this.data.parameters["ModelMetricsId"]
-    }
+  areMetricsAvailable() {
+    return this.operatorType === OperatorType.Evaluate &&
+      this.data?.parameters &&
+      this.data.parameters["ModelMetricsId"] > 0
   }
 
   onDelete() {
@@ -69,7 +63,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
-    debugger
+
 
     var componentTemplate: any = EditStepComponent;
 
@@ -93,10 +87,10 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   visualizeMetrics() {
+    const  modelMetricsId = this.data?.parameters["ModelMetricsId"]
+    if (!modelMetricsId) return;
 
-    if (!this.modelMetricsId) return;
-
-    this.mlModelService.getMlModelMetrics(this.modelMetricsId).subscribe(modelMetrics => {
+    this.mlModelService.getMlModelMetrics(modelMetricsId).subscribe(modelMetrics => {
 
       const dialogRef = this.matdialog.open(ModelEvaluationComponent, {
         data: modelMetrics,
