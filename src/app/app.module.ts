@@ -50,6 +50,8 @@ import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
 import { EffectsModule } from '@ngrx/effects';
+import { reducers, workflowReducer } from './state-management/reducers/workflow.reducers';
+import { WorkflowEffects } from './state-management/effects/workflow.effects';
 
 @NgModule({
   declarations: [
@@ -104,8 +106,8 @@ import { EffectsModule } from '@ngrx/effects';
     NgFlowchartModule,
     AngularKendoModule,
     AngularMaterialModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([WorkflowEffects]),
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },

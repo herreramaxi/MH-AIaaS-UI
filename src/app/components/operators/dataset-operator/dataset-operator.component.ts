@@ -5,6 +5,9 @@ import { AddChildOptions, NgFlowchart, NgFlowchartStepComponent } from '@joelwen
 import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { OperatorType } from 'src/app/core/models/enums/enums';
+import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
+import { AppState } from '@auth0/auth0-angular';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-dataset-operator',
@@ -16,13 +19,15 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
   isFailed?: boolean;
   validationMessage: string;
 
-  constructor(private matdialog: MatDialog, private operatorSupportService: OperatorSupportService) {
+  constructor(private matdialog: MatDialog,
+    private operatorSupportService: OperatorSupportService,
+    private store: Store<AppState>) {
     super();
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
-    
+
     this.name = this.data.name;
     this.data.color = this.operatorSupportService.getColor(OperatorType.Dataset);
     this.data.icon = this.operatorSupportService.getIcon(OperatorType.Dataset);
@@ -36,7 +41,7 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
-    
+
     const dialogRef = this.matdialog.open(EditDatasetComponent, {
       data: this.data,
       width: '700px',
@@ -47,6 +52,8 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
       if (data) {
         this.data.config = data;
+
+        this.store.dispatch(operatorSaved());
       }
 
       sub.unsubscribe();

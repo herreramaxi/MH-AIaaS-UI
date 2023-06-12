@@ -19,7 +19,7 @@
     <mat-icon>save</mat-icon>
   </button>
   <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);"
-    class="material-symbols-sharp ams-auto" (click)="generateModel()">
+    class="material-symbols-sharp ams-auto" (click)="runWorkflow()">
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
@@ -27,6 +27,7 @@
   </button>
 </div>
 
+<div>Status: {{workflowStatus$ | async }}</div>
 <section class="page">
   <div class="content">
     <div id="palette">

@@ -1,12 +1,15 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
-import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
-import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { Store } from '@ngrx/store';
 import { OperatorType } from 'src/app/core/models/enums/enums';
 import { MlModelService } from 'src/app/core/services/ml-model.service';
-import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
+import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
+import { AppState } from 'src/app/state-management/reducers/workflow.reducers';
 import { EditCleanOperatorComponent } from '../edit-clean-operator/edit-clean-operator.component';
+import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
+import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
 
 export type StandardStepData = {
   name: string,
@@ -27,7 +30,10 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   modelMetricsId?: number;
   operatorType?: OperatorType;
 
-  constructor(private matdialog: MatDialog, private operatorSupportService: OperatorSupportService, private mlModelService: MlModelService) {
+  constructor(private matdialog: MatDialog,
+    private operatorSupportService: OperatorSupportService,
+    private mlModelService: MlModelService,
+    private store: Store<AppState>) {
     super();
   }
 
@@ -78,6 +84,8 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     let sub = dialogRef.beforeClosed().subscribe(data => {
       if (data) {
         this.data.config = data;
+
+        this.store.dispatch(operatorSaved());
       }
 
       sub.unsubscribe();

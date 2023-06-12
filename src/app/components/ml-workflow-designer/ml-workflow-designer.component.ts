@@ -9,6 +9,10 @@ import { Workflow } from 'src/app/core/models';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
+import { Store, select } from '@ngrx/store';
+import { workflowChange, workflowLoad, workflowLoadType, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
+import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -33,57 +37,70 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private registry: NgFlowchartStepRegistry,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private operatorService: OperatorSupportService) {
+    private operatorService: OperatorSupportService,
+    // private store: Store<{ workflow: Workflow }
+    private store: Store<AppState>
+  ) {
 
-    this.callbacks.onLinkConnector = () => {
-      console.log("onLinkConnector")
-    }
-
-    this.callbacks.afterRender = () => {
-      console.log("afterRender")
-    }
     this.callbacks.onDropStep = (x) => {
       console.log(`onDropStep: ${x.step.data.name}`)
 
-      this.validate2()
-
-      //yes
-
+      this.triggerWorkflowChange();
     };
 
-
     this.callbacks.afterDeleteStep = (x) => {
-      //yes      
       console.log(`afterDeleteStep: ${x.data.name}`);
-      this.validate2()
+      this.triggerWorkflowChange();
     }
   }
 
-  validate2() {
+
+  loadWorkflow(id: number) {
+    this.service.getWorkflowById(id).subscribe(data => {
+      this.workflow = data;
+
+      if (this.workflow.root) {
+        this.chart.getFlow().upload(this.workflow.root);
+      }
+    })
+  }
+
+  save() {
+    if (!this.workflow) return;
+
+    debugger
+    const json = this.chart.getFlow().toJSON();
+
+    this.store.dispatch(workflowSave({ workflow: { ...this.workflow, root: json } }));
+  }
+
+  runWorkflow() {
     if (!this.workflow) return;
 
     const json = this.chart.getFlow().toJSON();
-    this.workflow.root = json;
+    this.store.dispatch(workflowRun({ workflow: { ...this.workflow, root: json } }));
+  }
 
-    this.service.validate(this.workflow).subscribe(data => {
-      if (!data?.root) {
-        console.log("no root node found from webapi tree")
-        return
-      }
+  private triggerWorkflowChange() {
+    const json = this.chart.getFlow().toJSON();
+    if (this.workflow) {
+      debugger;
 
-      const validatedTree = JSON.parse(data?.root);
-      console.log(validatedTree)
+      this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
+    }
+  }
 
-      if (!validatedTree?.root) {
-        console.log("no root node found from validated tree")
-        return
-      }
+  validate(validatedWorkflow: any) {
+    if (!validatedWorkflow?.root) {
+      console.log("no root node found from validated tree")
+      return
+    }
 
-      var flow = this.chart.getFlow();
-      var tree = flow.toObject();
-      this.traverse(tree?.root, validatedTree.root);
+    var flow = this.chart.getFlow();
+    var tree = flow.toObject();
 
-    })
+    const validatedTree = JSON.parse(validatedWorkflow?.root);
+    this.traverse(tree?.root, validatedTree.root);
   }
 
   traverse(node: any, validatedTreeNode: any): any {
@@ -122,17 +139,60 @@ export class MlWorkflowDesignerComponent implements OnInit {
         this.registry.registerStep(op.type, op.template);
       });
       // this.registry.registerStep('route', StandardStepComponent);
+    });
 
-    })
+    debugger
+    // this.data$ = this.store.pipe(select(selectWorkflow));
+    this.workflow$ = this.store.select(selectWorkflow);
+    this.workflowValidated$ = this.store.select(selectWorkflowValidated);
+    this.operatorSaved$ = this.store.select(selectOperatorSaved);
+    this.workflowStatus$ = this.store.select(selectWorkflowStatus);
 
     this.activatedRoute.paramMap.subscribe(params => {
       var id = +this.activatedRoute.snapshot.params['id'];
 
-      this.loadWorkflow(id);
+      console.log("dispatch workflowLoad")
+      this.store.dispatch(workflowLoad({ workflowId: id }));
+      // this.loadWorkflow(id);
 
 
     });
+
+    this.workflow$.subscribe(m => {
+      if (!m) return;
+
+      debugger;
+      console.log("this.workflow$.subscribe")
+
+      this.workflow = m;
+
+      if (this.workflow.root) {
+        this.chart.getFlow().upload(this.workflow.root);
+      }
+    })
+
+
+    this.workflowValidated$.subscribe(m => {
+      if (!m) return;
+
+      debugger;
+      console.log("this.workflowValidated$.subscribe")
+
+      this.validate(m);
+    })
+
+    this.operatorSaved$.subscribe(data => {
+      debugger;
+      if (!data) return;
+
+      this.triggerWorkflowChange();
+    });
   }
+
+  workflow$: Observable<Workflow | undefined>;
+  workflowValidated$: Observable<Workflow | undefined>;
+  operatorSaved$: Observable<boolean | undefined>;
+  workflowStatus$: Observable<string | undefined>;
 
   ngAfterViewInit() {
   }
@@ -172,16 +232,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     }
   }
 
-  loadWorkflow(id: number) {
-    this.service.getWorkflowById(id).subscribe(data => {
-      this.workflow = data;
-
-      if (this.workflow.root) {
-        this.chart.getFlow().upload(this.workflow.root);
-      }
-    })
-  }
-
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
 
@@ -196,59 +246,11 @@ export class MlWorkflowDesignerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (!result || !this.workflow) return;
 
+      console.log("loadWorkflow from openDialog")
       this.loadWorkflow(this.workflow.id);
     });
   };
 
-  save() {
-    if (!this.workflow) return;
-
-    const json = this.chart.getFlow().toJSON();
-    this.workflow.root = json;
-
-    this.service.save(this.workflow).subscribe(data => {
-      console.log("all good");
-      console.log(data)
-
-
-
-      this.notificationService.show({
-        content: "Workflow successfully saved",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
-    })
-  }
-
-  generateModel() {
-    if (!this.workflow) return;
-
-
-    const json = this.chart.getFlow().toJSON();
-    this.workflow.root = json;
-
-    this.service.run(this.workflow).subscribe(data => {
-      console.log("all good");
-      console.log(data)
-
-      if (data?.root) {
-        this.workflow = data;
-        // this.workflow?.root = data.root;
-        if (this.workflow.root)
-          this.chart.getFlow().upload(this.workflow.root);
-      }
-
-      this.notificationService.show({
-        content: "Workflow successfully saved",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
-    })
-  }
 }
 
 
