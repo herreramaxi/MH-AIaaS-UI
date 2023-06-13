@@ -7,9 +7,10 @@ import { MlModelService } from 'src/app/core/services/ml-model.service';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/workflow.reducers';
-import { EditCleanOperatorComponent } from '../edit-clean-operator/edit-clean-operator.component';
+import { EditCleanOperatorComponent } from './edit-clean-operator/edit-clean-operator.component';
 import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
 import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
+import { EditTrainModelComponent } from './edit-train-model/edit-train-model.component';
 
 export type StandardStepData = {
   name: string,
@@ -70,6 +71,10 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     if (this.operatorType === OperatorType.Clean) {
       componentTemplate = EditCleanOperatorComponent;
     }
+    if (this.operatorType === OperatorType.Train) {
+      componentTemplate = EditTrainModelComponent;
+    }
+
 
     const dialogRef = this.matdialog.open(componentTemplate, {
       data: this.data,

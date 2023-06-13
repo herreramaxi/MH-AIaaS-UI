@@ -33,7 +33,7 @@ import { DialogChangeNameComponent } from './components/ml-workflow-designer/dia
 import { CustomStepComponent } from './components/operators/custom-step/custom-step.component';
 import { DatasetOperatorComponent } from './components/operators/dataset-operator/dataset-operator.component';
 import { EditDatasetComponent } from './components/operators/dataset-operator/edit-dataset/edit-dataset.component';
-import { EditCleanOperatorComponent } from './components/operators/edit-clean-operator/edit-clean-operator.component';
+import { EditCleanOperatorComponent } from './components/operators/standard-step/edit-clean-operator/edit-clean-operator.component';
 import { FormStepComponent } from './components/operators/form-step/form-step.component';
 import { ModelEvaluationComponent } from './components/operators/model-evaluation/model-evaluation.component';
 import { NestedFlowComponent } from './components/operators/nested-flow/nested-flow.component';
@@ -52,6 +52,7 @@ import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/m
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, workflowReducer } from './state-management/reducers/workflow.reducers';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
+import { EditTrainModelComponent } from './components/operators/standard-step/edit-train-model/edit-train-model.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { WorkflowEffects } from './state-management/effects/workflow.effects';
     EditDatasetComponent,
     OperatorStatusComponent,
     ModelEvaluationComponent,
-    EditCleanOperatorComponent
+    EditCleanOperatorComponent,
+    EditTrainModelComponent
   ],
   imports: [
     BrowserModule,
