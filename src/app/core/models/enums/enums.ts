@@ -5,4 +5,5 @@ export enum OperatorType {
     Split = "Split",
     Train = "Train",
     Evaluate = "Evaluate",
+    Normalize = "Normalize",
 }

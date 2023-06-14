@@ -2,25 +2,22 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ListBoxToolbarConfig } from '@progress/kendo-angular-listbox';
-import { DatasetService } from 'src/app/core/services/dataset.service';
-import { EditStepComponent } from '../edit-step/edit-step.component';
-import { StandardStepData } from '../standard-step.component';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { EditStepComponent } from '../edit-step/edit-step.component';
 
 @Component({
-  selector: 'app-edit-clean-operator',
-  templateUrl: './edit-clean-operator.component.html',
-  styleUrls: ['./edit-clean-operator.component.css']
+  selector: 'app-edit-normalize-operator',
+  templateUrl: './edit-normalize-operator.component.html',
+  styleUrls: ['./edit-normalize-operator.component.css']
 })
-export class EditCleanOperatorComponent implements OnInit {
+export class EditNormalizeOperatorComponent implements OnInit {
   public toolbarSettings: ListBoxToolbarConfig = {
     position: "right",
     tools: ["transferTo", "transferFrom", "transferAllTo", "transferAllFrom"],
   };
 
-
   formGroup: FormGroup;
-  cleanModes: any;
+  modes: any;
 
   availableColumns: string[];
   selectedColumns: string[];
@@ -32,31 +29,23 @@ export class EditCleanOperatorComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    this.service.getCleaningModes().subscribe(data => {
-      this.cleanModes = data;
+    this.service.getNormalizerModes().subscribe(data => {
+      this.modes = data;
     })
 
-    const cleanModeId = this.data.config.find((x: any) => x.name === "Cleaning mode")?.value;
+    const modeId = this.data.config.find((x: any) => x.name === "Normalization mode")?.value;
     this.selectedColumns = this.data.config.find((x: any) => x.name === "SelectedColumns")?.value ?? [];
 
     this.availableColumns = (this.data.datasetColumns ?? []).filter((x: any) => !this.selectedColumns.includes(x));
     this.formGroup = this.formBuilder.group({
-      "Cleaning mode": [cleanModeId, Validators.required],
+      "Normalization mode": [modeId, Validators.required],
       SelectedColumns: this.formBuilder.array(this.selectedColumns)
     });
 
   }
 
   onSave() {
-
     this.formGroup.value["SelectedColumns"].value = this.selectedColumns;
-
-    // this.dialogref.close(this.data.config.map(config => {
-    //   return {
-    //     ...config,
-    //     value: this.formGroup.value[config.name].value
-    //   }
-    // }));
 
     this.dialogref.close(this.data.config.map((config: any) => {
       return {

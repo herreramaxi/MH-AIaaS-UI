@@ -7,26 +7,15 @@
         <div class="d-flex-column">
             <div>
                 <mat-form-field appearance="fill">
-                    <mat-label>Dataset</mat-label>
-                    <mat-select formControlName="Dataset">
-                        <mat-option *ngFor="let dataset of datasets async" [value]="dataset.id">
-                            {{dataset.name}}
+                    <mat-label>Normalize mode</mat-label>
+                    <mat-select formControlName="Normalization mode">
+                        <mat-option *ngFor="let mode of modes async" [value]="mode.id">
+                            {{mode.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
-            <!-- <section class="input-section" *ngFor="let config of data.config">
-            <label [for]="config.name">
-                <span>{{ config.name }}</span>
-                <mat-icon [matTooltip]="config.description" matTooltipPosition="right">help</mat-icon>
-            </label>
-            <textarea [name]="config.name" cols="30" rows="6" [formControlName]="config.name"
-                *ngIf="config.type === 'textarea'; else default"></textarea>
-            <ng-template #default>
-                <input [name]="config.name" [type]="config.type" [formControlName]="config.name" />
-            </ng-template>
-        </section> -->
             <div class="d-flex">
                 <div class="d-flex-column">
                     <h3 style="margin-bottom: 0;">Available columns</h3>

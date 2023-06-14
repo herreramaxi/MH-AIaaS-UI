@@ -113,6 +113,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
         node.data.isFailed = validatedNode.data.isFailed;
         node.data.validationMessage = validatedNode.data.validationMessage;
         node.data.parameters = validatedNode.data.parameters;
+        node.data.datasetColumns =  validatedNode.data.datasetColumns;
       }
     }
 

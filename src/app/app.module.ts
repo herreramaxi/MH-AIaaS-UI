@@ -53,6 +53,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, workflowReducer } from './state-management/reducers/workflow.reducers';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { EditTrainModelComponent } from './components/operators/standard-step/edit-train-model/edit-train-model.component';
+import { EditNormalizeOperatorComponent } from './components/operators/standard-step/edit-normalize-operator/edit-normalize-operator.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { EditTrainModelComponent } from './components/operators/standard-step/ed
     OperatorStatusComponent,
     ModelEvaluationComponent,
     EditCleanOperatorComponent,
-    EditTrainModelComponent
+    EditTrainModelComponent,
+    EditNormalizeOperatorComponent
   ],
   imports: [
     BrowserModule,

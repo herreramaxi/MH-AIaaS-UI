@@ -17,17 +17,17 @@
             </div>
 
             <div class="d-flex">
-                <!-- <div class="d-flex-column">
+                <div class="d-flex-column">
                     <h3 style="margin-bottom: 0;">Available columns</h3>
-                    <kendo-listbox kendoListBoxDataBinding [data]="availableColumns" [connectedWith]="asia"
+                    <kendo-listbox kendoListBoxDataBinding [data]="availableColumns" [connectedWith]="selectedColumnsList"
                         [toolbar]="toolbarSettings">
                     </kendo-listbox>
                 </div>
                 <div class="d-flex-column">
                     <h3 style="margin-bottom: 0;">Selected columns</h3>
-                    <kendo-listbox #asia [data]="selectedColumns" [toolbar]="false">
+                    <kendo-listbox #selectedColumnsList [data]="selectedColumns" [toolbar]="false">
                     </kendo-listbox>
-                </div> -->
+                </div>
             </div>
         </div>
     </form>

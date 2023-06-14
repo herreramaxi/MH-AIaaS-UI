@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { OperatorType } from '../models/enums/enums';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { DatasetOperatorComponent } from 'src/app/components/operators/dataset-operator/dataset-operator.component';
 import { StandardStepComponent } from 'src/app/components/operators/standard-step/standard-step.component';
+import { OperatorType } from '../models/enums/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +38,11 @@ export class OperatorSupportService {
     }
   }
 
-  getCleaningModes(){
+  getCleaningModes() {
     return this.http.get<any[]>('api/operators/getCleaningModes');
-//GetReplacementModes
+  }
+
+  getNormalizerModes() {
+    return this.http.get<any[]>('api/operators/getNormalizerModes');
   }
 }

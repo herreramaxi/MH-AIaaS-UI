@@ -11,6 +11,7 @@ import { EditCleanOperatorComponent } from './edit-clean-operator/edit-clean-ope
 import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
 import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
 import { EditTrainModelComponent } from './edit-train-model/edit-train-model.component';
+import { EditNormalizeOperatorComponent } from './edit-normalize-operator/edit-normalize-operator.component';
 
 export type StandardStepData = {
   name: string,
@@ -74,7 +75,9 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     if (this.operatorType === OperatorType.Train) {
       componentTemplate = EditTrainModelComponent;
     }
-
+    if (this.operatorType === OperatorType.Normalize) {
+      componentTemplate = EditNormalizeOperatorComponent;
+    }
 
     const dialogRef = this.matdialog.open(componentTemplate, {
       data: this.data,
@@ -92,7 +95,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   visualizeMetrics() {
-    const  modelMetricsId = this.data?.parameters["ModelMetricsId"]
+    const modelMetricsId = this.data?.parameters["ModelMetricsId"]
     if (!modelMetricsId) return;
 
     this.mlModelService.getMlModelMetrics(modelMetricsId).subscribe(modelMetrics => {
