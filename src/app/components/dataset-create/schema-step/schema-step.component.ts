@@ -7,6 +7,7 @@ import { GridDataResult, EditService, CellClickEvent, CellCloseEvent, AddEvent, 
 import { State, process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { Observable, map } from 'rxjs';
 import { ColumnSetting } from 'src/app/core/models/column-setting';
+import { DatasetService } from 'src/app/core/services/dataset.service';
 
 @Component({
   selector: 'app-schema-step',
@@ -25,6 +26,7 @@ export class SchemaStepComponent implements OnInit {
 
   public view: any;
   private data: any;
+  availableDataTypes: any[];
   public gridState: State = {
     sort: [
       {
@@ -36,7 +38,7 @@ export class SchemaStepComponent implements OnInit {
     take: 5,
   };
 
-
+  // public tempFormGroup: any
   public sort: SortDescriptor[] = [
     {
       field: "columnName",
@@ -45,13 +47,16 @@ export class SchemaStepComponent implements OnInit {
   ];
 
   public changes = {};
-
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder, private datasetService: DatasetService) { }
 
   public ngOnInit(): void {
 
+
+    this.datasetService.getAvailableDataTypes().subscribe((x: any) => {
+      if (!x) return;
+
+      this.availableDataTypes = x;
+    })
     this.stepper.selectionChange.subscribe(x => {
 
       if (x.selectedIndex === 3) {
@@ -90,17 +95,20 @@ export class SchemaStepComponent implements OnInit {
   public cellClickHandler(args: CellClickEvent): void {
     console.log("cellClickHandler")
     console.log(args.isEdited)
+    // this.tempFormGroup = this.createFormGroup(args.dataItem)
 
     if (!args.isEdited) {
       args.sender.editCell(
         args.rowIndex,
         args.columnIndex,
         this.createFormGroup(args.dataItem)
+        // this.tempFormGroup
       );
     }
   }
 
   public cellCloseHandler(args: CellCloseEvent): void {
+    debugger
     console.log("cellCloseHandler")
     const { formGroup, dataItem } = args;
 
@@ -113,6 +121,7 @@ export class SchemaStepComponent implements OnInit {
       }
 
       Object.assign(dataItem, formGroup.value);
+      // this.tempFormGroup = undefined;
       // this.editService.assignValues(dataItem, formGroup.value);
       // this.editService.update(dataItem);
     }

@@ -7,6 +7,7 @@ import { Dataset } from '../models/dataset.model';
   providedIn: 'root'
 })
 export class DatasetService {
+
   constructor(private http: HttpClient) { }
 
   getDatasets() {
@@ -17,7 +18,7 @@ export class DatasetService {
     return this.http.post('api/datasets', dataset);
   }
 
-  uploadDataset(file: any, id:any) {
+  uploadDataset(file: any, id: any) {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -26,9 +27,11 @@ export class DatasetService {
 
   remove(id: number) {
     return this.http.delete(`api/datasets/${id}`);
-  }  
+  }
   getDatasetColumns(datasetId: any) {
     return this.http.get<ColumnSetting[]>(`api/datasets/${datasetId}/columns`);
   }
-
+  getAvailableDataTypes() {
+    return this.http.get<any[]>('api/datasets/getAvailableDataTypes');
+  }
 }

@@ -1,10 +1,11 @@
 import { NgModule } from "@angular/core";
-import { UploadsModule } from '@progress/kendo-angular-upload';
-import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 import { GridModule } from '@progress/kendo-angular-grid';
-import { NotificationModule } from '@progress/kendo-angular-notification';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ListBoxModule } from "@progress/kendo-angular-listbox";
+import { NotificationModule } from '@progress/kendo-angular-notification';
+import { UploadsModule } from '@progress/kendo-angular-upload';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ListBoxModule } from "@progress/kendo-angular-listbox";
         ButtonsModule,
         NotificationModule,
         ListBoxModule,
+        DropDownListModule
     ]
 }
 )

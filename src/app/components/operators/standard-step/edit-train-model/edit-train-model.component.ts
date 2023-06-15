@@ -54,7 +54,7 @@ export class EditTrainModelComponent implements OnInit {
       this.service.getTrainers(x).subscribe(y => {
         if (!y) return;
 
-        this.formGroup.value["Trainer"].value = undefined;
+        this.formGroup.controls["Trainer"].setValue(undefined);
         this.trainers = y;
       })
     })
