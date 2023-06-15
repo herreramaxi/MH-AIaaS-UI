@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^15.1.4",
     "@angular/router": "^15.1.4",
     "@auth0/auth0-angular": "^2.0.1",
-    "@joelwenzel/ng-flowchart": "^1.0.0-beta.25",
+    "@joelwenzel/ng-flowchart": "^1.0.0-beta.27",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "@ngrx/effects": "^15.0.0",
     "@ngrx/store": "^15.0.0",

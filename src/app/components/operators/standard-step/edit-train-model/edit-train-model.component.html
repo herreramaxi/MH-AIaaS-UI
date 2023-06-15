@@ -16,19 +16,29 @@
                 </mat-form-field>
             </div>
 
-            <div class="d-flex">
-                <!-- <div class="d-flex-column">
-                    <h3 style="margin-bottom: 0;">Available columns</h3>
-                    <kendo-listbox kendoListBoxDataBinding [data]="availableColumns" [connectedWith]="asia"
-                        [toolbar]="toolbarSettings">
-                    </kendo-listbox>
-                </div>
-                <div class="d-flex-column">
-                    <h3 style="margin-bottom: 0;">Selected columns</h3>
-                    <kendo-listbox #asia [data]="selectedColumns" [toolbar]="false">
-                    </kendo-listbox>
-                </div> -->
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Task</mat-label>
+                    <mat-select formControlName="Task">
+                        <mat-option *ngFor="let task of tasks" [value]="task.id">
+                            {{task.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
+
+
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Trainer</mat-label>
+                    <mat-select formControlName="Trainer">
+                        <mat-option *ngFor="let trainer of trainers" [value]="trainer.id">
+                            {{trainer.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
         </div>
     </form>
 </mat-dialog-content>

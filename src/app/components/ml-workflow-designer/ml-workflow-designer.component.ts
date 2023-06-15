@@ -25,7 +25,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   @ViewChild(NgFlowchartCanvasDirective)
 
   chart: NgFlowchartCanvasDirective;
-  options: NgFlowchart.Options = new NgFlowchart.Options();
+  options: NgFlowchart.Options;
   operations: any[];
   showMenu = false;
   disabled = false;
@@ -42,6 +42,9 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private store: Store<AppState>
   ) {
 
+    this.options = new NgFlowchart.Options();
+    this.options.manualConnectors = false;
+
     this.callbacks.onDropStep = (x) => {
       console.log(`onDropStep: ${x.step.data.name}`)
 
@@ -52,6 +55,13 @@ export class MlWorkflowDesignerComponent implements OnInit {
       console.log(`afterDeleteStep: ${x.data.name}`);
       this.triggerWorkflowChange();
     }
+
+    this.callbacks.onDropError = (x) => {
+      console.log(`onDropError: ${x.error.message}`);
+      console.log(x.error);
+
+    }
+
   }
 
 
@@ -68,7 +78,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   save() {
     if (!this.workflow) return;
 
-    
+
     const json = this.chart.getFlow().toJSON();
 
     this.store.dispatch(workflowSave({ workflow: { ...this.workflow, root: json } }));
@@ -84,7 +94,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   private triggerWorkflowChange() {
     const json = this.chart.getFlow().toJSON();
     if (this.workflow) {
-      
+
 
       this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
     }
@@ -113,7 +123,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
         node.data.isFailed = validatedNode.data.isFailed;
         node.data.validationMessage = validatedNode.data.validationMessage;
         node.data.parameters = validatedNode.data.parameters;
-        node.data.datasetColumns =  validatedNode.data.datasetColumns;
+        node.data.datasetColumns = validatedNode.data.datasetColumns;
       }
     }
 
@@ -143,7 +153,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
       // this.registry.registerStep('route', StandardStepComponent);
     });
 
-    
+
     // this.data$ = this.store.pipe(select(selectWorkflow));
     this.workflow$ = this.store.select(selectWorkflow);
     this.workflowValidated$ = this.store.select(selectWorkflowValidated);
@@ -163,7 +173,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflow$.subscribe(m => {
       if (!m) return;
 
-      
+
       console.log("this.workflow$.subscribe")
 
       this.workflow = m;
@@ -177,14 +187,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflowValidated$.subscribe(m => {
       if (!m) return;
 
-      
+
       console.log("this.workflowValidated$.subscribe")
 
       this.validate(m);
     })
 
     this.operatorSaved$.subscribe(data => {
-      
+
       if (!data) return;
 
       this.triggerWorkflowChange();

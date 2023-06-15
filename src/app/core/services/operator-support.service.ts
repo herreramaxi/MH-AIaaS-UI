@@ -45,4 +45,12 @@ export class OperatorSupportService {
   getNormalizerModes() {
     return this.http.get<any[]>('api/operators/getNormalizerModes');
   }
+
+  getMLTasks() {
+    return this.http.get<any[]>('api/operators/getMLTasks');
+  }
+
+  getTrainers(task: string) {
+    return this.http.get<any[]>('api/operators/getTrainers?task='+ task);
+  }
 }
