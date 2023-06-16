@@ -12,6 +12,7 @@ import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.c
 import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
 import { EditTrainModelComponent } from './edit-train-model/edit-train-model.component';
 import { EditNormalizeOperatorComponent } from './edit-normalize-operator/edit-normalize-operator.component';
+import { EditDatasetMetadataComponent } from './edit-dataset-metadata/edit-dataset-metadata.component';
 
 export type StandardStepData = {
   name: string,
@@ -77,6 +78,9 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     }
     if (this.operatorType === OperatorType.Normalize) {
       componentTemplate = EditNormalizeOperatorComponent;
+    }
+    if (this.operatorType === OperatorType.EditDataset) {
+      componentTemplate = EditDatasetMetadataComponent;
     }
 
     const dialogRef = this.matdialog.open(componentTemplate, {

@@ -54,6 +54,7 @@ import { reducers, workflowReducer } from './state-management/reducers/workflow.
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { EditTrainModelComponent } from './components/operators/standard-step/edit-train-model/edit-train-model.component';
 import { EditNormalizeOperatorComponent } from './components/operators/standard-step/edit-normalize-operator/edit-normalize-operator.component';
+import { EditDatasetMetadataComponent } from './components/operators/standard-step/edit-dataset-metadata/edit-dataset-metadata.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { EditNormalizeOperatorComponent } from './components/operators/standard-
     ModelEvaluationComponent,
     EditCleanOperatorComponent,
     EditTrainModelComponent,
-    EditNormalizeOperatorComponent
+    EditNormalizeOperatorComponent,
+    EditDatasetMetadataComponent
   ],
   imports: [
     BrowserModule,

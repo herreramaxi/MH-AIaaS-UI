@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>
+    <mat-icon [ngStyle]="{ color: data.color }">{{data.icon}}</mat-icon>
+    <span>Edit {{ data.name }}</span>
+</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formGroup">
+        <div class="d-flex-column">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Data Type Conversion</mat-label>
+                    <mat-select formControlName="DataType">
+                        <mat-option *ngFor="let dataType of dataTypes" [value]="dataType.id">
+                            {{dataType.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Categorical</mat-label>
+                    <mat-select formControlName="Categorical">
+                        <mat-option *ngFor="let categoricalType of categoricalTypes" [value]="categoricalType.id">
+                            {{categoricalType.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="d-flex">
+                <div class="d-flex-column">
+                    <h3 style="margin-bottom: 0;">Available columns</h3>
+                    <kendo-listbox kendoListBoxDataBinding [data]="availableColumns" [connectedWith]="selectedColumnsList"
+                        [toolbar]="toolbarSettings">
+                    </kendo-listbox>
+                </div>
+                <div class="d-flex-column">
+                    <h3 style="margin-bottom: 0;">Selected columns</h3>
+                    <kendo-listbox #selectedColumnsList [data]="selectedColumns" [toolbar]="false">
+                    </kendo-listbox>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button (click)="onSave()" cdkFocusInitial color="primary">
+        Save
+    </button>
+</mat-dialog-actions>

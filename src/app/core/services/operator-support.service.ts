@@ -9,6 +9,7 @@ import { OperatorType } from '../models/enums/enums';
 })
 export class OperatorSupportService {
 
+
   constructor(private http: HttpClient) { }
 
   getTemplate(type: OperatorType): any {
@@ -52,5 +53,13 @@ export class OperatorSupportService {
 
   getTrainers(task: string) {
     return this.http.get<any[]>('api/operators/getTrainers?task='+ task);
+  }
+
+  getAvailableDataTypes() {
+    return this.http.get<any[]>('api/operators/getAvailableDataTypes');
+  }
+
+  getCategoricalTypes() {
+    return this.http.get<any[]>('api/operators/getCategoricalTypes');
   }
 }

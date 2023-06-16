@@ -6,4 +6,5 @@ export enum OperatorType {
     Train = "Train",
     Evaluate = "Evaluate",
     Normalize = "Normalize",
+    EditDataset = "EditDataset"
 }
