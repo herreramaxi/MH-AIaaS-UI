@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-settings-and-preview-step',
@@ -18,50 +21,101 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   stepper: MatStepper;
 
   fileAnalysis: any;
-  header:any;
-  rows:any ;
-
-  constructor(private http: HttpClient) {
+  header: any;
+  rows: any;
+  color: ThemePalette = 'primary';
+  delimiterSubscription?: Subscription;
+  missingRealsAsNaNsSubscription?: Subscription;
+  
+  constructor(private http: HttpClient, private notificationService: NotificationService) {
     // this.firstFormGroup.con
-    console.log("contructor")
+    console.log("SettingsAndPreviewStepComponent-contructor")
   }
 
   ngOnInit(): void {
-    console.log("oninit")
-    console.log(this.stepper.selectedIndex)
+    console.log("SettingsAndPreviewStepComponent-oninit")
+  
+   
+    this.SubscribeToDelimiterChanges();  
+    this.SubscribeToMissingRealsChanges();  
+
     this.stepper.selectionChange.subscribe(x => {
-
-      console.log(`selectionChange: ` + x)
-      console.log(x)
-      console.log(x.selectedIndex)
-
+      console.log(this.stepper.selectedIndex)
       if (x.selectedIndex === 2) {
+        debugger
+        console.log("x.selectedIndex: " + x.selectedIndex.toString())
         var fileInput = this.secondFormGroup.get("file")?.value;
-        console.log('fileInput')
-        console.log(fileInput)
         var file = fileInput[0];
-        console.log(file)
         if (!file) return;
-
-        console.log(file)
-
-        console.log(file.name)
 
         const formData = new FormData();
         formData.append('file', file);
 
-        this.http.post('api/datasets/preview', formData, file.name)
-          .subscribe((res:any) => {
-            console.log(res);
-            this.fileAnalysis = res;
-
-
-            this.header = res.header;
-            this.rows =  res.data.slice(1);
-
-            this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);
-          })
+        this.RequestPreview(formData, file.name, true)
       }
     })
+  }
+
+  private SubscribeToMissingRealsChanges() {
+    this.missingRealsAsNaNsSubscription = this.formGroup.get("missingRealsAsNaNs")?.valueChanges.subscribe(x => {
+
+      var fileInput = this.secondFormGroup.get("file")?.value;
+      var file = fileInput[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('delimiter', this.formGroup.get("delimiter")?.value);
+      formData.append('missingRealsAsNaNs', x);
+
+      this.RequestPreview(formData, file.name, false);
+    });
+  }
+
+  private SubscribeToDelimiterChanges() {
+    this.delimiterSubscription = this.formGroup.get("delimiter")?.valueChanges.subscribe(x => {
+
+      var fileInput = this.secondFormGroup.get("file")?.value;
+      var file = fileInput[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('delimiter', x);
+      formData.append('missingRealsAsNaNs', this.formGroup.get("missingRealsAsNaNs")?.value);
+      this.RequestPreview(formData, file.name, false);
+    });
+  }
+
+  private RequestPreview(formData: any, fileName: any, inferDelimiter = false) {
+    this.http.post('api/datasets/preview', formData, fileName)
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          this.fileAnalysis = res;
+
+          this.header = res.header;
+          this.rows = res.data.slice(1);
+
+          this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);
+
+          if (inferDelimiter) {
+            this.delimiterSubscription?.unsubscribe();
+            this.formGroup.get("delimiter")?.setValue(this.fileAnalysis.delimiter ?? ',', {onlySelf: true, emitEvent: false});
+            // this.formGroup.get("delimiter")?.patchValue(this.fileAnalysis.delimiter ?? ',');
+            this.SubscribeToDelimiterChanges();
+          }
+        },
+        error: (e: any) => {
+          console.log(e)
+          this.notificationService.show({
+            content: "There was an error when trying to preview the dataset => " + e.error,
+            position: { horizontal: "center", vertical: "top" },
+            animation: { type: "fade", duration: 500 },
+            closable: false,
+            type: { style: "error", icon: true },
+          });
+        }
+      })
   }
 }

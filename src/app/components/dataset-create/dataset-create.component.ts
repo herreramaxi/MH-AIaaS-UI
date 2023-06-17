@@ -25,6 +25,7 @@ export class DatasetCreateComponent {
 
   thirdFormGroup = this.formBuilder.group({
     delimiter: [',', Validators.required],
+    missingRealsAsNaNs: [false, Validators.required],
     fileAnalysis: ['']
   });
 
@@ -47,6 +48,7 @@ export class DatasetCreateComponent {
       name: this.firstFormGroup.get("datasetName")?.value,
       description: this.firstFormGroup.get("datasetDescription")?.value,
       delimiter: this.thirdFormGroup.get("delimiter")?.value,
+      missingRealsAsNaNs: this.thirdFormGroup.get("missingRealsAsNaNs")?.value,
       columnSettings: columnsSettings,
     };
 
@@ -80,7 +82,7 @@ export class DatasetCreateComponent {
             console.log('Error when uploading file storage', err);
 
             this.notificationService.show({
-              content: "There was an error when trying to store the file storage",
+              content: "There was an error when trying to store the file storage ==> " + err.error,
               position: { horizontal: "center", vertical: "top" },
               animation: { type: "fade", duration: 500 },
               closable: false,
@@ -93,7 +95,7 @@ export class DatasetCreateComponent {
         console.log('Error when creating dataset', err);
 
         this.notificationService.show({
-          content: "There was an error when trying to create the dataset",
+          content: "There was an error when trying to create the dataset ==> " + err.error,
           position: { horizontal: "center", vertical: "top" },
           animation: { type: "fade", duration: 500 },
           closable: false,

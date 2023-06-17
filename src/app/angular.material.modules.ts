@@ -15,6 +15,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     exports: [
@@ -36,6 +37,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatGridListModule,
         MatCardModule,
         MatSelectModule,
+        MatSlideToggleModule
     ]
 }
 )

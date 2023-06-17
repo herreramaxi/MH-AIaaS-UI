@@ -3,7 +3,9 @@
         <mat-label>Delimiter</mat-label>
         <input matInput formControlName="delimiter" placeholder="Delimiter">
     </mat-form-field>
-
+    <mat-slide-toggle class="example-margin" [color]="color"  formControlName="missingRealsAsNaNs" >
+        MissingRealsAsNaNs
+    </mat-slide-toggle>
     <div *ngIf="fileAnalysis">
 
         <table class="table">

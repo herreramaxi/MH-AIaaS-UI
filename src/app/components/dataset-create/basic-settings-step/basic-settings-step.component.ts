@@ -11,7 +11,5 @@ export class BasicSettingsStepComponent {
   @Input()
   formGroup: FormGroup
 
-  constructor(private service: DatasetService) { }
-
-  
+  constructor(private service: DatasetService) { }  
 }

@@ -2,12 +2,25 @@
     <mat-icon >bar_chart_4_bars</mat-icon>
     <span>Model metrics</span>
 </h2>
-<mat-dialog-content class="mat-typography" *ngIf="metrics">
+<mat-dialog-content class="mat-typography" *ngIf="metrics?.Task ==='Regression'">
     <ul>
+        <li> RSquared: {{metrics.RSquared | number }} </li>
         <li> MeanSquaredError: {{metrics.MeanSquaredError | number }} </li>
         <li> RootMeanSquaredError: {{metrics.RootMeanSquaredError | number }} </li>
-        <li> LossFunction: {{metrics.LossFunction | number }} </li>
-        <li> RSquared: {{metrics.RSquared | number }} </li>
+        <li> LossFunction: {{metrics.LossFunction | number }} </li>       
+    </ul>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography" *ngIf="metrics?.Task ==='BinaryClassification'">
+    <ul>
+        <li> Accuracy: {{metrics.Accuracy | number }} </li>
+        <li> F1Score: {{metrics.F1Score | number }} </li>
+        <li> LogLossReduction: {{metrics.LogLossReduction | number }} </li>
+        <li> LogLoss: {{metrics.LogLoss | number }} </li>
+        <li> NegativeRecall: {{metrics.NegativeRecall | number }} </li>
+        <li> PositiveRecall: {{metrics.PositiveRecall | number }} </li>
+        <li> AreaUnderPrecisionRecallCurve: {{metrics.AreaUnderPrecisionRecallCurve | number }} </li>
+        <li> AreaUnderRocCurve: {{metrics.AreaUnderRocCurve | number }} </li>
+        <li> Entropy: {{metrics.Entropy | number }} </li>      
     </ul>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

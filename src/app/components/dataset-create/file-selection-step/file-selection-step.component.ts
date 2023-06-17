@@ -2,14 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { FileRestrictions, FileInfo } from "@progress/kendo-angular-upload";
 
 @Component({
   selector: 'app-file-selection-step',
   templateUrl: './file-selection-step.component.html',
   styleUrls: ['./file-selection-step.component.css']
 })
-export class FileSelectionStepComponent {
+export class FileSelectionStepComponent implements OnInit {
 
   @Input()
   formGroup: FormGroup
@@ -18,19 +17,19 @@ export class FileSelectionStepComponent {
   @Input()
   stepper: MatStepper;
   constructor(private http: HttpClient) {
-    // this.firstFormGroup.con
-    console.log("contructor")
   }
-  // ngOnInit(): void {
-  //   this.firstFormGroup.get("datasetName")?.valueChanges.subscribe(x=> {
-  //          this.uploadSaveUrl = "api/dataset/upload"  + x;
-  //          console.log( this.uploadSaveUrl )
-  //   })
-  // }
+  ngOnInit(): void {
+    this.formGroup.get("file")?.valueChanges.subscribe(x => {
+      debugger
+      if (!x || x.length <1 || !x[0]?.name) return;
 
-  public myRestrictions: FileRestrictions = {
-    allowedExtensions: ["csv"],
-  };
+      this.firstFormGroup.get("datasetName")?.patchValue(x[0].name);
+    })
+  }
+
+  // public myRestrictions: FileRestrictions = {
+  //   allowedExtensions: ["csv"],
+  // };
 
 }
 
