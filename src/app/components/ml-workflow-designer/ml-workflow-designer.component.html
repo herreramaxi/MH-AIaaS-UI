@@ -1,72 +1,83 @@
-<div style="display: flex; align-items: center;">
-  <div style="font-size: 20px;font-weight: 600;">{{workflow?.name }}</div>
-  <button mat-icon-button matTooltip="Edit name and description" style="color: rgb(1, 92, 218);"
-    class="material-symbols-sharp" (click)="openDialog()">
-    <mat-icon>mode_edit</mat-icon>
-  </button>
-
-  <!-- <a style="margin-left: 5px; color: rgb(1, 92, 218);" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a> -->
+<div class="container">
 
 
-  <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto">
-    <mat-icon>undo</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Redo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
-    <mat-icon>redo</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
-    (click)="save()">
-    <mat-icon>save</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Generate model" style="color: rgb(1, 92, 218);"
-    class="material-symbols-sharp ams-auto" (click)="runWorkflow()">
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
-    <mat-icon>publish</mat-icon>
-  </button>
-</div>
+  <div style="display: flex; align-items: center;">
 
-<div>Status: {{workflowStatus$ | async }}</div>
-<section class="page">
-  <div class="content">
-    <div id="palette">
-      <div id="palette-heading">
-        <h2 id="palette-title">Operations</h2>
-        <span style="flex-grow: 1"></span>
-      </div>
+    <div style="font-size: 20px;font-weight: 600;">{{workflow?.name }}</div>
+    <button mat-icon-button matTooltip="Edit name and description" style="color: rgb(1, 92, 218);"
+      class="material-symbols-sharp" (click)="openDialog()">
+      <mat-icon>mode_edit</mat-icon>
+    </button>
 
-      <section class="palette-section">
-        <div class="operation node" *ngFor="let op of operations" [ngFlowchartStep]="{
+    <!-- <a style="margin-left: 5px; color: rgb(1, 92, 218);" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a> -->
+
+
+    <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto">
+      <mat-icon>undo</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Redo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
+      <mat-icon>redo</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Save" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+      (click)="save()">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Run" style="color: rgb(1, 92, 218);"
+      class="material-symbols-sharp ams-auto" (click)="runWorkflow()">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+      (click)="publishWorkflow()">
+      <mat-icon>publish</mat-icon>
+    </button>
+  </div>
+
+  <div>Status: {{workflowStatus$ | async }}</div>
+  <section class="page">
+    <div class="content">
+      <div id="palette">
+        <div id="palette-heading">
+          <h2 id="palette-title">Operations</h2>
+          <span style="flex-grow: 1"></span>
+        </div>
+
+        <section class="palette-section">
+          <div class="operation node" *ngFor="let op of operations" [ngFlowchartStep]="{
               template: op.template,
               data: op.data,
               type: op.type
             }">
-          <mat-icon [ngStyle]="{ color: op.data.color }">{{
-            op.data.icon
-            }}</mat-icon>
-          <h4>{{ op.name }}</h4>
-        </div>
-      </section>
-      <section class="palette-section">
-        <div class="sub-section">
-          <label for="step-gap-select" class="wide">Step Gap</label>
-          <select name="step-gap-select" id="step-gap-select" class="wide" (change)="onGapChanged($event)">
-            <option value="30">30</option>
-            <option value="40" selected>40</option>
-            <option value="60">60</option>
-          </select>
-        </div>
-        <div class="sub-section">
-          <label for="sequential">Sequential</label>
-          <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
-          <button type="button" name="download" (click)="downloadFlow()">Download</button>
-          <!-- <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
+            <mat-icon [ngStyle]="{ color: op.data.color }">{{
+              op.data.icon
+              }}</mat-icon>
+            <h4>{{ op.name }}</h4>
+          </div>
+        </section>
+        <section class="palette-section">
+          <div class="sub-section">
+            <label for="step-gap-select" class="wide">Step Gap</label>
+            <select name="step-gap-select" id="step-gap-select" class="wide" (change)="onGapChanged($event)">
+              <option value="30">30</option>
+              <option value="40" selected>40</option>
+              <option value="60">60</option>
+            </select>
+          </div>
+          <div class="sub-section">
+            <label for="sequential">Sequential</label>
+            <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
+            <button type="button" name="download" (click)="downloadFlow()">Download</button>
+            <!-- <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
           <button type="button" name="save" (click)="save()">Save</button>  -->
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
+      <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks">
+      </div>
     </div>
-    <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks" >
-    </div>
+  </section>
+
+  <!-- Your HTML content here -->
+  <div *ngIf="isLoading$ | async" class="spinner-overlay">
+    <mat-spinner></mat-spinner>
   </div>
-</section>
+</div>

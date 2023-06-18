@@ -10,6 +10,8 @@ export const workflowSaveType = '[WorkflowDesigner] Save';
 export const workflowSavedSuccessType = '[WorkflowDesigner] Saved Success';
 export const workflowRunType = '[WorkflowDesigner] Run';
 export const workflowRunSuccessType = '[WorkflowDesigner] Run Success';
+export const workflowPublishType = '[WorkflowDesigner] Publish';
+export const workflowPublishSuccessType = '[WorkflowDesigner] Publish Success';
 
 export const operatorSavedType = '[Operator Page] Saved';
 
@@ -22,5 +24,8 @@ export const workflowSave = createAction(workflowSaveType, props<{ workflow: Wor
 export const workflowSavedSuccess = createAction(workflowSavedSuccessType, props<any>());
 export const workflowRun = createAction(workflowRunType, props<{ workflow: Workflow }>());
 export const workflowRunSuccess = createAction(workflowRunSuccessType, props<any>());
+
+export const workflowPublish = createAction(workflowPublishType, props<{ workflow: Workflow }>());
+export const workflowPublishSuccess = createAction(workflowPublishSuccessType, props<any>());
 
 export const operatorSaved = createAction(operatorSavedType);

@@ -10,8 +10,8 @@ import { OperatorSupportService } from 'src/app/core/services/operator-support.s
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { Store, select } from '@ngrx/store';
-import { workflowChange, workflowLoad, workflowLoadType, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
-import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { workflowChange, workflowLoad, workflowLoadType, workflowPublish, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
+import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowIsLoading, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { Observable } from 'rxjs';
 
 
@@ -91,6 +91,13 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.store.dispatch(workflowRun({ workflow: { ...this.workflow, root: json } }));
   }
 
+  publishWorkflow() {
+    if (!this.workflow) return;
+
+    const json = this.chart.getFlow().toJSON();
+    this.store.dispatch(workflowPublish({ workflow: { ...this.workflow, root: json } }));
+  }
+
   private triggerWorkflowChange() {
     const json = this.chart.getFlow().toJSON();
     if (this.workflow) {
@@ -159,6 +166,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflowValidated$ = this.store.select(selectWorkflowValidated);
     this.operatorSaved$ = this.store.select(selectOperatorSaved);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
+    this.isLoading$ = this.store.select(selectWorkflowIsLoading);
 
     this.activatedRoute.paramMap.subscribe(params => {
       var id = +this.activatedRoute.snapshot.params['id'];
@@ -205,6 +213,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   workflowValidated$: Observable<Workflow | undefined>;
   operatorSaved$: Observable<boolean | undefined>;
   workflowStatus$: Observable<string | undefined>;
+  isLoading$: Observable<boolean | undefined>;
 
   ngAfterViewInit() {
   }

@@ -243,3 +243,25 @@ h1#watermark {
   'GRAD' 0,
   'opsz' 48
 }
+
+
+.container {
+    position: relative;
+  }
+  
+  .spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    z-index: 9999; /* Adjust the z-index value as needed */
+    pointer-events: none
+  }
+  
+  mat-spinner {
+    color: white; /* Customize the color of the spinner */
+  }
