@@ -1,6 +1,6 @@
 import { Action, ActionReducerMap, createReducer, on } from "@ngrx/store";
 import { Workflow } from "src/app/core/models";
-import { operatorSaved, workflowChange, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowRun, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
+import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowRun, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
 import * as moment from 'moment';
 
 export interface WorkflowState {
@@ -11,6 +11,7 @@ export interface WorkflowState {
     isLoadingFailure?: boolean;
     operatorSaved?: boolean;
     status?: string;
+    error?: string;
 }
 
 export const initialState: WorkflowState = {
@@ -19,7 +20,8 @@ export const initialState: WorkflowState = {
     isLoading: false,
     isLoadingSuccess: false,
     isLoadingFailure: false,
-    status: undefined
+    status: undefined,
+    error: undefined
 };
 
 export const workflowReducer = createReducer(
@@ -40,6 +42,13 @@ export const workflowReducer = createReducer(
         
         console.log("workflowReducer-workflowChangedSuccess")
         return ({ workflowValidated: result, isLoading: false, isLoadingSuccess: true })
+    }),
+    on(workflowChangedError, (state, result:any) => {
+        
+        console.log("workflowReducer-workflowChangedError")
+        console.log(`error: ${result}`)
+        console.log(result)
+        return ({ ...state, error: result, isLoading: false, isLoadingSuccess: false , status: 'Processing failed...'})
     }),
     on(operatorSaved, (state) => {
         console.log("workflowReducer-operatorSaved")
@@ -79,6 +88,7 @@ export const selectWorkflow = (appState: AppState) => appState.workflowState.wor
 export const selectWorkflowValidated = (appState: AppState) => appState.workflowState.workflowValidated;
 export const selectWorkflowStatus = (appState: AppState) => appState.workflowState.status;
 export const selectOperatorSaved = (appState: AppState) => appState.workflowState.operatorSaved;
+export const selectWorkflowError = (appState: AppState) => appState.workflowState.error;
 
 export interface AppState {
     workflowState: WorkflowState;

@@ -7,7 +7,8 @@ export type ConfigData = {
   name: string,
   description: string,
   type: 'text' | 'number' | 'checkbox' | 'textarea',
-  value?: any
+  value?: any,
+  default?: any
 }
 
 @Component({
@@ -22,14 +23,14 @@ export class EditStepComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: StandardStepData, private dialogref: MatDialogRef<EditStepComponent>) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup(this.data.config.reduce((acc: any, config) => {
-      acc[config.name] = new FormControl(config.value || '', []);
+    this.form = new FormGroup(this.data.config.reduce((acc: any, config: any) => {
+      acc[config.name] = new FormControl((config.value ?? config.default) || '', []);
       return acc;
     }, {}))
   }
 
   onSave() {
-    
+
     this.dialogref.close(this.data.config.map(config => {
       return {
         ...config,

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
+import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowRun, workflowRunSuccess, workflowSave, workflowSavedSuccess } from '../actions/workflow.actions';
+import { workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowRun, workflowRunSuccess, workflowSave, workflowSavedSuccess } from '../actions/workflow.actions';
 
 @Injectable()
 export class WorkflowEffects {
 
     loadWorkflow$ = createEffect(() => this.actions$.pipe(
         ofType(workflowLoad),
-        exhaustMap((action) => this.service.getWorkflowById(action.workflowId)
+        switchMap((action) => this.service.getWorkflowById(action.workflowId)
             .pipe(
                 map(response => {
-                    
+
                     console.log("WorkflowEffects-loadWorkflow")
                     return workflowLoadSuccess(response)
                 }),
@@ -23,17 +23,18 @@ export class WorkflowEffects {
 
     workflowChanged$ = createEffect(() => this.actions$.pipe(
         ofType(workflowChange),
-        exhaustMap((action) => this.service.validate(action.workflow)
+        concatMap((action) => this.service.validate(action.workflow)
             .pipe(
                 map(response => {
-                    
+
                     console.log("WorkflowEffects-workflowChanged")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowChangedSuccess(response)
                 }),
-                catchError(() => {
-                    console.log(`Error on action ${workflowChangeActionType}`)
-                    return EMPTY
+                catchError((response:any) => {
+                    console.log(`Error on action ${workflowChangeActionType} - workflowChangedError`)
+                    console.log(response)
+                    return of(workflowChangedError({error: response.error}))
                 })
             ))
     ));
@@ -44,7 +45,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
-                    
+
                     console.log("WorkflowEffects-workflowSaved")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowSavedSuccess(response)
@@ -61,7 +62,7 @@ export class WorkflowEffects {
         exhaustMap((action) => this.service.run(action.workflow)
             .pipe(
                 map(response => {
-                    
+                    debugger
                     console.log("WorkflowEffects-workflowRun")
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowRunSuccess(response)

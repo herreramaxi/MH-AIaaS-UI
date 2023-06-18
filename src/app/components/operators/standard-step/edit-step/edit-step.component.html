@@ -4,28 +4,32 @@
 </h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="form" autocomplete="off">
-    <section class="input-section" *ngFor="let config of data.config">
-      <label [for]="config.name">
-        <span>{{ config.name }}</span>
-        <mat-icon [matTooltip]="config.description" matTooltipPosition="right"
-          >help</mat-icon
-        >
-      </label>
-      <textarea
-        [name]="config.name"
-        cols="30"
-        rows="6"
-        [formControlName]="config.name"
-        *ngIf="config.type === 'textarea'; else default"
-      ></textarea>
-      <ng-template #default>
-        <input
+    <div class="d-flex-column">
+      <section class="input-section" *ngFor="let config of data.config">
+        <!--        
+        <label [for]="config.name">
+          <span>{{ config.name }}</span>
+          <mat-icon [matTooltip]="config.description" matTooltipPosition="right">help</mat-icon>
+        </label> -->
+        <textarea [name]="config.name" cols="30" rows="6" [formControlName]="config.name"
+          *ngIf="config.type === 'textarea'; else default"></textarea>
+        <ng-template #default>
+          <!-- <input
           [name]="config.name"
           [type]="config.type"
           [formControlName]="config.name"
-        />
-      </ng-template>
-    </section>
+        /> -->
+          <mat-form-field class="example-full-width">
+            <mat-label>{{config.name}}</mat-label>
+            <input [type]="config.type" matInput [formControlName]="config.name" placeholder="{{config.name}}">
+            <mat-error *ngIf="form.get(config.name)?.hasError('required')">
+              {{config.name}} is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-icon [matTooltip]="config.description" matTooltipPosition="right">help</mat-icon>
+        </ng-template>
+      </section>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
