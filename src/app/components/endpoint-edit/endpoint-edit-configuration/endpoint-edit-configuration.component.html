@@ -1,0 +1,54 @@
+<div *ngIf="formGroup" style="width: 60%;" class="mt-5">
+    <form class="example-form" [formGroup]="formGroup" (submit)="onSubmit()">
+        <div class="d-flex flex-column ">
+
+            <p>Workflow: <a [routerLink]="['/workflow-designer', endpoint?.workflowId]">{{endpoint?.workflowName}}</a>
+            </p>
+            <p>Model: <a [routerLink]="['/models', endpoint?.modelId]">{{endpoint?.workflowName}}</a></p>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" placeholder="Name" required>
+                <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                    Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Description</mat-label>
+                <!-- <input type="text" matInput formControlName="description" placeholder="Description"> -->
+                <textarea matInput cdkTextareaAutosize formControlName="description" #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Created By</mat-label>
+                <input matInput formControlName="createdBy" placeholder="Created By"readonly>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Created On</mat-label>
+                <input matInput formControlName="createdOn" placeholder="Created On"readonly>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Modified By</mat-label>
+                <input matInput formControlName="modifiedBy" placeholder="Modified On" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Modified On</mat-label>
+                <input matInput formControlName="modifiedOn" placeholder="Modified On" readonly>
+            </mat-form-field>
+
+            <section class="example-section">
+                <mat-slide-toggle formControlName="isEnabled" class="example-margin" color="primary">
+                    Enabled
+                </mat-slide-toggle>
+            </section>
+
+            <div class="p-2">
+                <button mat-raised-button color="primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

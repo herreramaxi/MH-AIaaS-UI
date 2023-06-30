@@ -28,7 +28,6 @@ export class EditNormalizeOperatorComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    debugger
     this.service.getNormalizerModes().subscribe(data => {
       this.modes = data;
     })

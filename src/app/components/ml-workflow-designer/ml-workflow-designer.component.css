@@ -265,3 +265,13 @@ h1#watermark {
   mat-spinner {
     color: white; /* Customize the color of the spinner */
   }
+
+
+  .example-button-row button,
+  .example-button-row a {
+    margin-right: 8px;
+  }
+  
+  .example-disabled {
+    display: inline-block;
+  }

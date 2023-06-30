@@ -55,6 +55,10 @@ import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { EditTrainModelComponent } from './components/operators/standard-step/edit-train-model/edit-train-model.component';
 import { EditNormalizeOperatorComponent } from './components/operators/standard-step/edit-normalize-operator/edit-normalize-operator.component';
 import { EditDatasetMetadataComponent } from './components/operators/standard-step/edit-dataset-metadata/edit-dataset-metadata.component';
+import { PublishWorkflowComponent } from './components/ml-workflow-designer/publish-workflow/publish-workflow.component';
+import { EndpointEditConfigurationComponent } from './components/endpoint-edit/endpoint-edit-configuration/endpoint-edit-configuration.component';
+import { EndpointEditTestComponent } from './components/endpoint-edit/endpoint-edit-test/endpoint-edit-test.component';
+import { EndpointEditConsumeComponent } from './components/endpoint-edit/endpoint-edit-consume/endpoint-edit-consume.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +97,11 @@ import { EditDatasetMetadataComponent } from './components/operators/standard-st
     EditCleanOperatorComponent,
     EditTrainModelComponent,
     EditNormalizeOperatorComponent,
-    EditDatasetMetadataComponent
+    EditDatasetMetadataComponent,
+    PublishWorkflowComponent,
+    EndpointEditConfigurationComponent,
+    EndpointEditTestComponent,
+    EndpointEditConsumeComponent
   ],
   imports: [
     BrowserModule,

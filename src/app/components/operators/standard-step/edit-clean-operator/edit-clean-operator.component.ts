@@ -31,7 +31,6 @@ export class EditCleanOperatorComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    debugger
     this.service.getCleaningModes().subscribe(data => {
       this.cleanModes = data;
     })

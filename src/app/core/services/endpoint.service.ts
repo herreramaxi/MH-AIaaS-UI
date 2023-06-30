@@ -16,9 +16,29 @@ export class EndpointService {
   getById(id: number) {
     return this.http.get<Endpoint>(`api/endpoints/${id}`);
   }
+  
+  getAuthenticationInfo(id: number) {
+    return this.http.get<any>(`api/endpoints/getAuthenticationInfo/${id}`);
+  }
+
+  tokenBasedGetToken() {
+    return this.http.get<any>(`api/endpoints/tokenBasedGetToken`);
+  }
+
+  getAuthenticationTypes() {
+    return this.http.get<any[]>('api/endpoints/getAuthenticationTypes');
+  }
 
   create(endpoint: Endpoint) {
     return this.http.post<Endpoint>(`api/endpoints`, endpoint);
+  }
+  
+  update(endpoint: Endpoint) {
+    return this.http.put<Endpoint>(`api/endpoints`, endpoint);
+  }
+
+  updateAuthenticationInfo(endpointAuthentication: any) {
+    return this.http.put<any>(`api/endpoints/updateAuthentication`, endpointAuthentication);
   }
 
   remove(id: number) {

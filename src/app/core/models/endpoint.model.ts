@@ -1,13 +1,14 @@
 import { AuditModel } from "./audit.model";
 
 export interface Endpoint extends AuditModel {
-    id: number;
+    id?: number;
     name: string;
-    modelId: number;
-    workflowId: number;
-    modelName: string;
-    workflowName: string;
-    isEnabled: boolean;
-    authenticationMethod: string;
-    apiKey: string;
+    description?: string;
+    modelId?: number;
+    workflowId?: number;
+    modelName?: string;
+    workflowName?: string;
+    isEnabled?: boolean;
+    authenticationType?: number;
+    apiKey?: string;
 }

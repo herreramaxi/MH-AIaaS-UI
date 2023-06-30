@@ -1,4 +1,4 @@
-<h1>Datasets</h1>
+<h1>Endpoints</h1>
 <kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
     (remove)="removeHandler($event)" filterable="menu" [sortable]="true" [sort]="sort"
     (sortChange)="sortChange($event)">
@@ -10,8 +10,7 @@
             <a [routerLink]="['/endpoints', dataItem.id]"> {{dataItem.name}}</a>
         </ng-template>
     </kendo-grid-column>
-    <!-- <kendo-grid-column field="name" title="Name"></kendo-grid-column> -->
-    <kendo-grid-column field="modelName" title="Model"></kendo-grid-column>
+    <kendo-grid-column field="description" title="description"></kendo-grid-column>
     <kendo-grid-column field="workflowName" title="Workflow"></kendo-grid-column>
     <kendo-grid-column field="isEnabled" title="Enabled"></kendo-grid-column>
     <kendo-grid-column field="createdOn" title="Created On" filter="date">

@@ -29,7 +29,6 @@ export class EditDatasetMetadataComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    debugger
     this.service.getAvailableDataTypes().subscribe(data => {
       this.dataTypes = data;
     })

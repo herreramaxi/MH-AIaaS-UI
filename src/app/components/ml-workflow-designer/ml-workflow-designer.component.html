@@ -22,14 +22,21 @@
       (click)="save()">
       <mat-icon>save</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Run" style="color: rgb(1, 92, 218);"
-      class="material-symbols-sharp ams-auto" (click)="runWorkflow()">
+    <button mat-icon-button matTooltip="Run" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+      (click)="runWorkflow()">
       <mat-icon>play_arrow</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
-      (click)="publishWorkflow()">
+    <div matTooltip="Publish" class="example-disabled" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
+      <button mat-icon-button [disabled] ="!(isModelGenerated$ | async)" (click)="publishWorkflow()">
+        <mat-icon>publish</mat-icon>
+      </button>
+    </div>
+
+    
+    <!-- <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+      [ngClass]="{'disable':!(isModelGenerated$ | async)}" (click)="publishWorkflow()">
       <mat-icon>publish</mat-icon>
-    </button>
+    </button> -->
   </div>
 
   <div>Status: {{workflowStatus$ | async }}</div>
@@ -71,7 +78,8 @@
           </div>
         </section>
       </div>
-      <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks">
+      <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks"
+        [disabled]="disabled">
       </div>
     </div>
   </section>

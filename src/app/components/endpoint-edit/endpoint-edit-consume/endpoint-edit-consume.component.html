@@ -1,0 +1,45 @@
+<form *ngIf="formGroup" class="example-form mt-5" [formGroup]="formGroup" (submit)="onSubmit()">
+    <div class="d-flex flex-column ">
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Endpoint URL</mat-label>
+            <input matInput [value]="endpointURL" placeholder="Endpoint URL" readonly>
+        </mat-form-field>
+
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Authentication Type</mat-label>
+            <mat-select formControlName="authenticationType">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let authType of authenticationTypes" [value]="authType.id">
+                    {{authType.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="d-flex">
+            <div class="" style="width:90%">
+                <mat-form-field style="width:98%" >
+                    <mat-label>ApiKey</mat-label>
+                    <input type="text" matInput formControlName="apiKey" placeholder="ApiKey">
+
+                    <!-- <mat-error *ngIf="isApiKeyRequired()">API Key is required for the selected authentication
+                type.</mat-error> -->
+                    <mat-error *ngIf="apiKey?.errors?.['apiKeyRequired']">API Key is required for the selected
+                        authentication
+                        type.</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="ml-auto">
+                <button type="button" class="ml-2 mt-2" mat-raised-button color="primary"
+                    (click)="tokenBasedGetToken()">Generate</button>
+                <!-- <a (click)="tokenBasedGetToken()">Generate Token</a> -->
+            </div>
+        </div>
+
+
+        <div class="p-2">
+            <button mat-raised-button color="primary">Save</button>
+        </div>
+    </div>
+</form>

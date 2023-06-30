@@ -42,7 +42,6 @@ export class SettingsAndPreviewStepComponent implements OnInit {
     this.stepper.selectionChange.subscribe(x => {
       console.log(this.stepper.selectedIndex)
       if (x.selectedIndex === 2) {
-        debugger
         console.log("x.selectedIndex: " + x.selectedIndex.toString())
         var fileInput = this.secondFormGroup.get("file")?.value;
         var file = fileInput[0];

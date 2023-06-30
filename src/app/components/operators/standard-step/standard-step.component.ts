@@ -66,8 +66,6 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
-
-
     var componentTemplate: any = EditStepComponent;
 
     if (this.operatorType === OperatorType.Clean) {

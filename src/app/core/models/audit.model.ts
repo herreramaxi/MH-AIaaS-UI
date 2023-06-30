@@ -1,6 +1,6 @@
 export interface AuditModel {
-    createdBy: string;
-    createdOn: Date;
-    ModifiedBy: string;
-    ModifiedOn?: Date;
+    createdBy?: string;
+    createdOn?: Date;
+    modifiedBy?: string;
+    modifiedOn?: Date;
 }

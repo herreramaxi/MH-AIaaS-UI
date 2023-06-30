@@ -22,8 +22,6 @@ export class EditTrainModelComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    debugger
-
     this.service.getMLTasks().subscribe(data => {
       this.tasks = data;
     })
@@ -62,7 +60,6 @@ export class EditTrainModelComponent implements OnInit {
   }
 
   onSave() {
-    debugger
     this.dialogref.close(this.data.config.map((config: any) => {
       return {
         ...config,

@@ -1,34 +1,16 @@
-<div *ngIf="endpoint">
-    <h1>Endpoint: {{endpoint.name}}</h1>
-    <p>Workflow: <a [routerLink]="['/workflow-designer', endpoint.workflowId]">{{endpoint.workflowName}}</a></p>
-    <p>Model: <a [routerLink]="['/models', endpoint.modelId]">{{endpoint.modelName}}</a></p>
-    <p>Authentication method: {{endpoint.authenticationMethod}}</p>
-    <p>API key: {{endpoint.apiKey}}</p>
-    <p>Enabled: {{endpoint.isEnabled}}</p>
-
-
-    <br>
-    <div class="d-flex">
-        <div class="p-2">
-            <h2>Test</h2>
-        </div>
-        <div class="p-2">
-            <button mat-raised-button (click)="test()">Test endpoint</button>
-        </div>
-    </div>
-
-    <div class="d-flex">
-        <div class="p-2">
-            <mat-form-field appearance="fill" style="width: 300px;">
-                <mat-label>Input features to test prediction</mat-label>
-                <textarea matInput rows="10" cols="50" [(ngModel)]="input"></textarea>
-            </mat-form-field>
-        </div>
-        <div class="p-2">
-            <mat-form-field appearance="fill" style="width: 300px;">
-                <mat-label>Prediction</mat-label>
-                <textarea matInput rows="10" cols="50" readonly="true" [(ngModel)]="endpointResponse"></textarea>
-            </mat-form-field>
-        </div>
+<div class="form-center">
+    <h1>Endpoint</h1>
+    <div class="d-flex flex-column">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+            <mat-tab label="Configuration">
+                <app-endpoint-edit-configuration [endpointId]="endpointId"></app-endpoint-edit-configuration>
+            </mat-tab>
+            <mat-tab label="Test">
+                <app-endpoint-edit-test [endpointId]="endpointId"></app-endpoint-edit-test>
+            </mat-tab>
+            <mat-tab label="Consume">
+                <app-endpoint-edit-consume [endpointId]="endpointId"></app-endpoint-edit-consume>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </div>

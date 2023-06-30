@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { Endpoint } from 'src/app/core/models/endpoint.model';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
@@ -10,40 +12,18 @@ import { EndpointService } from 'src/app/core/services/endpoint.service';
 })
 export class EndpointEditComponent implements OnInit {
   endpoint?: Endpoint;
-  
-  constructor(private activatedRoute: ActivatedRoute, private service: EndpointService) {
+  formGroup?: FormGroup;
+  authenticationTypes: any[];
+  endpointId: number;
+
+  color: ThemePalette = 'primary';
+
+  constructor(private activatedRoute: ActivatedRoute, private endpointService: EndpointService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      var id = +this.activatedRoute.snapshot.params['id'];
-
-      this.load(id);
+      this.endpointId = +this.activatedRoute.snapshot.params['id'];
     });
-  }
-
-  load(id: number) {
-    this.service.getById(id).subscribe(data => {
-      this.endpoint = data;
-    })
-  }
-
-  input = `
-  {
-    "data": [
-      [1,2,3,4,5,6], 
-      [7,8,9,0,1,2]
-    ]
-  }
-  `
-  endpointResponse?:string;
-
-  test(){
-    this.endpointResponse = `{ 
-      [
-        12345.67,
-        2345.98
-      ]
-    }`
   }
 }

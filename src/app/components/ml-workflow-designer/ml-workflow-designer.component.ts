@@ -11,8 +11,9 @@ import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { Store, select } from '@ngrx/store';
 import { workflowChange, workflowLoad, workflowLoadType, workflowPublish, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
-import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowIsLoading, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowIsLoading, selectWorkflowIsModelGenerated, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { Observable } from 'rxjs';
+import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
 
 
 @Component({
@@ -38,7 +39,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private operatorService: OperatorSupportService,
-    // private store: Store<{ workflow: Workflow }
     private store: Store<AppState>
   ) {
 
@@ -61,23 +61,10 @@ export class MlWorkflowDesignerComponent implements OnInit {
       console.log(x.error);
 
     }
-
-  }
-
-
-  loadWorkflow(id: number) {
-    this.service.getWorkflowById(id).subscribe(data => {
-      this.workflow = data;
-
-      if (this.workflow.root) {
-        this.chart.getFlow().upload(this.workflow.root);
-      }
-    })
   }
 
   save() {
     if (!this.workflow) return;
-
 
     const json = this.chart.getFlow().toJSON();
 
@@ -92,10 +79,22 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   publishWorkflow() {
-    if (!this.workflow) return;
+    const dialogRef = this.dialog.open(PublishWorkflowComponent, {
+      data: { workflow: this.workflow },
+    });
 
-    const json = this.chart.getFlow().toJSON();
-    this.store.dispatch(workflowPublish({ workflow: { ...this.workflow, root: json } }));
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result || !this.workflow) return;
+
+      console.log("after closing dialog from publishWorkflow")
+      // this.loadWorkflow(this.workflow.id);
+    });
+
+    
+    // if (!this.workflow) return;
+
+    // const json = this.chart.getFlow().toJSON();
+    // this.store.dispatch(workflowPublish({ workflow: { ...this.workflow, root: json } }));
   }
 
   private triggerWorkflowChange() {
@@ -167,6 +166,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.operatorSaved$ = this.store.select(selectOperatorSaved);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
     this.isLoading$ = this.store.select(selectWorkflowIsLoading);
+    this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
 
     this.activatedRoute.paramMap.subscribe(params => {
       var id = +this.activatedRoute.snapshot.params['id'];
@@ -214,7 +214,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
   operatorSaved$: Observable<boolean | undefined>;
   workflowStatus$: Observable<string | undefined>;
   isLoading$: Observable<boolean | undefined>;
-
+  isModelGenerated$: Observable<boolean | undefined>;
+  
   ngAfterViewInit() {
   }
 
@@ -266,9 +267,9 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result || !this.workflow) return;
-
-      console.log("loadWorkflow from openDialog")
-      this.loadWorkflow(this.workflow.id);
+      
+      this.store.dispatch(workflowLoad({ workflowId: this.workflow.id }));
+      // this.loadWorkflow(this.workflow.id);
     });
   };
 

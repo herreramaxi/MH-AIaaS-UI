@@ -8,3 +8,8 @@ export enum OperatorType {
     Normalize = "Normalize",
     EditDataset = "EditDataset"
 }
+
+export enum AuthenticationType {
+    NA=0,
+    TokenBased = 2,
+}

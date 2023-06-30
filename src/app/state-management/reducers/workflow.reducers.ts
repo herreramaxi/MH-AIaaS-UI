@@ -1,7 +1,7 @@
 import { Action, ActionReducerMap, createReducer, on } from "@ngrx/store";
-import { Workflow } from "src/app/core/models";
-import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishSuccess, workflowRun, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
 import * as moment from 'moment';
+import { Workflow } from "src/app/core/models";
+import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
 
 export interface WorkflowState {
     workflow?: Workflow;
@@ -9,6 +9,7 @@ export interface WorkflowState {
     isLoading?: boolean;
     isLoadingSuccess?: boolean;
     isLoadingFailure?: boolean;
+    isModelGenerated?: boolean;
     operatorSaved?: boolean;
     status?: string;
     error?: string;
@@ -21,7 +22,8 @@ export const initialState: WorkflowState = {
     isLoadingSuccess: false,
     isLoadingFailure: false,
     status: undefined,
-    error: undefined
+    error: undefined,
+    isModelGenerated: false
 };
 
 export const workflowReducer = createReducer(
@@ -36,12 +38,13 @@ export const workflowReducer = createReducer(
     }),
     on(workflowLoadSuccess, (state, result) => {
         console.log("workflowReducer-workflowLoadSuccess")
-        return ({ workflow: result, isLoading: false, isLoadingSuccess: true, operatorSaved: false })
+        console.log(`isModelGenerated: ${ result.isModelGenerated }`)
+        return ({ workflow: result, isLoading: false, isLoadingSuccess: true, operatorSaved: false, isModelGenerated: result.isModelGenerated })
     }),
     on(workflowChangedSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowChangedSuccess")
-        return ({ workflowValidated: result, isLoading: false, isLoadingSuccess: true })
+        return ({ workflowValidated: result, isLoading: false, isLoadingSuccess: true , isModelGenerated: result.isModelGenerated })
     }),
     on(workflowChangedError, (state, result: any) => {
 
@@ -72,7 +75,14 @@ export const workflowReducer = createReducer(
     on(workflowRunSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowRunSuccess")
-        return ({ ...state, workflowValidated: result, isLoading: false, isLoadingSuccess: true, status: `Finished running` })
+        return ({ ...state, workflowValidated: result, isLoading: false, isLoadingSuccess: true, isModelGenerated: result.isModelGenerated, status: `Finished running` })
+    }),
+    on(workflowRunFailed, (state, result: any) => {
+
+        console.log("workflowReducer-workflowRunFailed")
+        console.log(`error: ${result}`)
+        console.log(result)
+        return ({ ...state, error: result, isLoading: false, isLoadingSuccess: false, status: 'Running failed...' })
     }),
     on(workflowPublish, (state) => {
         console.log("workflowReducer-workflowPublish")
@@ -98,6 +108,7 @@ export const selectWorkflowStatus = (appState: AppState) => appState.workflowSta
 export const selectOperatorSaved = (appState: AppState) => appState.workflowState.operatorSaved;
 export const selectWorkflowError = (appState: AppState) => appState.workflowState.error;
 export const selectWorkflowIsLoading = (appState: AppState) => appState.workflowState.isLoading;
+export const selectWorkflowIsModelGenerated = (appState: AppState) => appState.workflowState.isModelGenerated;
 export interface AppState {
     workflowState: WorkflowState;
 }

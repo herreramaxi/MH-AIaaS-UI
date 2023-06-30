@@ -91,4 +91,7 @@ export class EndpointListComponent implements OnInit {
       total: this.data.length,
     };
   }
+
+
+ 
 }
