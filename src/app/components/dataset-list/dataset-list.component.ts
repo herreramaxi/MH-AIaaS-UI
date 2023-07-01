@@ -4,6 +4,7 @@ import { AddEvent } from '@progress/kendo-angular-grid';
 import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { DatasetService } from 'src/app/core/services/dataset.service';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',
@@ -11,6 +12,8 @@ import { DatasetService } from 'src/app/core/services/dataset.service';
 })
 
 export class DatasetListComponent implements OnInit {
+  public removeConfirmationSubject: Subject<boolean> = new Subject<boolean>();
+  public itemToRemove: any;
   public view: any;
   private data: any;
   public gridState: State = {
@@ -45,8 +48,12 @@ export class DatasetListComponent implements OnInit {
     var editDataItem = args.dataItem;
     this.router.navigate(['/datasetEdit', editDataItem.id]);
   }
-
+  public viewHandler(args: AddEvent): void { }
   public removeHandler(args: AddEvent): void {
+    // this.removeConfirmationSubject.next(shouldRemove);
+
+    this.itemToRemove = null;
+
 
     var editDataItem = args.dataItem;
 
@@ -88,5 +95,17 @@ export class DatasetListComponent implements OnInit {
       data: orderBy(this.data, this.sort),
       total: this.data.length,
     };
+  }
+
+  public confirmRemove(shouldRemove: boolean): void {
+    this.removeConfirmationSubject.next(shouldRemove);
+
+    this.itemToRemove = null;
+  }
+
+  public removeConfirmation(dataItem: any): Subject<boolean> {
+    this.itemToRemove = dataItem;
+
+    return this.removeConfirmationSubject;
   }
 }

@@ -59,6 +59,7 @@ import { PublishWorkflowComponent } from './components/ml-workflow-designer/publ
 import { EndpointEditConfigurationComponent } from './components/endpoint-edit/endpoint-edit-configuration/endpoint-edit-configuration.component';
 import { EndpointEditTestComponent } from './components/endpoint-edit/endpoint-edit-test/endpoint-edit-test.component';
 import { EndpointEditConsumeComponent } from './components/endpoint-edit/endpoint-edit-consume/endpoint-edit-consume.component';
+import { EllipsisTextComponent } from './ellipsis-text/ellipsis-text.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { EndpointEditConsumeComponent } from './components/endpoint-edit/endpoin
     PublishWorkflowComponent,
     EndpointEditConfigurationComponent,
     EndpointEditTestComponent,
-    EndpointEditConsumeComponent
+    EndpointEditConsumeComponent,
+    EllipsisTextComponent
   ],
   imports: [
     BrowserModule,
@@ -121,7 +123,7 @@ import { EndpointEditConsumeComponent } from './components/endpoint-edit/endpoin
     AngularKendoModule,
     AngularMaterialModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([WorkflowEffects]),
+    EffectsModule.forRoot([WorkflowEffects])
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },

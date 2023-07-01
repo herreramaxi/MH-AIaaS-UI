@@ -1,0 +1,13 @@
+.grid-cell {
+    width: 100px; /* Adjust the width according to your grid cell */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .ellipsis {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+  }
+  
