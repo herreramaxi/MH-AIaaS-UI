@@ -26,10 +26,5 @@ export class FileSelectionStepComponent implements OnInit {
       this.firstFormGroup.get("datasetName")?.patchValue(x[0].name);
     })
   }
-
-  // public myRestrictions: FileRestrictions = {
-  //   allowedExtensions: ["csv"],
-  // };
-
 }
 

@@ -2,9 +2,6 @@
   (dataStateChange)="onStateChange($event)" (cellClick)="cellClickHandler($event)"
   (cellClose)="cellCloseHandler($event)" [navigable]="true">
   <kendo-grid-column field="include" title="Include">
-    <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" let-column="column" let-value>
-      <kendo-switch [checked]="value"></kendo-switch>
-    </ng-template> -->
     <ng-template kendoGridEditTemplate let-dataItem let-formGroup="formGroup">
       <kendo-switch [formControl]="formGroup?.get('include')"></kendo-switch>
     </ng-template>
@@ -14,13 +11,7 @@
     <ng-template kendoGridEditTemplate let-dataItem let-formGroup="formGroup" let-rowIndex="rowIndex">
       <kendo-dropdownlist [data]="availableDataTypes" textField="name" valueField="id" [valuePrimitive]="true"
         [formControl]="formGroup?.get('type')">
-      </kendo-dropdownlist>
-
-      <!-- Row: {{ rowIndex }} /
-      <strong>{{ dataItem.ProductName }}</strong>
-      <span class="{{ dataItem.Discontinued ? 'discontinued' : 'active' }}">
-        {{ dataItem.Discontinued ? "discontinued" : "active" }}
-      </span> -->
+      </kendo-dropdownlist>     
     </ng-template>
   </kendo-grid-column>
 

@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { NotificationService } from '@progress/kendo-angular-notification';
-import { FileRestrictions, FileInfo } from "@progress/kendo-angular-upload";
 import { Router } from '@angular/router';
+import { NotificationService } from '@progress/kendo-angular-notification';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 
 @Component({
@@ -15,12 +14,9 @@ export class DatasetCreateComponent {
   @ViewChild('stepper') stepper: MatStepper;
 
   firstFormGroup = this.formBuilder.group({
+    file: ['', Validators.required],
     datasetName: ['', Validators.required],
     datasetDescription: ['']
-  });
-
-  secondFormGroup = this.formBuilder.group({
-    file: ['', Validators.required],
   });
 
   thirdFormGroup = this.formBuilder.group({
@@ -38,7 +34,7 @@ export class DatasetCreateComponent {
 
   save() {
     var files: any
-    files = this.secondFormGroup.get("file")?.value;
+    files = this.firstFormGroup.get("file")?.value;
     var fileAnalysis: any;
 
     fileAnalysis = this.thirdFormGroup.get("fileAnalysis")?.value;

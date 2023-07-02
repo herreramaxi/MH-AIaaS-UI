@@ -1,34 +1,22 @@
 <form [formGroup]="formGroup">
-    <mat-form-field appearance="fill">
-        <mat-label>Delimiter</mat-label>
-        <input matInput formControlName="delimiter" placeholder="Delimiter">
-    </mat-form-field>
-    <mat-slide-toggle class="example-margin" [color]="color"  formControlName="missingRealsAsNaNs" >
-        MissingRealsAsNaNs
-    </mat-slide-toggle>
-    <div *ngIf="fileAnalysis">
-
-        <table class="table">
-            <thead *ngIf="header?.length">
-                <tr>
-                    <th scope="col" *ngFor="let headerName of header">
-                        {{headerName}}
-                    </th>
-                </tr>
-            </thead>
-            <tbody *ngIf="rows?.length">
-                <tr *ngFor="let row of rows ">
-                    <td *ngFor="let cell of row">
-                        {{cell}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-
-    <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+    <div class="d-flex flex-column">
+        <mat-form-field appearance="fill">
+            <mat-label>Delimiter</mat-label>
+            <input matInput formControlName="delimiter" placeholder="Delimiter">
+        </mat-form-field>
+        <mat-slide-toggle class="example-margin" [color]="color" formControlName="missingRealsAsNaNs">
+            MissingRealsAsNaNs
+        </mat-slide-toggle>
+        <div *ngIf="datasetPreview" class="mt-4">
+            <app-dataset-preview [datasetPreview]="datasetPreview" [pageSize]="10"></app-dataset-preview>
+        </div>
+        <div class="p-2 d-flex">
+            <div class="p-2">
+                <button mat-raised-button matStepperPrevious>Back</button>
+            </div>
+            <div class="p-2">
+                <button mat-raised-button matStepperNext color="primary">Next</button>
+            </div>
+        </div>
     </div>
 </form>

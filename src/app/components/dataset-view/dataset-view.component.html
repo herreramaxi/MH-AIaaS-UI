@@ -1,0 +1,21 @@
+<!-- <h1>Dataset</h1> -->
+
+
+
+
+<div *ngIf="datasetId" class="d-flex flex-column">
+    <h1>Dataset</h1>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+        <mat-tab label="Details">
+            <app-dataset-view-details [datasetId]="datasetId"></app-dataset-view-details>
+        </mat-tab>
+        <mat-tab label="Preview">
+            <app-dataset-view-preview [datasetId]="datasetId"></app-dataset-view-preview>
+        </mat-tab>
+        <mat-tab label="Schema">
+            <app-dataset-view-schema [datasetId]="datasetId"></app-dataset-view-schema>
+            <!-- <app-endpoint-edit-consume [endpointId]="endpointId"></app-endpoint-edit-consume> -->
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AddEvent } from '@progress/kendo-angular-grid';
+import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { DatasetService } from 'src/app/core/services/dataset.service';
@@ -46,10 +46,15 @@ export class DatasetListComponent implements OnInit {
 
   public editHandler(args: AddEvent): void {
     var editDataItem = args.dataItem;
-    this.router.navigate(['/datasetEdit', editDataItem.id]);
+    this.router.navigate(['/datasets', editDataItem.id]);
   }
   public viewHandler(args: AddEvent): void { }
-  public removeHandler(args: AddEvent): void {
+
+  public removeHandler(args: RemoveEvent): void {
+    debugger
+    this.itemToRemove = args.dataItem;
+  }
+  public removeHandler2(args: AddEvent): void {
     // this.removeConfirmationSubject.next(shouldRemove);
 
     this.itemToRemove = null;
@@ -98,14 +103,24 @@ export class DatasetListComponent implements OnInit {
   }
 
   public confirmRemove(shouldRemove: boolean): void {
-    this.removeConfirmationSubject.next(shouldRemove);
+    // this.removeConfirmationSubject.next(shouldRemove);
 
+    var dataItemId = this.itemToRemove.id;
     this.itemToRemove = null;
-  }
 
-  public removeConfirmation(dataItem: any): Subject<boolean> {
-    this.itemToRemove = dataItem;
+    if (!shouldRemove) return;
 
-    return this.removeConfirmationSubject;
+    this.datasetService.remove(dataItemId).subscribe(data => {
+
+      this.GetDatasets();
+
+      this.notificationService.show({
+        content: "Dataset successfully deleted",
+        position: { horizontal: "center", vertical: "top" },
+        animation: { type: "fade", duration: 500 },
+        closable: false,
+        type: { style: "success", icon: true },
+      });
+    });
   }
 }

@@ -12,12 +12,14 @@ import { MlModelListComponent } from './components/ml-model-list/ml-model-list.c
 import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
+import { DatasetViewComponent } from './components/dataset-view/dataset-view.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardByRole] },
   { path: 'datasets', component: DatasetListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'datasets/:id', component: DatasetViewComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'datasetEdit/:id', component: DatasetEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflows', component: WorkflowListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },

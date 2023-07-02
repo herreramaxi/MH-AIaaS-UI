@@ -14,6 +14,14 @@ export class DatasetService {
     return this.http.get<Dataset[]>('api/datasets');
   }
 
+  getById(id: number) {
+    return this.http.get<Dataset>(`api/datasets/${id}`);
+  }
+
+  getFilePreview(id: number){
+    return this.http.get<any[]>(`api/datasets/getFilePreview/${id}`);
+  }
+
   createDataset(dataset: any) {
     return this.http.post('api/datasets', dataset);
   }

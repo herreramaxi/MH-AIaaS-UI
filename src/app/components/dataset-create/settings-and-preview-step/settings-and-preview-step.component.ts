@@ -21,14 +21,12 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   stepper: MatStepper;
 
   fileAnalysis: any;
-  header: any;
-  rows: any;
   color: ThemePalette = 'primary';
   delimiterSubscription?: Subscription;
   missingRealsAsNaNsSubscription?: Subscription;
+  datasetPreview?:any;
   
   constructor(private http: HttpClient, private notificationService: NotificationService) {
-    // this.firstFormGroup.con
     console.log("SettingsAndPreviewStepComponent-contructor")
   }
 
@@ -41,7 +39,7 @@ export class SettingsAndPreviewStepComponent implements OnInit {
 
     this.stepper.selectionChange.subscribe(x => {
       console.log(this.stepper.selectedIndex)
-      if (x.selectedIndex === 2) {
+      if (x.selectedIndex === 1) {
         console.log("x.selectedIndex: " + x.selectedIndex.toString())
         var fileInput = this.secondFormGroup.get("file")?.value;
         var file = fileInput[0];
@@ -92,16 +90,12 @@ export class SettingsAndPreviewStepComponent implements OnInit {
         next: (res: any) => {
           console.log(res);
           this.fileAnalysis = res;
-
-          this.header = res.header;
-          this.rows = res.data.slice(1);
-
+          this.datasetPreview = { header: res.header, rows: res.data };
           this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);
 
           if (inferDelimiter) {
             this.delimiterSubscription?.unsubscribe();
-            this.formGroup.get("delimiter")?.setValue(this.fileAnalysis.delimiter ?? ',', {onlySelf: true, emitEvent: false});
-            // this.formGroup.get("delimiter")?.patchValue(this.fileAnalysis.delimiter ?? ',');
+            this.formGroup.get("delimiter")?.setValue(this.fileAnalysis.delimiter ?? ',', {onlySelf: true, emitEvent: false});         
             this.SubscribeToDelimiterChanges();
           }
         },

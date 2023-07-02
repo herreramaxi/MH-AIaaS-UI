@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 
 import { Keys } from '@progress/kendo-angular-common';
-import { GridDataResult, EditService, CellClickEvent, CellCloseEvent, AddEvent, CancelEvent, SaveEvent, RemoveEvent, GridComponent } from '@progress/kendo-angular-grid';
-import { State, process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
-import { Observable, map } from 'rxjs';
+import { CellClickEvent, CellCloseEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, State, orderBy } from '@progress/kendo-data-query';
 import { ColumnSetting } from 'src/app/core/models/column-setting';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 
@@ -14,7 +13,6 @@ import { DatasetService } from 'src/app/core/services/dataset.service';
   templateUrl: './schema-step.component.html',
   styleUrls: ['./schema-step.component.css']
 })
-
 
 export class SchemaStepComponent implements OnInit {
   @Input()
@@ -38,7 +36,6 @@ export class SchemaStepComponent implements OnInit {
     take: 5,
   };
 
-  // public tempFormGroup: any
   public sort: SortDescriptor[] = [
     {
       field: "columnName",
@@ -50,8 +47,6 @@ export class SchemaStepComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private datasetService: DatasetService) { }
 
   public ngOnInit(): void {
-
-
     this.datasetService.getAvailableDataTypes().subscribe((x: any) => {
       if (!x) return;
 
@@ -59,7 +54,7 @@ export class SchemaStepComponent implements OnInit {
     })
     this.stepper.selectionChange.subscribe(x => {
 
-      if (x.selectedIndex === 3) {
+      if (x.selectedIndex === 2) {
         var fileAnalysis = this.thirdFormGroup.get("fileAnalysis")?.value;
         console.log('fileAnalysis')
         console.log(fileAnalysis)
@@ -76,15 +71,12 @@ export class SchemaStepComponent implements OnInit {
 
   public onStateChange(state: State): void {
     this.gridState = state;
-
-    // this.editService.read();
   }
 
   public sortChange(sort: SortDescriptor[]): void {
     this.sort = sort;
     this.loadData();
   }
-
 
   private loadData(): void {
     this.view = {
@@ -95,14 +87,12 @@ export class SchemaStepComponent implements OnInit {
   public cellClickHandler(args: CellClickEvent): void {
     console.log("cellClickHandler")
     console.log(args.isEdited)
-    // this.tempFormGroup = this.createFormGroup(args.dataItem)
 
     if (!args.isEdited) {
       args.sender.editCell(
         args.rowIndex,
         args.columnIndex,
         this.createFormGroup(args.dataItem)
-        // this.tempFormGroup
       );
     }
   }
@@ -113,17 +103,13 @@ export class SchemaStepComponent implements OnInit {
     const { formGroup, dataItem } = args;
 
     if (!formGroup.valid) {
-      // prevent closing the edited cell if there are invalid values.
       args.preventDefault();
     } else if (formGroup.dirty) {
       if (args.originalEvent && args.originalEvent.keyCode === Keys.Escape) {
         return;
       }
 
-      Object.assign(dataItem, formGroup.value);
-      // this.tempFormGroup = undefined;
-      // this.editService.assignValues(dataItem, formGroup.value);
-      // this.editService.update(dataItem);
+      Object.assign(dataItem, formGroup.value);     
     }
   }
 

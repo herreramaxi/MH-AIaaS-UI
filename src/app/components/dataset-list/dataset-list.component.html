@@ -2,13 +2,13 @@
 <!-- [removeConfirmation]="removeConfirmation" -->
 <kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
     (remove)="removeHandler($event)" filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)"
->
+   >
     <ng-template kendoGridToolbarTemplate>
         <button kendoGridAddCommand>Add new</button>
     </ng-template>
     <kendo-grid-column field="name" title="Name" [width]="180">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <a [routerLink]="['/dataset', dataItem.id]"> {{dataItem.name}}</a>
+            <a [routerLink]="['/datasets', dataItem.id]"> {{dataItem.name}}</a>
         </ng-template>
     </kendo-grid-column>
     <!-- <kendo-grid-column field="name" title="Name"></kendo-grid-column> -->
@@ -38,7 +38,7 @@
 </kendo-grid>
 <kendo-dialog title="Please confirm" *ngIf="itemToRemove" (close)="confirmRemove(false)">
     <p style="margin: 30px; text-align: center;">
-        Are you sure you want to delete product {{ itemToRemove.name }}?
+        Are you sure you want to delete dataset: {{ itemToRemove.name }}?
     </p>
     <kendo-dialog-actions>
         <button kendoButton (click)="confirmRemove(false)">No</button>
