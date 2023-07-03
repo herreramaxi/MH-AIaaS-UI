@@ -5,7 +5,7 @@
             <input matInput formControlName="delimiter" placeholder="Delimiter">
         </mat-form-field>
         <mat-slide-toggle class="example-margin" [color]="color" formControlName="missingRealsAsNaNs">
-            MissingRealsAsNaNs
+            Missing Reals as NaNs
         </mat-slide-toggle>
         <div *ngIf="datasetPreview" class="mt-4">
             <app-dataset-preview [datasetPreview]="datasetPreview" [pageSize]="10"></app-dataset-preview>

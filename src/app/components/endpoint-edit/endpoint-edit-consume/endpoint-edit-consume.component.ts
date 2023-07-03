@@ -55,8 +55,6 @@ export class EndpointEditConsumeComponent implements OnInit {
       });
 
       this.formGroup.get("authenticationType")?.valueChanges.subscribe(x => {
-        debugger
-
         if (x == (AuthenticationType.TokenBased as number)) {
           this.tokenBasedGetToken();
           return;

@@ -51,7 +51,6 @@ export class DatasetListComponent implements OnInit {
   public viewHandler(args: AddEvent): void { }
 
   public removeHandler(args: RemoveEvent): void {
-    debugger
     this.itemToRemove = args.dataItem;
   }
   public removeHandler2(args: AddEvent): void {

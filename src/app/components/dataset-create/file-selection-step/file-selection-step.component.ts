@@ -20,7 +20,6 @@ export class FileSelectionStepComponent implements OnInit {
   }
   ngOnInit(): void {
     this.formGroup.get("file")?.valueChanges.subscribe(x => {
-      debugger
       if (!x || x.length <1 || !x[0]?.name) return;
 
       this.firstFormGroup.get("datasetName")?.patchValue(x[0].name);

@@ -24,18 +24,18 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   color: ThemePalette = 'primary';
   delimiterSubscription?: Subscription;
   missingRealsAsNaNsSubscription?: Subscription;
-  datasetPreview?:any;
-  
+  datasetPreview?: any;
+
   constructor(private http: HttpClient, private notificationService: NotificationService) {
     console.log("SettingsAndPreviewStepComponent-contructor")
   }
 
   ngOnInit(): void {
     console.log("SettingsAndPreviewStepComponent-oninit")
-  
-   
-    this.SubscribeToDelimiterChanges();  
-    this.SubscribeToMissingRealsChanges();  
+
+
+    this.SubscribeToDelimiterChanges();
+    this.SubscribeToMissingRealsChanges();
 
     this.stepper.selectionChange.subscribe(x => {
       console.log(this.stepper.selectedIndex)
@@ -55,7 +55,6 @@ export class SettingsAndPreviewStepComponent implements OnInit {
 
   private SubscribeToMissingRealsChanges() {
     this.missingRealsAsNaNsSubscription = this.formGroup.get("missingRealsAsNaNs")?.valueChanges.subscribe(x => {
-
       var fileInput = this.secondFormGroup.get("file")?.value;
       var file = fileInput[0];
       if (!file) return;
@@ -71,7 +70,6 @@ export class SettingsAndPreviewStepComponent implements OnInit {
 
   private SubscribeToDelimiterChanges() {
     this.delimiterSubscription = this.formGroup.get("delimiter")?.valueChanges.subscribe(x => {
-
       var fileInput = this.secondFormGroup.get("file")?.value;
       var file = fileInput[0];
       if (!file) return;
@@ -95,7 +93,7 @@ export class SettingsAndPreviewStepComponent implements OnInit {
 
           if (inferDelimiter) {
             this.delimiterSubscription?.unsubscribe();
-            this.formGroup.get("delimiter")?.setValue(this.fileAnalysis.delimiter ?? ',', {onlySelf: true, emitEvent: false});         
+            this.formGroup.get("delimiter")?.setValue(this.fileAnalysis.delimiter ?? ',', { onlySelf: true, emitEvent: false });
             this.SubscribeToDelimiterChanges();
           }
         },

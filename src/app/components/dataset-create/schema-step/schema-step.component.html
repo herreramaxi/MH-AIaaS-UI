@@ -1,18 +1,24 @@
 <kendo-grid #grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
-  (dataStateChange)="onStateChange($event)" (cellClick)="cellClickHandler($event)"
-  (cellClose)="cellCloseHandler($event)" [navigable]="true">
-  <kendo-grid-column field="include" title="Include">
-    <ng-template kendoGridEditTemplate let-dataItem let-formGroup="formGroup">
-      <kendo-switch [formControl]="formGroup?.get('include')"></kendo-switch>
+  [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)" [navigable]="true"
+  style="max-height: 700px;" scrollable="scrollable" [pageable]="pageable" [pageSize]="gridState.take"
+  [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true">
+  <kendo-grid-column field="include" title="Include" [width]="50">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="dataItem.include">
+      </mat-slide-toggle>
     </ng-template>
   </kendo-grid-column>
-  <kendo-grid-column field="columnName" title="Column name"></kendo-grid-column>
-  <kendo-grid-column field="type" title="Type">
-    <ng-template kendoGridEditTemplate let-dataItem let-formGroup="formGroup" let-rowIndex="rowIndex">
+  <kendo-grid-column field="columnName" title="Column name" [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <kendo-textbox name="columnName" [(ngModel)]="dataItem.columnName" required></kendo-textbox>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="type" title="Type" [width]="100">
+    <ng-template kendoGridCellTemplate let-dataItem>
       <kendo-dropdownlist [data]="availableDataTypes" textField="name" valueField="id" [valuePrimitive]="true"
-        [formControl]="formGroup?.get('type')">
-      </kendo-dropdownlist>     
+        [(ngModel)]="dataItem.type">
+      </kendo-dropdownlist>
     </ng-template>
   </kendo-grid-column>
-
+  <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
 </kendo-grid>

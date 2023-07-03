@@ -18,6 +18,7 @@ export class DatasetViewSchemaComponent implements OnInit {
   header?: any[];
 
   public view: any;
+  public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
     sort: [],
     filter: {

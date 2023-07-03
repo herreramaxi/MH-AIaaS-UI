@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PageChangeEvent, PagerSettings } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor, SortDescriptor, State, process } from '@progress/kendo-data-query';
 
@@ -18,6 +18,7 @@ export class DatasetPreviewComponent implements OnChanges {
   gridData: any[];
   header: any[];
   public view: any;
+  public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
     sort: [],
     filter: {
@@ -36,6 +37,9 @@ export class DatasetPreviewComponent implements OnChanges {
     position: 'bottom'
   }
 
+  totalCount() {
+    return this.gridData ? this.gridData.length : 0;
+  }
   ngOnChanges(changes: SimpleChanges) {
     this.handleDatasetPreviewChange(changes);
     this.handlePageSizeChange(changes);
@@ -64,7 +68,7 @@ export class DatasetPreviewComponent implements OnChanges {
   handleDatasetPreviewChange(changes: SimpleChanges) {
     const change = changes['datasetPreview'];
 
-    if (!change.currentValue) {
+    if (!change || !change.currentValue) {
       return;
     }
 
@@ -90,7 +94,7 @@ export class DatasetPreviewComponent implements OnChanges {
   handlePageSizeChange(changes: SimpleChanges) {
     const change = changes['pageSize'];
 
-    if (!change.currentValue) {
+    if (!change || !change.currentValue) {
       return;
     }
 

@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-
-import { Keys } from '@progress/kendo-angular-common';
-import { CellClickEvent, CellCloseEvent } from '@progress/kendo-angular-grid';
-import { SortDescriptor, State, orderBy } from '@progress/kendo-data-query';
-import { ColumnSetting } from 'src/app/core/models/column-setting';
+import { PageChangeEvent, PagerSettings } from '@progress/kendo-angular-grid';
+import { CompositeFilterDescriptor, SortDescriptor, State, process } from '@progress/kendo-data-query';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 
 @Component({
@@ -23,8 +20,9 @@ export class SchemaStepComponent implements OnInit {
   stepper: MatStepper;
 
   public view: any;
-  private data: any;
+  private gridData: any[];
   availableDataTypes: any[];
+  public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
     sort: [
       {
@@ -32,19 +30,23 @@ export class SchemaStepComponent implements OnInit {
         dir: "asc",
       },
     ],
-    skip: 0,
-    take: 5,
-  };
-
-  public sort: SortDescriptor[] = [
-    {
-      field: "columnName",
-      dir: "asc",
+    filter: {
+      logic: "and",
+      filters: []
     },
-  ];
+    skip: 0,
+    take: 20,
+  };
+  public pageable: PagerSettings = {
+    info: true,
+    type: 'input',
+    pageSizes: true,
+    previousNext: true,
+    position: 'bottom'
+  }
 
-  public changes = {};
-  constructor(private formBuilder: FormBuilder, private datasetService: DatasetService) { }
+  constructor(private formBuilder: FormBuilder, private datasetService: DatasetService) {
+  }
 
   public ngOnInit(): void {
     this.datasetService.getAvailableDataTypes().subscribe((x: any) => {
@@ -62,66 +64,33 @@ export class SchemaStepComponent implements OnInit {
         if (!fileAnalysis) return;
 
 
-        this.data = fileAnalysis.columnsSettings;
+        this.gridData = fileAnalysis.columnsSettings;
         this.loadData();
       }
     })
-
-  }
-
-  public onStateChange(state: State): void {
-    this.gridState = state;
   }
 
   public sortChange(sort: SortDescriptor[]): void {
-    this.sort = sort;
+    this.gridState.sort = sort;
     this.loadData();
   }
 
   private loadData(): void {
-    this.view = {
-      data: orderBy(this.data, this.sort),
-      total: this.data.length,
-    };
-  }
-  public cellClickHandler(args: CellClickEvent): void {
-    console.log("cellClickHandler")
-    console.log(args.isEdited)
-
-    if (!args.isEdited) {
-      args.sender.editCell(
-        args.rowIndex,
-        args.columnIndex,
-        this.createFormGroup(args.dataItem)
-      );
-    }
+    this.view = process(this.gridData, this.gridState)
   }
 
-  public cellCloseHandler(args: CellCloseEvent): void {
-    debugger
-    console.log("cellCloseHandler")
-    const { formGroup, dataItem } = args;
-
-    if (!formGroup.valid) {
-      args.preventDefault();
-    } else if (formGroup.dirty) {
-      if (args.originalEvent && args.originalEvent.keyCode === Keys.Escape) {
-        return;
-      }
-
-      Object.assign(dataItem, formGroup.value);     
-    }
+  public filterChange(filter: CompositeFilterDescriptor): void {
+    this.gridState.filter = filter;
+    this.loadData();
   }
 
-  public createFormGroup(dataItem: ColumnSetting): FormGroup {
-    return this.formBuilder.group({
-      include: dataItem.include,
-      columnName: [dataItem.columnName, Validators.required],
-      type: dataItem.type
-    });
+  public pageChange({ skip, take }: PageChangeEvent): void {
+    this.gridState.skip = skip;
+    this.gridState.take = take;
+    this.loadData();
   }
 
-  public hasChanges() {
-    return true;
+  public onStateChange(state: State): void {
+    this.gridState = state;
   }
 }

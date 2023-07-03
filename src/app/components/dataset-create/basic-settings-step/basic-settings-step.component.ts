@@ -14,10 +14,11 @@ export class BasicSettingsStepComponent implements OnInit {
   constructor(private service: DatasetService) { }
   ngOnInit(): void {
     this.formGroup.get("file")?.valueChanges.subscribe(x => {
-      debugger
       if (!x || x.length < 1 || !x[0]?.name) return;
 
-      this.formGroup.get("datasetName")?.patchValue(x[0].name);
+      if (!this.formGroup.get("datasetName")?.value) {
+        this.formGroup.get("datasetName")?.patchValue(x[0].name);
+      }
     })
   }
 }
