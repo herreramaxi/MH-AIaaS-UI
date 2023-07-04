@@ -5,3 +5,7 @@
 <div class="content container p-3" role="main">  
   <router-outlet></router-outlet>
 </div>
+
+<div *ngIf="isLoading$ | async" class="spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>

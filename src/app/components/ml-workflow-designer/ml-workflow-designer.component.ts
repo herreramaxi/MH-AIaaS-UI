@@ -5,14 +5,15 @@ import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
 import { NotificationService } from '@progress/kendo-angular-notification';
 
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { Workflow } from 'src/app/core/models';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
+import { workflowChange, workflowLoad, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
+import { AppState } from 'src/app/state-management/reducers/reducers';
+import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
-import { Store, select } from '@ngrx/store';
-import { workflowChange, workflowLoad, workflowLoadType, workflowPublish, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
-import { AppState, selectOperatorSaved, selectWorkflow, selectWorkflowIsLoading, selectWorkflowIsModelGenerated, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
-import { Observable } from 'rxjs';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
 
 
@@ -90,7 +91,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
       // this.loadWorkflow(this.workflow.id);
     });
 
-    
+
     // if (!this.workflow) return;
 
     // const json = this.chart.getFlow().toJSON();
@@ -165,7 +166,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflowValidated$ = this.store.select(selectWorkflowValidated);
     this.operatorSaved$ = this.store.select(selectOperatorSaved);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
-    this.isLoading$ = this.store.select(selectWorkflowIsLoading);
     this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
 
     this.activatedRoute.paramMap.subscribe(params => {
@@ -213,9 +213,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
   workflowValidated$: Observable<Workflow | undefined>;
   operatorSaved$: Observable<boolean | undefined>;
   workflowStatus$: Observable<string | undefined>;
-  isLoading$: Observable<boolean | undefined>;
   isModelGenerated$: Observable<boolean | undefined>;
-  
+
   ngAfterViewInit() {
   }
 
@@ -267,7 +266,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result || !this.workflow) return;
-      
+
       this.store.dispatch(workflowLoad({ workflowId: this.workflow.id }));
       // this.loadWorkflow(this.workflow.id);
     });

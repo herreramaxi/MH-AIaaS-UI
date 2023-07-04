@@ -15,7 +15,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BasicSettingsStepComponent } from './components/dataset-create/basic-settings-step/basic-settings-step.component';
 import { DatasetCreateComponent } from './components/dataset-create/dataset-create.component';
-import { FileSelectionStepComponent } from './components/dataset-create/file-selection-step/file-selection-step.component';
 import { SchemaStepComponent } from './components/dataset-create/schema-step/schema-step.component';
 import { SettingsAndPreviewStepComponent } from './components/dataset-create/settings-and-preview-step/settings-and-preview-step.component';
 import { DatasetEditComponent } from './components/dataset-edit/dataset-edit.component';
@@ -61,7 +60,8 @@ import { EllipsisTextComponent } from './core/components/ellipsis-text/ellipsis-
 import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
-import { reducers } from './state-management/reducers/workflow.reducers';
+import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
+import { reducers } from './state-management/reducers/reducers';
 
 @NgModule({
   declarations: [
@@ -83,7 +83,6 @@ import { reducers } from './state-management/reducers/workflow.reducers';
     DatasetCreateComponent,
     SettingsAndPreviewStepComponent,
     BasicSettingsStepComponent,
-    FileSelectionStepComponent,
     SchemaStepComponent,
     WorkflowListComponent,
     WorkflowCreateComponent,
@@ -136,7 +135,8 @@ import { reducers } from './state-management/reducers/workflow.reducers';
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-    AuthGuardByRole
+    AuthGuardByRole,
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
