@@ -15,6 +15,7 @@ import { AppState } from 'src/app/state-management/reducers/reducers';
 import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
+import { ClipboardService } from 'ngx-clipboard';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private operatorService: OperatorSupportService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private clipboardService: ClipboardService
   ) {
 
     this.options = new NgFlowchart.Options();
@@ -143,6 +145,19 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     const child = node.children?.find((o: any) => true);
     return this.getNodeFromTree(child, id)
+  }
+
+  cleanTree(node: any): any {
+    if (!node) return node;
+
+    if (node.data) {
+      node.data.isFailed = false;
+      node.data.validationMessage = undefined;
+      node.data.parameters = undefined;
+    }
+
+    const child = node.children?.find((o: any) => true);
+    return this.cleanTree(child);
   }
 
   ngOnInit(): void {
@@ -271,6 +286,31 @@ export class MlWorkflowDesignerComponent implements OnInit {
       // this.loadWorkflow(this.workflow.id);
     });
   };
+
+  copyWorkflow() {
+    const json = this.chart.getFlow().toJSON();
+    this.clipboardService.copy(json ?? "");
+  }
+
+  pasteWorkflow() {
+
+    navigator.clipboard.readText()
+      .then(clipboardContent => {
+        console.log('Pasted content:', clipboardContent);
+
+        const tree = JSON.parse(clipboardContent);
+        console.log("as json")
+        console.log(tree)
+        // return
+        this.cleanTree(tree.root);
+
+        this.chart.getFlow().upload(tree);
+        this.triggerWorkflowChange();
+      })
+      .catch(error => {
+        console.error('Failed to read clipboard content:', error);
+      });
+  }
 
 }
 

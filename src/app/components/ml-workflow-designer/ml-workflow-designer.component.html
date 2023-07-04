@@ -11,8 +11,13 @@
 
     <!-- <a style="margin-left: 5px; color: rgb(1, 92, 218);" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a> -->
 
-
-    <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto">
+    <button mat-icon-button matTooltip="Copy" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto" (click)="copyWorkflow()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Paste" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="pasteWorkflow()">
+      <mat-icon>content_paste</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
       <mat-icon>undo</mat-icon>
     </button>
     <button mat-icon-button matTooltip="Redo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
@@ -73,13 +78,12 @@
             <label for="sequential">Sequential</label>
             <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
             <button type="button" name="download" (click)="downloadFlow()">Download</button>
-            <!-- <button type="button" name="upload" (click)="uploadFlow()">Upload</button>
-          <button type="button" name="save" (click)="save()">Save</button>  -->
+          <!-- <button type="button" name="save" (click)="save()">Save</button>  -->
           </div>
         </section>
       </div>
       <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks"
-        [disabled]="disabled">
+        [disabled]="disabled" >
       </div>
     </div>
   </section>
