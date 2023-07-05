@@ -62,6 +62,7 @@ import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
 import { reducers } from './state-management/reducers/reducers';
+import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { reducers } from './state-management/reducers/reducers';
     DatasetViewDetailsComponent,
     DatasetViewSchemaComponent,
     DatasetViewPreviewComponent,
-    DatasetPreviewComponent
+    DatasetPreviewComponent,
+    DataVisualizationDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -20,7 +20,9 @@
       <mat-icon>bar_chart_4_bars</mat-icon>
       <span>Visualize</span>
     </button>
-
-    
+    <button *ngIf="isPreviewAvailable()" mat-menu-item (click)="visualizePreview()">
+      <mat-icon>bar_chart_4_bars</mat-icon>
+      <span>Visualize</span>
+    </button>  
   </mat-menu>
 </div>

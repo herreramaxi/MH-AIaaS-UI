@@ -8,6 +8,8 @@ import { OperatorType } from 'src/app/core/models/enums/enums';
 import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
+import { DatasetService } from 'src/app/core/services/dataset.service';
+import { DataVisualizationDialogComponent } from '../standard-step/data-visualization-dialog/data-visualization-dialog.component';
 
 @Component({
   selector: 'app-dataset-operator',
@@ -21,7 +23,8 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
   constructor(private matdialog: MatDialog,
     private operatorSupportService: OperatorSupportService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private datasetService: DatasetService) {
     super();
   }
 
@@ -62,6 +65,33 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
   override getDropPositionsForStep(step: NgFlowchart.Step | NgFlowchart.Connector): NgFlowchart.DropPosition[] {
     return ['BELOW'];
+
+  }
+
+
+  isPreviewAvailableDataset() {
+    debugger
+    return this.data?.config &&
+      this.data.config.find((x: any) => x.name === "Dataset")?.value
+  }
+
+
+  visualizePreviewDataset() {
+    const datasetId = this.data.config.find((x: any) => x.name === "Dataset")?.value
+    if (!datasetId) return;
+
+    this.datasetService.getFilePreview(datasetId).subscribe(data => {
+
+      console.log("visualizePreviewDataset")
+      console.log(data)
+      if (!data) return;
+
+      const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
+        data: data,
+        width: '900px'
+      });
+
+    })
 
   }
 }

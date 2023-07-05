@@ -16,5 +16,9 @@
       <mat-icon>delete</mat-icon>
       <span>Delete</span>
     </button>
+    <button *ngIf="isPreviewAvailableDataset()" mat-menu-item (click)="visualizePreviewDataset()">
+      <mat-icon>bar_chart_4_bars</mat-icon>
+      <span>Visualize</span>
+    </button>
   </mat-menu>
 </div>

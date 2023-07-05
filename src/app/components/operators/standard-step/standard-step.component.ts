@@ -13,6 +13,10 @@ import { EditNormalizeOperatorComponent } from './edit-normalize-operator/edit-n
 import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
 import { EditTrainModelComponent } from './edit-train-model/edit-train-model.component';
 import { AppState } from 'src/app/state-management/reducers/reducers';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
+import { DatasetPreviewComponent } from '../../dataset-preview/dataset-preview.component';
+import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
+import { DatasetService } from 'src/app/core/services/dataset.service';
 
 export type StandardStepData = {
   name: string,
@@ -35,7 +39,8 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   constructor(private matdialog: MatDialog,
     private operatorSupportService: OperatorSupportService,
     private mlModelService: MlModelService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private workflowService: WorkflowService) {
     super();
   }
 
@@ -59,6 +64,12 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     return this.operatorType === OperatorType.Evaluate &&
       this.data?.parameters &&
       this.data.parameters["ModelMetricsId"] > 0
+  }
+
+  isPreviewAvailable() {
+    return this.operatorType !== OperatorType.Evaluate &&
+      this.data?.parameters &&
+      this.data.parameters["WorkflowDataViewId"] > 0
   }
 
   onDelete() {
@@ -109,4 +120,24 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     })
 
   }
+
+  visualizePreview() {
+    const workflowDataViewId = this.data?.parameters["WorkflowDataViewId"]
+    if (!workflowDataViewId) return;
+
+    this.workflowService.getPreview(workflowDataViewId).subscribe(data => {
+
+      console.log("visualizePreview")
+      console.log(data)
+      if (!data) return;
+
+      const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
+        data: data,
+        width: '900px'
+      });
+
+    })
+
+  }
+
 }
