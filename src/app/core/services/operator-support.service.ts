@@ -33,8 +33,14 @@ export class OperatorSupportService {
 
   getColor(type: OperatorType): any {
     switch (type) {
-      case OperatorType.Dataset: return "#00b894";
-      case OperatorType.Clean: return "#e84393";
+      // case OperatorType.Dataset: return "#00b894";
+       case OperatorType.Dataset: return "#00B894";      
+      case OperatorType.EditDataset: return "#00B894";
+      case OperatorType.Clean: return "#e17055";
+      case OperatorType.Normalize: return "#e17055";
+      case OperatorType.Split: return "#e84393";
+      case OperatorType.Train: return "#e84393";
+      case OperatorType.Evaluate: return "#3498db";
       default: return "#e17055"
     }
   }

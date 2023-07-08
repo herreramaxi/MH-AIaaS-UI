@@ -1,10 +1,54 @@
 <div *ngIf="model">
-    <h1>{{model.name}}</h1>
-    <p>Status: {{model.status}}</p>
-    <p>Workflow: <a [routerLink]="['/workflow-designer', model.workflow.id]"> {{model.workflow.name}}</a></p>
-    <p>Created on: {{model.createdOn}}</p>
-    <p>Created by: {{model.createdBy}}</p>
-    <p>Modified on: {{model.modifiedOn}}</p>
-    <p>Modified by: {{model.modifiedBy}}</p>
+    <h1>Model: {{model.name}}</h1>
+
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+        <mat-tab label="Details">
+            <label>Name</label>
+            <p>{{model.name}}</p>
+            <label>Workflow</label>
+            <p><a [routerLink]="['/workflow-designer', model.workflowId]"> {{model.name}}</a></p>
+            <label>File</label>
+            <p><a href="javascript:void(0)" (click)="downloadFile()">{{model.fileName}}</a></p>
+            <label>Size</label>
+            <p>{{ model.size ? (model.size/1024/1024 | number):'' }} MB ({{model.size | number}} bytes)</p>
+            <label>Published</label>
+            <p>{{model.isPublished}}</p>
+            <label>Created On</label>
+            <p>{{model.createdOn| date:'dd/MM/yyyy' }}</p>
+            <label>Created By</label>
+            <p>{{model.createdBy }}</p>
+            <label>Modified On</label>
+            <p>{{model.modifiedOn| date:'dd/MM/yyyy' }}</p>
+            <label>Modified By</label>
+            <p>{{model.modifiedBy }}</p>
+        </mat-tab>
+        <mat-tab label="Metrics">metrics
+            <div *ngIf="modelMetrics">
+                <div *ngIf="modelMetrics.metricType === 1">
+                    <ul>
+                        <li> RSquared: {{metrics.RSquared }} </li>
+                        <li> MeanSquaredError: {{metrics.MeanSquaredError }} </li>
+                        <li> RootMeanSquaredError: {{metrics.RootMeanSquaredError }} </li>
+                        <li> LossFunction: {{metrics.LossFunction }} </li>
+                    </ul>
+                </div>
+                <div *ngIf="modelMetrics.metricType === 2">
+                    <ul>
+                        <li> Accuracy: {{metrics.Accuracy }} </li>
+                        <li> F1Score: {{metrics.F1Score }} </li>
+                        <li> LogLossReduction: {{metrics.LogLossReduction }} </li>
+                        <li> LogLoss: {{metrics.LogLoss }} </li>
+                        <li> NegativeRecall: {{metrics.NegativeRecall }} </li>
+                        <li> PositiveRecall: {{metrics.PositiveRecall }} </li>
+                        <li> AreaUnderPrecisionRecallCurve: {{metrics.AreaUnderPrecisionRecallCurve }} </li>
+                        <li> AreaUnderRocCurve: {{metrics.AreaUnderRocCurve }} </li>
+                        <li> Entropy: {{metrics.Entropy }} </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+
 
 </div>

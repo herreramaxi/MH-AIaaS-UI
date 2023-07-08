@@ -1,13 +1,14 @@
 import { Action, ActionReducerMap, createReducer, on } from "@ngrx/store";
 import * as moment from 'moment';
 import { Workflow } from "src/app/core/models";
-import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
+import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
 import { AppState } from "./reducers";
 
 export interface WorkflowState {
     workflow?: Workflow;
     workflowValidated?: Workflow;
     isModelGenerated?: boolean;
+    isPublished?: boolean;
     operatorSaved?: boolean;
     status?: string;
     error?: string;
@@ -18,7 +19,8 @@ export const initialState: WorkflowState = {
     workflowValidated: undefined,
     status: undefined,
     error: undefined,
-    isModelGenerated: false
+    isModelGenerated: false,
+    isPublished: false
 };
 
 export const workflowReducer = createReducer(
@@ -34,7 +36,7 @@ export const workflowReducer = createReducer(
     on(workflowLoadSuccess, (state, result) => {
         console.log("workflowReducer-workflowLoadSuccess")
         console.log(`isModelGenerated: ${result.isModelGenerated}`)
-        return ({ workflow: result, operatorSaved: false, isModelGenerated: result.isModelGenerated })
+        return ({ workflow: result, operatorSaved: false, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
     }),
     on(workflowChangedSuccess, (state, result) => {
 
@@ -85,7 +87,14 @@ export const workflowReducer = createReducer(
     }),
     on(workflowPublishSuccess, (state, result) => {
         console.log("workflowReducer-workflowPublishSuccess")
-        return ({ ...state, status: `Finished publishing` })
+        return ({ ...state, status: `Finished publishing`, isPublished: true })
+    }),
+    on(workflowPublishFailed, (state, result: any) => {
+
+        console.log("workflowReducer-workflowPublishFailed")
+        console.log(`error: ${result}`)
+        console.log(result)
+        return ({ ...state, error: result, status: 'Publishing failed...' })
     }),
 );
 

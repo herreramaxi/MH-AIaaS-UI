@@ -13,3 +13,9 @@ export enum AuthenticationType {
     NA=0,
     TokenBased = 2,
 }
+
+export enum MetricType {
+    NA=0,
+    Regression = 1,
+    BinaryClassification = 2,
+}

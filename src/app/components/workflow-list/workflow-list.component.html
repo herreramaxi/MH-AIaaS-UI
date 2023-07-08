@@ -1,7 +1,8 @@
 <h1>Workflows</h1>
-<kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
-    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)"
-    (remove)="removeHandler($event)">
+<kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (remove)="removeHandler($event)"
+    [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)" [filter]="gridState.filter"
+    filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take"
+    [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true">
     <ng-template kendoGridToolbarTemplate>
         <button kendoGridAddCommand>Add new</button>
     </ng-template>
@@ -23,3 +24,14 @@
         </ng-template>
     </kendo-grid-command-column>
 </kendo-grid>
+<kendo-dialog title="Please confirm" *ngIf="itemToRemove" (close)="confirmRemove(false)">
+    <p style="margin: 30px; text-align: center;">
+        Are you sure you want to delete the workflow: {{ itemToRemove.name }}?
+    </p>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="confirmRemove(false)">No</button>
+        <button kendoButton themeColor="primary" (click)="confirmRemove(true)" [primary]="true">
+            Yes
+        </button>
+    </kendo-dialog-actions>
+</kendo-dialog>

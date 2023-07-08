@@ -18,7 +18,7 @@ export class DatasetService {
     return this.http.get<Dataset>(`api/datasets/${id}`);
   }
 
-  getFilePreview(id: number){
+  getFilePreview(id: number) {
     return this.http.get<any[]>(`api/datasets/getFilePreview/${id}`);
   }
 
@@ -42,4 +42,12 @@ export class DatasetService {
   getAvailableDataTypes() {
     return this.http.get<any[]>('api/datasets/getAvailableDataTypes');
   }
+
+  downloadOriginalFile(datasetId: number) {
+    return this.http.get(`api/datasets/DownloadOriginalFile/${datasetId}`, { responseType: 'blob' });
+  }
+
+  downloadDataviewFile(datasetId: number) {
+    return this.http.get(`api/datasets/DownloadBinaryIdvFile/${datasetId}`, { responseType: 'blob' });
+  }  
 }

@@ -1,71 +1,24 @@
 <div *ngIf="dataset" class="p-2">
 
-    <mat-card>
-        <!-- <mat-card-header>
-        <mat-card-title>Dataset</mat-card-title>
 
-    </mat-card-header> -->
-
-
-
-        <mat-card-content>
-            <mat-card-title>
-                Name
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.name }}
-            </mat-card-subtitle>
-            <mat-card-title>
-                Description
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.description }}
-            </mat-card-subtitle>
-
-            <mat-card-title>
-                Modified Date
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.modifiedOn| date:'dd/MM/yyyy' }}
-            </mat-card-subtitle>
-
-            <mat-card-title>
-                Modified By
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.modifiedBy }}
-            </mat-card-subtitle>
-
-            <mat-card-title>
-                File Name
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.fileName }}
-            </mat-card-subtitle>
-
-            <mat-card-title>
-                Size
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.size ? (dataset.size/1024/1024 | number):'' }} MB ({{dataset.size | number}} bytes)
-            </mat-card-subtitle>
+    <!-- <p>Name</p> -->
+    <label>Name</label>
+    <p>{{dataset.name }}</p>
+    <label>Description</label>
+    <p>{{dataset.description }}</p>
+    <label>Modified Date</label>
+    <p>{{dataset.modifiedOn| date:'dd/MM/yyyy' }}</p>
+    <label>Modified By</label>
+    <p>{{dataset.modifiedBy }}</p>
+    <label>File Name</label>
+    <p><a href="javascript:void(0)" (click)="downloadFile()">{{dataset.fileName}}</a></p>
+    <label>Size</label>
+    <p>{{ dataset.size ? (dataset.size/1024/1024 | number):'' }} MB ({{dataset.size | number}} bytes)</p>
+    <label>Binary IDV File</label>
+    <p> <a href="javascript:void(0)" (click)="downloadDataviewFile()">{{dataset.dataViewFileName}}</a></p>
+    <label>Size</label>
+    <p>{{ dataset.dataViewFileSize ? (dataset.dataViewFileSize/1024/1024 | number):'' }} MB
+        ({{dataset.dataViewFileSize | number}} bytes)</p>
 
 
-            <mat-card-title>
-                Binary IDV File
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.dataViewFileName }}
-            </mat-card-subtitle>
-
-            <mat-card-title>
-                Size
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ dataset.dataViewFileSize ? (dataset.dataViewFileSize/1024/1024 | number):'' }} MB
-                ({{dataset.dataViewFileSize | number}} bytes)
-            </mat-card-subtitle>
-
-        </mat-card-content>
-    </mat-card>
 </div>

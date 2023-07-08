@@ -1,11 +1,6 @@
 <div *ngIf="formGroup" style="width: 60%;" class="mt-5">
     <form class="example-form" [formGroup]="formGroup" (submit)="onSubmit()">
         <div class="d-flex flex-column ">
-
-            <p>Workflow: <a [routerLink]="['/workflow-designer', endpoint?.workflowId]">{{endpoint?.workflowName}}</a>
-            </p>
-            <p>Model: <a [routerLink]="['/models', endpoint?.modelId]">{{endpoint?.workflowName}}</a></p>
-
             <mat-form-field class="example-full-width">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" placeholder="Name" required>
@@ -20,31 +15,24 @@
                     cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Created By</mat-label>
-                <input matInput formControlName="createdBy" placeholder="Created By"readonly>
-            </mat-form-field>
-
-            <mat-form-field class="example-full-width">
-                <mat-label>Created On</mat-label>
-                <input matInput formControlName="createdOn" placeholder="Created On"readonly>
-            </mat-form-field>
-
-            <mat-form-field class="example-full-width">
-                <mat-label>Modified By</mat-label>
-                <input matInput formControlName="modifiedBy" placeholder="Modified On" readonly>
-            </mat-form-field>
-
-            <mat-form-field class="example-full-width">
-                <mat-label>Modified On</mat-label>
-                <input matInput formControlName="modifiedOn" placeholder="Modified On" readonly>
-            </mat-form-field>
-
             <section class="example-section">
                 <mat-slide-toggle formControlName="isEnabled" class="example-margin" color="primary">
                     Enabled
                 </mat-slide-toggle>
             </section>
+
+            <label>Workflow</label>
+            <p> <a [routerLink]="['/workflow-designer', endpoint?.workflowId]">{{endpoint?.workflowName}}</a></p>
+            <label>Model</label>
+            <p> <a [routerLink]="['/models',endpoint?.modelId]">{{endpoint?.workflowName}}</a></p>
+            <label>Created On</label>
+            <p>{{ formControlValue("createdOn") | date:'dd/MM/yyyy' }}</p>
+            <label>Created By</label>
+            <p>{{formControlValue("createdBy") }}</p>
+            <label>Modified On</label>
+            <p>{{formControlValue("modifiedOn")| date:'dd/MM/yyyy' }}</p>
+            <label>Modified By</label>
+            <p>{{formControlValue("modifiedBy") }}</p>
 
             <div class="p-2">
                 <button mat-raised-button color="primary">Save</button>

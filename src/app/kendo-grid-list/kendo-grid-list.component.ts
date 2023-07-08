@@ -1,23 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PageChangeEvent, PagerSettings } from '@progress/kendo-angular-grid';
-import { CompositeFilterDescriptor, SortDescriptor, State, process } from '@progress/kendo-data-query';
-import { DatasetService } from 'src/app/core/services/dataset.service';
+import { CompositeFilterDescriptor, SortDescriptor, process } from '@progress/kendo-data-query';
+import { State } from '@progress/kendo-data-query/dist/npm/state';
 
 @Component({
-  selector: 'app-dataset-view-schema',
-  templateUrl: './dataset-view-schema.component.html',
-  styleUrls: ['./dataset-view-schema.component.css']
+  selector: 'app-kendo-grid-list',
+  templateUrl: './kendo-grid-list.component.html',
+  styleUrls: ['./kendo-grid-list.component.css']
 })
-export class DatasetViewSchemaComponent implements OnInit {
-
-  @Input()
-  datasetId: number;
-
-  availableDataTypes: any[];
-  gridData: any[];
-  header?: any[];
-
+export class KendoGridListComponent {
   public view: any;
+  public gridData: any[];
   public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
     sort: [],
@@ -37,19 +30,7 @@ export class DatasetViewSchemaComponent implements OnInit {
     position: 'bottom'
   }
 
-
-  constructor(private datasetService: DatasetService) { }
-
-  public ngOnInit(): void {
-    this.datasetService.getDatasetColumns(this.datasetId).subscribe(data => {
-      if (!data) return;
-
-      this.gridData = data;
-      this.loadData();
-    })
-  }
-
-  private loadData(): void {
+  public loadData(): void {
     this.view = process(this.gridData, this.gridState)
   }
 

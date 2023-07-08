@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Workflow } from 'src/app/core/models';
+import { Endpoint } from 'src/app/core/models/endpoint.model';
 
 export const workflowLoadType = '[WorkflowDesigner] Load';
 export const workflowLoadSuccessType = '[WorkflowDesigner] Load Success';
@@ -13,6 +14,7 @@ export const workflowRunSuccessType = '[WorkflowDesigner] Run Success';
 export const workflowRunFailedType = '[WorkflowDesigner] Run Failed';
 export const workflowPublishType = '[WorkflowDesigner] Publish';
 export const workflowPublishSuccessType = '[WorkflowDesigner] Publish Success';
+export const workflowPublishFailedType = '[WorkflowDesigner] Publish Failed';
 
 export const operatorSavedType = '[Operator Page] Saved';
 
@@ -27,7 +29,8 @@ export const workflowRun = createAction(workflowRunType, props<{ workflow: Workf
 export const workflowRunSuccess = createAction(workflowRunSuccessType, props<any>());
 export const workflowRunFailed = createAction(workflowRunFailedType, props<{ error: string }>());
 
-export const workflowPublish = createAction(workflowPublishType, props<{ workflow: Workflow }>());
+export const workflowPublish = createAction(workflowPublishType, props<{ endpoint: Endpoint }>());
 export const workflowPublishSuccess = createAction(workflowPublishSuccessType, props<any>());
+export const workflowPublishFailed = createAction(workflowPublishFailedType, props<{ error: string }>());
 
 export const operatorSaved = createAction(operatorSavedType);

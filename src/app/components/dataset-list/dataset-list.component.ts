@@ -1,40 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
-import { State, process, CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { DatasetService } from 'src/app/core/services/dataset.service';
 import { Subject } from 'rxjs';
+import { DatasetService } from 'src/app/core/services/dataset.service';
+import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',
   styleUrls: ['./dataset-list.component.css']
 })
 
-export class DatasetListComponent implements OnInit {
+export class DatasetListComponent extends KendoGridListComponent implements OnInit {
   public removeConfirmationSubject: Subject<boolean> = new Subject<boolean>();
   public itemToRemove: any;
-  public view: any;
-  private data: any;
-  public gridState: State = {
-    sort: [],
-    skip: 0,
-    take: 5,
-  };
 
-  constructor(private router: Router, private datasetService: DatasetService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private datasetService: DatasetService, private notificationService: NotificationService) {
+    super();
+  }
 
   ngOnInit(): void {
-
     this.GetDatasets();
-
   }
 
   private GetDatasets() {
     this.datasetService.getDatasets().subscribe(data => {
       if (!data)
         return;
-      this.data = data;
+      this.gridData = data;
       // this.view = process(data, this.gridState);
       this.loadData();
     });
@@ -52,53 +45,6 @@ export class DatasetListComponent implements OnInit {
 
   public removeHandler(args: RemoveEvent): void {
     this.itemToRemove = args.dataItem;
-  }
-  public removeHandler2(args: AddEvent): void {
-    // this.removeConfirmationSubject.next(shouldRemove);
-
-    this.itemToRemove = null;
-
-
-    var editDataItem = args.dataItem;
-
-    this.datasetService.remove(editDataItem.id).subscribe(data => {
-
-      this.GetDatasets();
-
-      this.notificationService.show({
-        content: "Dataset successfully deleted",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
-    });
-  }
-
-  public filter: CompositeFilterDescriptor;
-  public filterChange(filter: CompositeFilterDescriptor): void {
-    this.filter = filter;
-    this.view = filterBy(this.data, filter);
-  }
-
-
-  public sort: SortDescriptor[] = [
-    {
-      field: "Name",
-      dir: "asc",
-    },
-  ];
-
-  public sortChange(sort: SortDescriptor[]): void {
-    this.sort = sort;
-    this.loadData();
-  }
-
-  private loadData(): void {
-    this.view = {
-      data: orderBy(this.data, this.sort),
-      total: this.data.length,
-    };
   }
 
   public confirmRemove(shouldRemove: boolean): void {

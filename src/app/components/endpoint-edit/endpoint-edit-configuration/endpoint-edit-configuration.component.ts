@@ -13,7 +13,6 @@ import { EndpointService } from 'src/app/core/services/endpoint.service';
 export class EndpointEditConfigurationComponent implements OnInit {
   endpoint?: Endpoint;
   formGroup?: FormGroup;
-
   @Input()
   endpointId: number;
 
@@ -37,10 +36,10 @@ export class EndpointEditConfigurationComponent implements OnInit {
         authenticationType: data.authenticationType,
         apiKey: data.apiKey,
         isEnabled: data.isEnabled,
-        createdBy: data.createdBy,
-        createdOn: data.createdOn,
-        modifiedBy: data.modifiedBy,
-        modifiedOn: data.modifiedOn,
+        createdBy: [{ value:data.createdBy, disabled: true }],
+        createdOn: [{ value: data.createdOn, disabled: true }],
+        modifiedBy:[{ value: data.modifiedBy, disabled: true }],
+        modifiedOn: [{ value:data.modifiedOn, disabled: true }],
       });
 
     })
@@ -72,5 +71,9 @@ export class EndpointEditConfigurationComponent implements OnInit {
 
       this.load(this.endpointId);
     })
+  }
+
+  public formControlValue(name: string){
+    return this.formGroup?.get(name)?.value;
   }
 }

@@ -1,37 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AddEvent } from '@progress/kendo-angular-grid';
+import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
+import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
 
 @Component({
   selector: 'app-workflow-list',
   templateUrl: './workflow-list.component.html',
   styleUrls: ['./workflow-list.component.css']
 })
-export class WorkflowListComponent implements OnInit {
-  public view: any;
-  private data: any;
-  public gridState: State = {
-    sort: [],
-    skip: 0,
-    take: 5,
-  };
+export class WorkflowListComponent extends KendoGridListComponent implements OnInit {
+  itemToRemove: any;
 
-  constructor(private router: Router, private service: WorkflowService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private service: WorkflowService, private notificationService: NotificationService) {
+    super();
+  }
 
   ngOnInit(): void {
-
     this.GetWorkflows();
-
   }
 
   private GetWorkflows() {
     this.service.getWorkflows().subscribe(data => {
       if (!data)
         return;
-      this.data = data;
+      this.gridData = data;
       // this.view = process(data, this.gridState);
       this.loadData();
     });
@@ -52,11 +47,17 @@ export class WorkflowListComponent implements OnInit {
     this.router.navigate(['/workflow-designer', editDataItem.id]);
   }
 
+  public removeHandler(args: RemoveEvent): void {
+    this.itemToRemove = args.dataItem;
+  }
 
-  public removeHandler(args: AddEvent): void {
-    var editDataItem = args.dataItem;
+  public confirmRemove(shouldRemove: boolean): void {
+    var dataItemId = this.itemToRemove.id;
+    this.itemToRemove = null;
 
-    this.service.remove(editDataItem.id).subscribe(data => {
+    if (!shouldRemove) return;
+
+    this.service.remove(dataItemId).subscribe(data => {
 
       this.GetWorkflows();
 
@@ -68,31 +69,5 @@ export class WorkflowListComponent implements OnInit {
         type: { style: "success", icon: true },
       });
     });
-  }
-
-  public filter: CompositeFilterDescriptor;
-  public filterChange(filter: CompositeFilterDescriptor): void {
-    this.filter = filter;
-    this.view = filterBy(this.data, filter);
-  }
-
-
-  public sort: SortDescriptor[] = [
-    {
-      field: "Name",
-      dir: "asc",
-    },
-  ];
-
-  public sortChange(sort: SortDescriptor[]): void {
-    this.sort = sort;
-    this.loadData();
-  }
-
-  private loadData(): void {
-    this.view = {
-      data: orderBy(this.data, this.sort),
-      total: this.data.length,
-    };
   }
 }

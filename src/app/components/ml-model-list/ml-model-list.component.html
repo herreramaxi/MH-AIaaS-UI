@@ -1,16 +1,14 @@
 <h1>Models</h1>
-<kendo-grid [data]="view"  (edit)="editHandler($event)" (add)="addHandler($event)" (filterChange)="filterChange($event)"
-    filterable="menu" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)">
-    <!-- <ng-template kendoGridToolbarTemplate>
-        <button kendoGridAddCommand>Add new</button>
-    </ng-template> -->
+<kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (remove)="removeHandler($event)"
+    [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)" [filter]="gridState.filter"
+    filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take"
+    [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true">
     <kendo-grid-column field="name" title="Name" [width]="250">
         <ng-template kendoGridCellTemplate let-dataItem>
             <a [routerLink]="['/models', dataItem.id]"> {{dataItem.name}}</a>
         </ng-template>
     </kendo-grid-column>
-    <!-- <kendo-grid-column field="name" title="Name"></kendo-grid-column> -->
-    <kendo-grid-column field="status" title="Status"></kendo-grid-column>
+    <kendo-grid-column field="isPublished" title="isPublished"></kendo-grid-column>
     <kendo-grid-column field="createdOn" title="Created On" filter="date">
         <ng-template kendoGridCellTemplate let-dataItem>
             {{dataItem.createdOn | date: 'dd/MM/yyyy hh:mm:ss'}}
@@ -30,3 +28,14 @@
         </ng-template>
     </kendo-grid-command-column>
 </kendo-grid>
+<kendo-dialog title="Please confirm" *ngIf="itemToRemove" (close)="confirmRemove(false)">
+    <p style="margin: 30px; text-align: center;">
+        Are you sure you want to delete the model: {{ itemToRemove.name }}?
+    </p>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="confirmRemove(false)">No</button>
+        <button kendoButton themeColor="primary" (click)="confirmRemove(true)" [primary]="true">
+            Yes
+        </button>
+    </kendo-dialog-actions>
+</kendo-dialog>

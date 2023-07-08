@@ -63,6 +63,7 @@ import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
 import { reducers } from './state-management/reducers/reducers';
 import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
+import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { DataVisualizationDialogComponent } from './components/operators/standar
     DatasetViewSchemaComponent,
     DatasetViewPreviewComponent,
     DatasetPreviewComponent,
-    DataVisualizationDialogComponent
+    DataVisualizationDialogComponent,
+    KendoGridListComponent
   ],
   imports: [
     BrowserModule,

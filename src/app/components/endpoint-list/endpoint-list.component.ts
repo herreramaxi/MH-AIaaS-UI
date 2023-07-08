@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { AddEvent } from '@progress/kendo-angular-grid';
+import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { CompositeFilterDescriptor, filterBy, SortDescriptor, orderBy, State } from '@progress/kendo-data-query';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
+import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
 
 
 @Component({
@@ -12,29 +11,22 @@ import { EndpointService } from 'src/app/core/services/endpoint.service';
   templateUrl: './endpoint-list.component.html',
   styleUrls: ['./endpoint-list.component.css']
 })
-export class EndpointListComponent implements OnInit {
-  public view: any;
-  private data: any;
-  public gridState: State = {
-    sort: [],
-    skip: 0,
-    take: 5,
-  };
+export class EndpointListComponent extends KendoGridListComponent implements OnInit {
+  itemToRemove: any;
 
-  constructor(private router: Router, private endpointService: EndpointService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private endpointService: EndpointService, private notificationService: NotificationService) {
+    super();
+  }
 
   ngOnInit(): void {
-
     this.GetDatasets();
-
   }
 
   private GetDatasets() {
     this.endpointService.getEndpoints().subscribe(data => {
       if (!data)
         return;
-      this.data = data;
-      // this.view = process(data, this.gridState);
+      this.gridData = data;
       this.loadData();
     });
   }
@@ -47,12 +39,18 @@ export class EndpointListComponent implements OnInit {
     var editDataItem = args.dataItem;
     this.router.navigate(['/endpoint', editDataItem.id]);
   }
+  
+  public removeHandler(args: RemoveEvent): void {
+    this.itemToRemove = args.dataItem;
+  }
 
-  public removeHandler(args: AddEvent): void {
+  public confirmRemove(shouldRemove: boolean): void {
+    var dataItemId = this.itemToRemove.id;
+    this.itemToRemove = null;
 
-    var editDataItem = args.dataItem;
+    if (!shouldRemove) return;
 
-    this.endpointService.remove(editDataItem.id).subscribe(data => {
+    this.endpointService.remove(dataItemId).subscribe(data => {
 
       this.GetDatasets();
 
@@ -65,33 +63,4 @@ export class EndpointListComponent implements OnInit {
       });
     });
   }
-
-  public filter: CompositeFilterDescriptor;
-  public filterChange(filter: CompositeFilterDescriptor): void {
-    this.filter = filter;
-    this.view = filterBy(this.data, filter);
-  }
-
-
-  public sort: SortDescriptor[] = [
-    {
-      field: "Name",
-      dir: "asc",
-    },
-  ];
-
-  public sortChange(sort: SortDescriptor[]): void {
-    this.sort = sort;
-    this.loadData();
-  }
-
-  private loadData(): void {
-    this.view = {
-      data: orderBy(this.data, this.sort),
-      total: this.data.length,
-    };
-  }
-
-
- 
 }

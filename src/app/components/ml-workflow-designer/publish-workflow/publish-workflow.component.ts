@@ -4,6 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
 import { DialogData } from '../dialog-change-name/dialog-change-name.component';
 import { Endpoint } from 'src/app/core/models/endpoint.model';
+import { AppState } from 'src/app/state-management/reducers/reducers';
+import { Store } from '@ngrx/store';
+import { workflowPublish } from 'src/app/state-management/actions/workflow.actions';
 
 @Component({
   selector: 'app-publish-workflow',
@@ -18,7 +21,8 @@ export class PublishWorkflowComponent {
     public dialogRef: MatDialogRef<PublishWorkflowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private formBuilder: FormBuilder,
-    private endpointService: EndpointService) { }
+    private endpointService: EndpointService,
+    private store: Store<AppState>) { }
 
   ngOnInit(): void {
 
@@ -63,8 +67,9 @@ export class PublishWorkflowComponent {
       authenticationType: authenticationType
     };
 
-    this.endpointService.create(endpointDto).subscribe(data => {
-      this.dialogRef.close(true);
-    })
+    this.store.dispatch(workflowPublish({ endpoint: endpointDto }));
+    // this.endpointService.create(endpointDto).subscribe(data => {
+    this.dialogRef.close(true);
+    // })
   }
 }

@@ -21,4 +21,13 @@ export class MlModelService {
   getMlModelMetrics(id: number) {
     return this.http.get<ModelMetrics>(`api/mlModels/getModelMetrics/${id}`);
   }
+  
+  remove(id: number) {
+    return this.http.delete(`api/mlModels/${id}`);
+  }
+
+  downloadModel(id: number) {
+    return this.http.get(`api/mlModels/Download/${id}`, { responseType: 'blob' });
+  }
+
 } 
