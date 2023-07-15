@@ -64,6 +64,7 @@ import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
 import { reducers } from './state-management/reducers/reducers';
 import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
 import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
+import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.compon
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     AuthGuardByRole,
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

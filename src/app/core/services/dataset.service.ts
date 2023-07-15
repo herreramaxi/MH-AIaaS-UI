@@ -29,8 +29,9 @@ export class DatasetService {
   uploadDataset(file: any, id: any) {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('datasetId', id);
 
-    return this.http.post(`api/datasets/upload/${id}`, formData, file.name);
+    return this.http.post(`api/datasets/upload`, formData, file.name);
   }
 
   remove(id: number) {

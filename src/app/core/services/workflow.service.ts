@@ -52,11 +52,4 @@ export class WorkflowService {
   publish(workflow: Workflow) {
     return this.http.post<Workflow>(`api/workflows/publish`, workflow);
   }
-
-  // uploadDataset(file: any, id:any) {
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-
-  //   return this.http.post(`api/dataset/upload/${id}`, formData, file.name);
-  // }
 }

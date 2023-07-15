@@ -65,12 +65,9 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
   override getDropPositionsForStep(step: NgFlowchart.Step | NgFlowchart.Connector): NgFlowchart.DropPosition[] {
     return ['BELOW'];
-
   }
 
-
   isPreviewAvailableDataset() {
-    debugger
     return this.data?.config &&
       this.data.config.find((x: any) => x.name === "Dataset")?.value
   }

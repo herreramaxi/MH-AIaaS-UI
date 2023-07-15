@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { OperatorSupportService } from 'src/app/core/services/operator-support.s
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowLoad, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/reducers';
-import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
 import { ClipboardService } from 'ngx-clipboard';
@@ -25,9 +25,15 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 
 export class MlWorkflowDesignerComponent implements OnInit {
-  @ViewChild(NgFlowchartCanvasDirective)
+  @ViewChild(NgFlowchartCanvasDirective)  chart: NgFlowchartCanvasDirective;
+  
+  workflow$: Observable<Workflow | undefined>;
+  workflowValidated$: Observable<Workflow | undefined>;
+  operatorSaved$: Observable<boolean | undefined>;
+  workflowStatus$: Observable<string | undefined>;
+  isModelGenerated$: Observable<boolean | undefined>;
+  isPublished$: Observable<boolean | undefined>;
 
-  chart: NgFlowchartCanvasDirective;
   options: NgFlowchart.Options;
   operations: any[];
   showMenu = false;
@@ -182,16 +188,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.operatorSaved$ = this.store.select(selectOperatorSaved);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
     this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
-
-    this.activatedRoute.paramMap.subscribe(params => {
-      var id = +this.activatedRoute.snapshot.params['id'];
-
-      console.log("dispatch workflowLoad")
-      this.store.dispatch(workflowLoad({ workflowId: id }));
-      // this.loadWorkflow(id);
-
-
-    });
+    this.isPublished$ = this.store.select(selectWorkflowIsPublished);
 
     this.workflow$.subscribe(m => {
       if (!m) return;
@@ -205,7 +202,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
         this.chart.getFlow().upload(this.workflow.root);
       }
     })
-
 
     this.workflowValidated$.subscribe(m => {
       if (!m) return;
@@ -222,16 +218,26 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
       this.triggerWorkflowChange();
     });
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      var id = +this.activatedRoute.snapshot.params['id'];
+
+      console.log("dispatch workflowLoad")
+      this.store.dispatch(workflowLoad({ workflowId: id }));
+    });
   }
 
-  workflow$: Observable<Workflow | undefined>;
-  workflowValidated$: Observable<Workflow | undefined>;
-  operatorSaved$: Observable<boolean | undefined>;
-  workflowStatus$: Observable<string | undefined>;
-  isModelGenerated$: Observable<boolean | undefined>;
+  // ngAfterViewInit() {
+  //   this.activatedRoute.paramMap.subscribe(params => {
+  //     var id = +this.activatedRoute.snapshot.params['id'];
 
-  ngAfterViewInit() {
-  }
+  //     console.log("dispatch workflowLoad")
+  //     this.store.dispatch(workflowLoad({ workflowId: id }));
+  //     // this.loadWorkflow(id);
+
+
+  //   });
+  // }
 
   downloadFlow() {
     console.log("download")

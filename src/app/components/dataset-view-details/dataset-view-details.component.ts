@@ -15,11 +15,8 @@ export class DatasetViewDetailsComponent implements OnInit {
   constructor(private datasetService: DatasetService) { }
 
   ngOnInit(): void {
-
     this.datasetService.getById(this.datasetId).subscribe(data => {
       if (!data) return;
-
-      console.log(data)
       this.dataset = data;
     })
   }

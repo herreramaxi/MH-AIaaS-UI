@@ -1,6 +1,4 @@
 <div class="container">
-
-
   <div style="display: flex; align-items: center;">
 
     <div style="font-size: 20px;font-weight: 600;">{{workflow?.name }}</div>
@@ -32,7 +30,7 @@
       <mat-icon>play_arrow</mat-icon>
     </button>
     <div matTooltip="Publish" class="example-disabled" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
-      <button mat-icon-button [disabled] ="!(isModelGenerated$ | async)" (click)="publishWorkflow()">
+      <button mat-icon-button [disabled] ="!(isModelGenerated$ | async) ||  ((isModelGenerated$ | async) && (isPublished$ | async))" (click)="publishWorkflow()">
         <mat-icon>publish</mat-icon>
       </button>
     </div>

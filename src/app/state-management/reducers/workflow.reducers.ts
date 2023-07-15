@@ -1,7 +1,7 @@
 import { Action, ActionReducerMap, createReducer, on } from "@ngrx/store";
 import * as moment from 'moment';
 import { Workflow } from "src/app/core/models";
-import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSavedSuccess } from "../actions/workflow.actions";
+import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSaveFailed, workflowSavedSuccess } from "../actions/workflow.actions";
 import { AppState } from "./reducers";
 
 export interface WorkflowState {
@@ -36,12 +36,20 @@ export const workflowReducer = createReducer(
     on(workflowLoadSuccess, (state, result) => {
         console.log("workflowReducer-workflowLoadSuccess")
         console.log(`isModelGenerated: ${result.isModelGenerated}`)
+        console.log(`isPublished: ${result.isPublished}`)
         return ({ workflow: result, operatorSaved: false, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
+    }),
+    on(workflowLoadError, (state, result: any) => {
+
+        console.log("workflowReducer-workflowLoadError")
+        console.log(`error: ${result}`)
+        console.log(result)
+        return ({ ...state, error: result, status: 'Load failed...' })
     }),
     on(workflowChangedSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowChangedSuccess")
-        return ({ workflowValidated: result, isModelGenerated: result.isModelGenerated })
+        return ({ workflowValidated: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
     }),
     on(workflowChangedError, (state, result: any) => {
 
@@ -72,7 +80,14 @@ export const workflowReducer = createReducer(
     on(workflowRunSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowRunSuccess")
-        return ({ ...state, workflowValidated: result, isModelGenerated: result.isModelGenerated, status: `Finished running` })
+        return ({ ...state, workflowValidated: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished, status: `Finished running` })
+    }),
+    on(workflowSaveFailed, (state, result: any) => {
+
+        console.log("workflowReducer-workflowSaveFailed")
+        console.log(`error: ${result}`)
+        console.log(result)
+        return ({ ...state, error: result, status: 'Save failed...' })
     }),
     on(workflowRunFailed, (state, result: any) => {
 
@@ -108,3 +123,4 @@ export const selectWorkflowStatus = (appState: AppState) => appState.workflowSta
 export const selectOperatorSaved = (appState: AppState) => appState.workflowState.operatorSaved;
 export const selectWorkflowError = (appState: AppState) => appState.workflowState.error;
 export const selectWorkflowIsModelGenerated = (appState: AppState) => appState.workflowState.isModelGenerated;
+export const selectWorkflowIsPublished = (appState: AppState) => appState.workflowState.isPublished;

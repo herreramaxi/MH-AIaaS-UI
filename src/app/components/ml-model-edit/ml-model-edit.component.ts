@@ -12,9 +12,9 @@ import { MlModelService } from 'src/app/core/services/ml-model.service';
 export class MlModelEditComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private service: MlModelService) { }
   model?: MlModel;
-  modelMetrics?:any;
-  metrics?:any;
-  MetricType =MetricType;
+  modelMetrics?: any;
+  metrics?: any;
+  MetricType = MetricType;
   ngOnInit(): void {
 
     this.activatedRoute.paramMap.subscribe(params => {
@@ -35,8 +35,8 @@ export class MlModelEditComponent implements OnInit {
 
       this.modelMetrics = metrics;
       this.metrics = JSON.parse(metrics.data);
- 
-      console.log(    this.metrics )
+
+      console.log(this.metrics)
     });
   }
 
@@ -44,13 +44,10 @@ export class MlModelEditComponent implements OnInit {
     if (!this.model) return;
 
     this.service.downloadModel(this.model.id).subscribe(blob => {
-
-debugger
       const url = window.URL.createObjectURL(blob);
-
       const link = document.createElement('a');
       link.href = url;
-      link.download = this.model?.fileName?? "model.zip";
+      link.download = this.model?.fileName ?? "model.zip";
       link.click();
       window.URL.revokeObjectURL(url);
     });

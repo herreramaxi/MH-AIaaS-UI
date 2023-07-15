@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowPublishType, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSavedSuccess } from '../actions/workflow.actions';
+import { workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowPublishType, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
 
 @Injectable()
@@ -18,7 +18,11 @@ export class WorkflowEffects {
                     console.log("WorkflowEffects-loadWorkflow")
                     return workflowLoadSuccess(response)
                 }),
-                catchError(() => EMPTY)
+                catchError((response: any) => {
+                    console.log(`Error on action ${workflowChangeActionType} - workflowChangedError`)
+                    console.log(response)
+                    return of(workflowLoadError({ error: response.error }))
+                })
             ))
     ));
 
@@ -51,9 +55,9 @@ export class WorkflowEffects {
                     // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowSavedSuccess(response)
                 }),
-                catchError(() => {
-                    console.log(`Error on action ${workflowChangeActionType}`)
-                    return EMPTY
+                catchError((response: any) => {
+                    console.log(`Error on action ${workflowRunType}`)
+                    return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
     ));

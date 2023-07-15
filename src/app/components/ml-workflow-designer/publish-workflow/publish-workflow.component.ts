@@ -39,7 +39,7 @@ export class PublishWorkflowComponent {
     });
 
     this.formGroup = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [this.data.workflow.name, Validators.required],
       description: '',
       authenticationType: undefined
     });
