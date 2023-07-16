@@ -12,7 +12,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             .handle(request)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
-                    debugger;
                     this.notificationService.ShowErrorResponse(error);
                     return throwError(() => error);
                 })

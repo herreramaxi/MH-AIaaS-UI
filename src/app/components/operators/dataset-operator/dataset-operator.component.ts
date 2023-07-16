@@ -72,20 +72,17 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
       this.data.config.find((x: any) => x.name === "Dataset")?.value
   }
 
-
   visualizePreviewDataset() {
     const datasetId = this.data.config.find((x: any) => x.name === "Dataset")?.value
     if (!datasetId) return;
 
     this.datasetService.getFilePreview(datasetId).subscribe(data => {
-
-      console.log("visualizePreviewDataset")
-      console.log(data)
       if (!data) return;
 
       const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
         data: data,
-        width: '900px'
+        width: '1200px',
+        autoFocus: "first-heading"
       });
 
     })

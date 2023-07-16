@@ -57,9 +57,6 @@ export class PublishWorkflowComponent {
     var description = this.formGroup.get("description")?.value;
     var authenticationType = this.formGroup.get("authenticationType")?.value;
 
-    console.log(name)
-    console.log(description)
-    console.log(authenticationType)
     const endpointDto: Endpoint = {
       workflowId: this.data.workflow.id,
       name: name,

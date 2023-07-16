@@ -57,12 +57,9 @@ export class SchemaStepComponent implements OnInit {
     this.stepper.selectionChange.subscribe(x => {
 
       if (x.selectedIndex === 2) {
-        var fileAnalysis = this.thirdFormGroup.get("fileAnalysis")?.value;
-        console.log('fileAnalysis')
-        console.log(fileAnalysis)
+        var fileAnalysis = this.thirdFormGroup.get("fileAnalysis")?.value;   
 
         if (!fileAnalysis) return;
-
 
         this.gridData = fileAnalysis.columnsSettings;
         this.loadData();

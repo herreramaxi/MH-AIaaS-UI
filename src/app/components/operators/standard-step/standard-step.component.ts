@@ -45,10 +45,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   override ngOnInit(): void {
-
     super.ngOnInit();
-
-    console.log("ngOnInit: " + this.operatorType)
 
     this.name = this.data.name;
     this.isFailed = this.data.isFailed;
@@ -126,14 +123,12 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     if (!workflowDataViewId) return;
 
     this.workflowService.getPreview(workflowDataViewId).subscribe(data => {
-
-      console.log("visualizePreview")
-      console.log(data)
       if (!data) return;
 
       const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
         data: data,
-        width: '900px'
+        width: '1200px',
+        autoFocus: "first-heading"
       });
 
     })

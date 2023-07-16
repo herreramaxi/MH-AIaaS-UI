@@ -53,11 +53,6 @@ export class EndpointEditConfigurationComponent implements OnInit {
     var authenticationType = this.formGroup.get("authenticationType")?.value;
     var apiKey = this.formGroup.get("apiKey")?.value;
     var isEnabled = this.formGroup.get("isEnabled")?.value;
-    console.log(name)
-    console.log(description)
-    console.log(authenticationType)
-    console.log(apiKey)
-    console.log(isEnabled)
 
     this.endpoint.name = name;
     this.endpoint.description = description;

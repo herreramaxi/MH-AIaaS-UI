@@ -17,9 +17,7 @@ export class EndpointEditTestComponent implements OnInit {
   ngOnInit(): void {
     if (!this.endpointId) return;
 
-    this.predictionService.getPredictionInputSample(this.endpointId).subscribe(data => {
-      console.log(data)
-
+    this.predictionService.getPredictionInputSample(this.endpointId).subscribe(data => {  
       if (!data) return;
 
       this.input = JSON.stringify(data, null, 2)

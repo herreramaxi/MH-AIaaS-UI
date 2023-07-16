@@ -38,11 +38,9 @@ export class WorkflowListComponent extends KendoGridListComponent implements OnI
 
       this.router.navigate(['/workflow-designer', data.id]);
     })
-
   }
 
   public editHandler(args: AddEvent): void {
-    console.log(args.dataItem)
     var editDataItem = args.dataItem;
     this.router.navigate(['/workflow-designer', editDataItem.id]);
   }

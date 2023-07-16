@@ -26,17 +26,12 @@ export class MlModelEditComponent implements OnInit {
 
   loadMlModel(id: number) {
     this.service.getMlModelById(id).subscribe(data => {
-      console.log(data)
       this.model = data;
     });
 
     this.service.getMlModelMetrics(id).subscribe((metrics: any) => {
-      console.log(metrics)
-
       this.modelMetrics = metrics;
       this.metrics = JSON.parse(metrics.data);
-
-      console.log(this.metrics)
     });
   }
 

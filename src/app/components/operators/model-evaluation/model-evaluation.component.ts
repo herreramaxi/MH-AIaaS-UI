@@ -12,8 +12,6 @@ export class ModelEvaluationComponent implements OnInit {
   metrics: any;
 
   ngOnInit(): void {
-    console.log(this.modelMetrics)
-
     this.metrics = JSON.parse(this.modelMetrics.data);
   }
 }

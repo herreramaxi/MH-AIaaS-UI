@@ -26,21 +26,15 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   missingRealsAsNaNsSubscription?: Subscription;
   datasetPreview?: any;
 
-  constructor(private http: HttpClient, private notificationService: NotificationService) {
-    console.log("SettingsAndPreviewStepComponent-contructor")
+  constructor(private http: HttpClient, private notificationService: NotificationService) {  
   }
 
   ngOnInit(): void {
-    console.log("SettingsAndPreviewStepComponent-oninit")
-
-
     this.SubscribeToDelimiterChanges();
     this.SubscribeToMissingRealsChanges();
 
-    this.stepper.selectionChange.subscribe(x => {
-      console.log(this.stepper.selectedIndex)
+    this.stepper.selectionChange.subscribe(x => {  
       if (x.selectedIndex === 1) {
-        console.log("x.selectedIndex: " + x.selectedIndex.toString())
         var fileInput = this.secondFormGroup.get("file")?.value;
         var file = fileInput[0];
         if (!file) return;
@@ -86,7 +80,6 @@ export class SettingsAndPreviewStepComponent implements OnInit {
     this.http.post('api/datasets/preview', formData, fileName)
       .subscribe({
         next: (res: any) => {
-          console.log(res);
           this.fileAnalysis = res;
           this.datasetPreview = { header: res.header, rows: res.data };
           this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);

@@ -17,6 +17,9 @@ export class DatasetPreviewComponent implements OnChanges {
 
   gridData: any[];
   header: any[];
+  totalRows?: number;
+  totalColumns?: number;
+
   public view: any;
   public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
@@ -26,7 +29,7 @@ export class DatasetPreviewComponent implements OnChanges {
       filters: []
     },
     skip: 0,
-    take: 20,
+    take: 100,
   };
 
   public pageable: PagerSettings = {
@@ -74,6 +77,8 @@ export class DatasetPreviewComponent implements OnChanges {
 
     const datasetPreview = change.currentValue;
     this.header = datasetPreview.header;
+    this.totalRows = datasetPreview.totalRows;
+    this.totalColumns = datasetPreview.totalColumns;
 
     if (!this.header) return;
     if (!datasetPreview.rows) return;

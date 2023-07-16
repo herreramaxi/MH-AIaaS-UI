@@ -13,11 +13,9 @@ export const initialState: SpinnerState = {
 export const spinnerReducer = createReducer(
     initialState,
     on(spinnerLoad, (state, action) => {
-        console.log("spinnerReducer-spinnerLoad")
         return ({ isLoading: true })
     }),
     on(spinnerFinish, (state) => {
-        console.log("spinnerReducer-spinnerFinish")
         return ({ isLoading: false })
     })
 );

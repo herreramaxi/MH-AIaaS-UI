@@ -32,7 +32,6 @@ export class WorkflowCreateComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.name = result;
     });
   }

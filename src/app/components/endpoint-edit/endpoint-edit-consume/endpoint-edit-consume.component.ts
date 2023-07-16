@@ -102,7 +102,6 @@ export class EndpointEditConsumeComponent implements OnInit {
 
   tokenBasedGetToken() {
     this.endpointService.tokenBasedGetToken().subscribe(data => {
-      console.log(data)
       if (!data?.token) return;
 
       this.formGroup.get("apiKey")?.patchValue(data.token);

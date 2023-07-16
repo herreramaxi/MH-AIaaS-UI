@@ -25,8 +25,8 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 
 export class MlWorkflowDesignerComponent implements OnInit {
-  @ViewChild(NgFlowchartCanvasDirective)  chart: NgFlowchartCanvasDirective;
-  
+  @ViewChild(NgFlowchartCanvasDirective) chart: NgFlowchartCanvasDirective;
+
   workflow$: Observable<Workflow | undefined>;
   workflowValidated$: Observable<Workflow | undefined>;
   operatorSaved$: Observable<boolean | undefined>;
@@ -55,13 +55,10 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.options.manualConnectors = false;
 
     this.callbacks.onDropStep = (x) => {
-      console.log(`onDropStep: ${x.step.data.name}`)
-
       this.triggerWorkflowChange();
     };
 
     this.callbacks.afterDeleteStep = (x) => {
-      console.log(`afterDeleteStep: ${x.data.name}`);
       this.triggerWorkflowChange();
     }
 
@@ -94,16 +91,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result || !this.workflow) return;
-
-      console.log("after closing dialog from publishWorkflow")
-      // this.loadWorkflow(this.workflow.id);
     });
-
-
-    // if (!this.workflow) return;
-
-    // const json = this.chart.getFlow().toJSON();
-    // this.store.dispatch(workflowPublish({ workflow: { ...this.workflow, root: json } }));
   }
 
   private triggerWorkflowChange() {
@@ -193,9 +181,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.workflow$.subscribe(m => {
       if (!m) return;
 
-
-      console.log("this.workflow$.subscribe")
-
       this.workflow = m;
 
       if (this.workflow.root) {
@@ -205,9 +190,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     this.workflowValidated$.subscribe(m => {
       if (!m) return;
-
-
-      console.log("this.workflowValidated$.subscribe")
 
       this.validate(m);
     })
@@ -222,25 +204,11 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       var id = +this.activatedRoute.snapshot.params['id'];
 
-      console.log("dispatch workflowLoad")
       this.store.dispatch(workflowLoad({ workflowId: id }));
     });
   }
 
-  // ngAfterViewInit() {
-  //   this.activatedRoute.paramMap.subscribe(params => {
-  //     var id = +this.activatedRoute.snapshot.params['id'];
-
-  //     console.log("dispatch workflowLoad")
-  //     this.store.dispatch(workflowLoad({ workflowId: id }));
-  //     // this.loadWorkflow(id);
-
-
-  //   });
-  // }
-
   downloadFlow() {
-    console.log("download")
     let json = this.chart.getFlow().toJSON(4);
     var x = window.open();
 
@@ -260,7 +228,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   onGapChanged(event: any) {
-
     this.options = {
       ...this.options,
       stepGap: parseInt(event.target.value)
@@ -276,7 +243,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
-
   openDialog(): void {
     if (!this.workflow)
       return;
@@ -289,7 +255,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
       if (!result || !this.workflow) return;
 
       this.store.dispatch(workflowLoad({ workflowId: this.workflow.id }));
-      // this.loadWorkflow(this.workflow.id);
     });
   };
 
@@ -302,14 +267,9 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     navigator.clipboard.readText()
       .then(clipboardContent => {
-        console.log('Pasted content:', clipboardContent);
-
         const tree = JSON.parse(clipboardContent);
-        console.log("as json")
-        console.log(tree)
-        // return
-        this.cleanTree(tree.root);
 
+        this.cleanTree(tree.root);
         this.chart.getFlow().upload(tree);
         this.triggerWorkflowChange();
       })

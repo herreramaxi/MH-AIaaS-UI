@@ -80,7 +80,7 @@ export const workflowReducer = createReducer(
     on(workflowRunSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowRunSuccess")
-        return ({ ...state, workflowValidated: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished, status: `Finished running` })
+        return ({ ...state, workflowValidated: result, isModelGenerated: result.isModelGenerated, status: `Finished running` })
     }),
     on(workflowSaveFailed, (state, result: any) => {
 

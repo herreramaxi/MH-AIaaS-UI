@@ -7,14 +7,9 @@
       <mat-icon>mode_edit</mat-icon>
     </button>
 
-    <!-- <a style="margin-left: 5px; color: rgb(1, 92, 218);" (click)="openDialog()"><mat-icon aria-hidden="false" fontIcon="mode_edit"></mat-icon></a> -->
+    <div class="ms-auto"></div>
+    <div  class="p-2" *ngIf="workflowStatus$ | async">{{workflowStatus$ | async }}</div>
 
-    <button mat-icon-button matTooltip="Copy" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto" (click)="copyWorkflow()">
-      <mat-icon>content_copy</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="Paste" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto" (click)="pasteWorkflow()">
-      <mat-icon>content_paste</mat-icon>
-    </button>
     <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
       <mat-icon>undo</mat-icon>
     </button>
@@ -29,20 +24,17 @@
       (click)="runWorkflow()">
       <mat-icon>play_arrow</mat-icon>
     </button>
-    <div matTooltip="Publish" class="example-disabled" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
-      <button mat-icon-button [disabled] ="!(isModelGenerated$ | async) ||  ((isModelGenerated$ | async) && (isPublished$ | async))" (click)="publishWorkflow()">
+    <div matTooltip="Publish" class="example-disabled" style="color: rgb(1, 92, 218);"
+      class="material-symbols-sharp ams-auto">
+      <button mat-icon-button
+        [disabled]="!(isModelGenerated$ | async) ||  ((isModelGenerated$ | async) && (isPublished$ | async))"
+        (click)="publishWorkflow()">
         <mat-icon>publish</mat-icon>
       </button>
-    </div>
-
-    
-    <!-- <button mat-icon-button matTooltip="Publish" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
-      [ngClass]="{'disable':!(isModelGenerated$ | async)}" (click)="publishWorkflow()">
-      <mat-icon>publish</mat-icon>
-    </button> -->
+    </div>  
   </div>
 
-  <div>Status: {{workflowStatus$ | async }}</div>
+  
   <section class="page">
     <div class="content">
       <div id="palette">
@@ -64,24 +56,22 @@
           </div>
         </section>
         <section class="palette-section">
-          <div class="sub-section">
-            <label for="step-gap-select" class="wide">Step Gap</label>
-            <select name="step-gap-select" id="step-gap-select" class="wide" (change)="onGapChanged($event)">
-              <option value="30">30</option>
-              <option value="40" selected>40</option>
-              <option value="60">60</option>
-            </select>
-          </div>
-          <div class="sub-section">
-            <label for="sequential">Sequential</label>
-            <input type="checkbox" name="sequential" (change)="onSequentialChange($event)" />
-            <button type="button" name="download" (click)="downloadFlow()">Download</button>
-          <!-- <button type="button" name="save" (click)="save()">Save</button>  -->
-          </div>
+          <button mat-icon-button matTooltip="Copy" style="color: rgb(1, 92, 218);"
+            class="material-symbols-sharp ams-auto" (click)="copyWorkflow()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Paste" style="color: rgb(1, 92, 218);"
+            class="material-symbols-sharp ams-auto" (click)="pasteWorkflow()">
+            <mat-icon>content_paste</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Download" style="color: rgb(1, 92, 218);"
+            class="material-symbols-sharp ams-auto" (click)="downloadFlow()">
+            <mat-icon>download</mat-icon>
+          </button>
         </section>
       </div>
       <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks"
-        [disabled]="disabled" >
+        [disabled]="disabled">
       </div>
     </div>
   </section>

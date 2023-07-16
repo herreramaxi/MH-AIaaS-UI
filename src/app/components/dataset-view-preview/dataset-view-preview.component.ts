@@ -15,8 +15,7 @@ export class DatasetViewPreviewComponent implements OnInit {
     
   ngOnInit(): void {
     this.datasetService.getFilePreview(this.datasetId).subscribe((data: any) => {
-      if (!data || !data.rows || !data.header) {
-        console.log("incomplete data")
+      if (!data || !data.rows || !data.header) {    
         return
       }
 

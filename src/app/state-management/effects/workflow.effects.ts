@@ -14,8 +14,6 @@ export class WorkflowEffects {
         switchMap((action) => this.service.getWorkflowById(action.workflowId)
             .pipe(
                 map(response => {
-
-                    console.log("WorkflowEffects-loadWorkflow")
                     return workflowLoadSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -31,9 +29,6 @@ export class WorkflowEffects {
         concatMap((action) => this.service.validate(action.workflow)
             .pipe(
                 map(response => {
-
-                    console.log("WorkflowEffects-workflowChanged")
-                    // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
                     return workflowChangedSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -49,10 +44,7 @@ export class WorkflowEffects {
         ofType(workflowSave),
         exhaustMap((action) => this.service.save(action.workflow)
             .pipe(
-                map(response => {
-
-                    console.log("WorkflowEffects-workflowSaved")
-                    // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
+                map(response => {                 
                     return workflowSavedSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -66,9 +58,7 @@ export class WorkflowEffects {
         ofType(workflowRun),
         concatMap((action) => this.service.run(action.workflow)
             .pipe(
-                map(response => {
-                    console.log("WorkflowEffects-workflowRun")
-                    // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
+                map(response => {                    
                     return workflowRunSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -82,9 +72,7 @@ export class WorkflowEffects {
         ofType(workflowPublish),
         exhaustMap((action) => this.endpointService.create(action.endpoint)
             .pipe(
-                map(response => {
-                    console.log("WorkflowEffects-workflowPublish")
-                    // return ({ type: workflowChangedSuccessName, payload: workflow }) }) ,
+                map(response => {               
                     return workflowPublishSuccess(response)
                 }),
                 catchError((response: any) => {

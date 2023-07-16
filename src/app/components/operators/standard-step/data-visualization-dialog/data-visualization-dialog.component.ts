@@ -9,9 +9,4 @@ import { ModelEvaluationComponent } from '../../model-evaluation/model-evaluatio
 })
 export class DataVisualizationDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public datasetPreview: any, private dialogref: MatDialogRef<ModelEvaluationComponent>) { }
-
-  ngOnInit(): void {
-    console.log("DataVisualizationDialogComponent-ngOnInit")
-    console.log(this.datasetPreview)
-  }
 }
