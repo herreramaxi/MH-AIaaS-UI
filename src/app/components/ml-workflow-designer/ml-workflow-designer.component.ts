@@ -277,7 +277,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
         console.error('Failed to read clipboard content:', error);
       });
   }
-
 }
 
 

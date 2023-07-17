@@ -17,6 +17,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatExpansionModule} from '@angular/material/expansion';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
     exports: [
@@ -39,7 +41,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
         MatCardModule,
         MatSelectModule,
         MatSlideToggleModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatExpansionModule,
+        MatSidenavModule    
     ]
 }
 )

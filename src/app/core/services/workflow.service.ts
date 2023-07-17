@@ -6,6 +6,7 @@ import { Workflow } from '../models/workflow.model';
   providedIn: 'root'
 })
 export class WorkflowService {
+
   getPreview(workflowDataViewId: any) {
     return this.http.get<any>(`api/workflows/getPreview/${workflowDataViewId}`);
   }
@@ -18,6 +19,10 @@ export class WorkflowService {
 
   getWorkflows() {
     return this.http.get<Workflow[]>('api/workflows');
+  }
+
+  getLatestWorkflowRunHistory(workflowId: number) {
+    return this.http.get<any>(`api/workflows/getLatestWorkflowRunHistory/${workflowId}`);
   }
 
   createWorkflow() {

@@ -47,6 +47,7 @@ import { NestedFlowComponent } from './components/operators/nested-flow/nested-f
 import { OperatorStatusComponent } from './components/operators/operator-status/operator-status.component';
 import { RouteStepComponent } from './components/operators/router-step/route-step/route-step.component';
 import { RouterStepComponent } from './components/operators/router-step/router-step.component';
+import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
 import { EditCleanOperatorComponent } from './components/operators/standard-step/edit-clean-operator/edit-clean-operator.component';
 import { EditDatasetMetadataComponent } from './components/operators/standard-step/edit-dataset-metadata/edit-dataset-metadata.component';
 import { EditNormalizeOperatorComponent } from './components/operators/standard-step/edit-normalize-operator/edit-normalize-operator.component';
@@ -56,15 +57,16 @@ import { StandardStepComponent } from './components/operators/standard-step/stan
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WorkflowCreateComponent } from './components/workflow-create/workflow-create.component';
 import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
+import { WorkflowRunComponent } from './components/workflow-run/workflow-run.component';
 import { EllipsisTextComponent } from './core/components/ellipsis-text/ellipsis-text.component';
 import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
-import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
-import { WorkflowEffects } from './state-management/effects/workflow.effects';
-import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
-import { reducers } from './state-management/reducers/reducers';
-import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
-import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
 import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
+import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
+import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
+import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
+import { WorkflowEffects } from './state-management/effects/workflow.effects';
+import { reducers } from './state-management/reducers/reducers';
+
 
 @NgModule({
   declarations: [
@@ -114,7 +116,8 @@ import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
     DatasetViewPreviewComponent,
     DatasetPreviewComponent,
     DataVisualizationDialogComponent,
-    KendoGridListComponent
+    KendoGridListComponent,
+    WorkflowRunComponent
   ],
   imports: [
     BrowserModule,
