@@ -16,17 +16,4 @@ export class OperatorStatusComponent implements OnInit {
 
     this.message = this.message ?? 'Please configure the operator and run it'
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-
-  //   if (changes['isFailed'].currentValue) {
-  //     this.isFailed = changes['isFailed'].currentValue;
-  //   }
-  //   if (changes['message'].currentValue) {
-  //     this.message = changes['message'].currentValue;
-  //   }
-  //   // You can also use categoryId.previousValue and 
-  //   // categoryId.firstChange for comparing old and new values
-
-  // }
 }

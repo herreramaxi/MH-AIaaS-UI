@@ -1,14 +1,18 @@
 <div #canvasContent class="step">
-  <div class="header">
-    <mat-icon [ngStyle]="{ color: data.color }">{{ data.icon }}</mat-icon>
-    <span class="step-name">{{ name }}</span>
-    <app-operator-status [isFailed]="data.isFailed" [message]="data.validationMessage"></app-operator-status>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
+  <div class="header d-flex align-items-center">
+    <div class="p-1" style="awidth: 15%;"><mat-icon [ngStyle]="{ color: data.color }">{{ data.icon }}</mat-icon></div>
+    <div class="p-1" style="awidth: 50%;"><span class="step-name">{{ name }}</span></div>
+    <div class="p-1 ms-auto" style="awidth: 15%;"><app-operator-status [isFailed]="data.isFailed"
+        [message]="data.validationMessage"></app-operator-status></div>
+    <!-- <div class="p-1 ms-auto">a</div> -->
+    <div class="p-1" style="awidth: 20%;">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
   </div>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="onEdit()">
+    <button mat-menu-item (click)="onEdit()" *ngIf="showEdit">
       <mat-icon>edit</mat-icon>
       <span>Edit</span>
     </button>
@@ -23,6 +27,6 @@
     <button *ngIf="isPreviewAvailable()" mat-menu-item (click)="visualizePreview()">
       <mat-icon>bar_chart_4_bars</mat-icon>
       <span>Visualize</span>
-    </button>  
+    </button>
   </mat-menu>
 </div>

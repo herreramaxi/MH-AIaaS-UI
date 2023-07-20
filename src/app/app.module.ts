@@ -41,12 +41,8 @@ import { PublishWorkflowComponent } from './components/ml-workflow-designer/publ
 import { CustomStepComponent } from './components/operators/custom-step/custom-step.component';
 import { DatasetOperatorComponent } from './components/operators/dataset-operator/dataset-operator.component';
 import { EditDatasetComponent } from './components/operators/dataset-operator/edit-dataset/edit-dataset.component';
-import { FormStepComponent } from './components/operators/form-step/form-step.component';
 import { ModelEvaluationComponent } from './components/operators/model-evaluation/model-evaluation.component';
-import { NestedFlowComponent } from './components/operators/nested-flow/nested-flow.component';
 import { OperatorStatusComponent } from './components/operators/operator-status/operator-status.component';
-import { RouteStepComponent } from './components/operators/router-step/route-step/route-step.component';
-import { RouterStepComponent } from './components/operators/router-step/router-step.component';
 import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
 import { EditCleanOperatorComponent } from './components/operators/standard-step/edit-clean-operator/edit-clean-operator.component';
 import { EditDatasetMetadataComponent } from './components/operators/standard-step/edit-dataset-metadata/edit-dataset-metadata.component';
@@ -59,6 +55,7 @@ import { WorkflowCreateComponent } from './components/workflow-create/workflow-c
 import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
 import { WorkflowRunComponent } from './components/workflow-run/workflow-run.component';
 import { EllipsisTextComponent } from './core/components/ellipsis-text/ellipsis-text.component';
+import { ResponseTimePipe } from './core/pipes/response-time-pipe';
 import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
 import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
 import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
@@ -66,7 +63,7 @@ import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
 import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { reducers } from './state-management/reducers/reducers';
-
+import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
 
 @NgModule({
   declarations: [
@@ -77,12 +74,8 @@ import { reducers } from './state-management/reducers/reducers';
     HeaderComponent,
     MlWorkflowDesignerComponent,
     CustomStepComponent,
-    FormStepComponent,
-    NestedFlowComponent,
     StandardStepComponent,
     EditStepComponent,
-    RouterStepComponent,
-    RouteStepComponent,
     DatasetListComponent,
     DatasetEditComponent,
     DatasetCreateComponent,
@@ -117,7 +110,9 @@ import { reducers } from './state-management/reducers/reducers';
     DatasetPreviewComponent,
     DataVisualizationDialogComponent,
     KendoGridListComponent,
-    WorkflowRunComponent
+    WorkflowRunComponent,
+    ResponseTimePipe,
+    WorkflowJobsComponent,
   ],
   imports: [
     BrowserModule,

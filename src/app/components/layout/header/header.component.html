@@ -10,6 +10,9 @@
                     <a class="nav-link" mat-button
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
                         routerLink="/workflows">Workflows</a>
+                        <a class="nav-link" mat-button
+                        *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
+                        routerLink="/workflowJobs">Workflow Jobs</a>
                     <a class="nav-link" mat-button
                         *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Administrator')"
                         routerLink="/models">Models</a>

@@ -1,61 +1,57 @@
 <div class="row row-cols-1 row-cols-md-4">
-  <div class="col mb-4">
-    <mat-card>
+  <div class="col mb-4 d-flex">
+    <mat-card class="w-100">
       <mat-card-header>
         <mat-card-title>Datasets</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Collection of data that is stored within the system for use in machine learning tasks. It serves as a data
-          source, making it easier to manage, access, and process the data within your machine learning workflows.</p>
-        <mat-divider></mat-divider>
+        <p>Collection of data that serves as a data source for machine learning tasks and is used to train models.</p>      
       </mat-card-content>
+      <mat-divider></mat-divider>
       <mat-card-actions style="justify-content: center;">
         <button mat-raised-button routerLink="/datasets">START WORKING</button>
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col mb-4">
-    <mat-card>
+  <div class="col mb-4 d-flex">
+    <mat-card class="w-100">
       <mat-card-header>
         <mat-card-title>Workflows</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>It defines a pipeline that is composed by a sequence of operations to be applied to a dataset to build a
-          machine learning model.</p>
-        <mat-divider></mat-divider>
+        <p>Pipeline definition consisting of a sequence of operations applied to a dataset to construct a machine
+          learning model.</p>
       </mat-card-content>
+      <mat-divider></mat-divider>
       <mat-card-actions style="justify-content: center;">
         <button mat-raised-button routerLink="/workflows">START WORKING</button>
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col mb-4">
-    <mat-card>
+  <div class="col mb-4 d-flex">
+    <mat-card class="w-100">
       <mat-card-header>
         <mat-card-title>Models</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          Built by the execution of a workflow, a ML model captures the underlying structure of the data and can
-          be used to make predictions, classifications, or gain
-          insights on new, unseen data.
+        <p>Produced by workflows, it outlines the necessary steps to convert input data into a prediction.
         </p>
-        <mat-divider></mat-divider>
       </mat-card-content>
+      <mat-divider></mat-divider>
       <mat-card-actions style="justify-content: center;">
         <button mat-raised-button routerLink="/models">START WORKING</button>
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col mb-4">
-    <mat-card>
+  <div class="col mb-4 d-flex">
+    <mat-card class="w-100">
       <mat-card-header>
         <mat-card-title>Endpoints</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>It allows clients to consume a machine learning model that was previously run and published.</p>
-        <mat-divider></mat-divider>
       </mat-card-content>
+      <mat-divider></mat-divider>
       <mat-card-actions style="justify-content: center;">
         <button mat-raised-button routerLink="/endpoints">START WORKING</button>
       </mat-card-actions>

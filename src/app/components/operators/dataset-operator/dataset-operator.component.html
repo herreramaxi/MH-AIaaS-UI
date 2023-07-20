@@ -1,5 +1,5 @@
 <div #canvasContent class="step">
-  <div class="header">
+  <div class="header  d-flex align-items-center">
     <mat-icon [ngStyle]="{ color: data.color }">{{ data.icon }}</mat-icon>
     <span class="step-name">{{ name }}</span>
     <app-operator-status [isFailed]="data.isFailed" [message]="data.validationMessage"></app-operator-status>

@@ -17,6 +17,7 @@ import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DatasetPreviewComponent } from '../../dataset-preview/dataset-preview.component';
 import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
 import { DatasetService } from 'src/app/core/services/dataset.service';
+import { EditDatasetComponent } from '../dataset-operator/edit-dataset/edit-dataset.component';
 
 export type StandardStepData = {
   name: string,
@@ -35,6 +36,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   isFailed?: boolean;
   validationMessage: string;
   operatorType?: OperatorType;
+  showEdit?: boolean;
 
   constructor(private matdialog: MatDialog,
     private operatorSupportService: OperatorSupportService,
@@ -55,6 +57,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     this.operatorType = OperatorType[operatorTypeString ?? OperatorType.Nop]
     this.data.color = this.operatorSupportService.getColor(this.operatorType);
     this.data.icon = this.operatorSupportService.getIcon(this.operatorType);
+    this.showEdit = this.operatorType !== OperatorType.Evaluate;
   }
 
   areMetricsAvailable() {
@@ -74,6 +77,8 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   onEdit() {
+    if (this.operatorType === OperatorType.Evaluate) return;
+
     var componentTemplate: any = EditStepComponent;
 
     if (this.operatorType === OperatorType.Clean) {
@@ -88,10 +93,13 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     if (this.operatorType === OperatorType.EditDataset) {
       componentTemplate = EditDatasetMetadataComponent;
     }
+    if (this.operatorType === OperatorType.Dataset) {
+      componentTemplate = EditDatasetComponent;
+    }
 
     const dialogRef = this.matdialog.open(componentTemplate, {
       data: this.data,
-      width: '500px'
+      width: '550px'
     });
     let sub = dialogRef.beforeClosed().subscribe(data => {
       if (data) {

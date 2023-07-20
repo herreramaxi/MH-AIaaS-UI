@@ -9,3 +9,7 @@
     margin: 0 10px;
   }
   
+
+.mat-mdc-card-content{
+  height: 90px;
+}

@@ -1,22 +1,20 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { environment } from 'src/environments/environment';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { SignalRService } from 'src/app/core/services/signalr-service';
+import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
 
 @Component({
   selector: 'app-workflow-run',
   templateUrl: './workflow-run.component.html',
   styleUrls: ['./workflow-run.component.css']
 })
-export class WorkflowRunComponent implements OnChanges {
+export class WorkflowRunComponent implements OnChanges, OnDestroy {
 
   @Input()
   workflowId?: number;
   runHistory?: any;
-  duration?: string;
-  hubConnection: HubConnection;
 
-  constructor(private workflowService: WorkflowService) { }
+  constructor(private workflowRunHistoryService: WorkflowRunHistoryService, private signalRService: SignalRService) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     const change = changes['workflowId'];
@@ -25,31 +23,18 @@ export class WorkflowRunComponent implements OnChanges {
       return;
     }
 
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${environment.api.serverUrl}/workflow-run-history-hub`)
-      .build();
-
-    this.hubConnection.start().then(() => {
-      console.log('SignalR connection started.');
-    }).catch(err => {
-      console.error('Error starting SignalR connection:', err);
-    });
-
-    // Register event handler to receive messages from the hub
-    this.hubConnection.on('ReceiveMessage', (message: string) => {
-      console.log(`Received message: ${message}`);
-      // Handle the incoming message as needed
-    });
-
-    this.hubConnection.on('ReceiveWorkflowRunHistoryUpdate', (workflowRunHistory: any) => {
+    this.signalRService.startConnection();
+    this.signalRService.registerHandlerReceiveWorkflowRunHistoryUpdate((workflowRunHistory: any) => {
       console.log(`ReceiveWorkflowRunHistoryUpdate:`);
       console.log(workflowRunHistory)
 
+      if (this.workflowId !== workflowRunHistory?.workflowId) return;
+
       this.loadData(workflowRunHistory);
       // Handle the incoming message as needed
-    });
+    })
 
-    this.workflowService.getLatestWorkflowRunHistory(change.currentValue).subscribe(data => {
+    this.workflowRunHistoryService.getLatestWorkflowRunHistory(change.currentValue).subscribe(data => {
       console.log(data)
 
       if (!data) return;
@@ -58,16 +43,11 @@ export class WorkflowRunComponent implements OnChanges {
     })
   }
 
+  ngOnDestroy(): void {
+    this.signalRService.removeHandlerReceiveWorkflowRunHistoryUpdate();
+  }
 
   private loadData(data: any) {
     this.runHistory = data;
-    if (data.minutes) {
-      this.duration = `${data.minutes} minutes, ${data.seconds} seconds`;
-    } else if (data.seconds) {
-
-      this.duration = `${data.seconds} seconds, ${data.milliseconds} milliseconds`;
-    } else {
-      this.duration = `${data.milliseconds} milliseconds`;
-    }
   }
 }

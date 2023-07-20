@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RouteStepComponent } from './route-step.component';
+import { WorkflowJobsComponent } from './workflow-jobs.component';
 
-describe('RouteStepComponent', () => {
-  let component: RouteStepComponent;
-  let fixture: ComponentFixture<RouteStepComponent>;
+describe('WorkflowJobsComponent', () => {
+  let component: WorkflowJobsComponent;
+  let fixture: ComponentFixture<WorkflowJobsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RouteStepComponent ]
+      declarations: [ WorkflowJobsComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RouteStepComponent);
+    fixture = TestBed.createComponent(WorkflowJobsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

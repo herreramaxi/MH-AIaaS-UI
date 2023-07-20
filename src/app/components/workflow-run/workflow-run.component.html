@@ -1,8 +1,8 @@
 <div *ngIf="runHistory">
     <h2>Workflow Properties</h2>
-    <p>Start Date: {{runHistory.startDate }}</p>
-    <p>End Date: {{runHistory.endDate }}</p>
-    <p>Duration: {{ duration}}</p>
+    <p>Start Date: {{runHistory.startDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>End Date: {{runHistory.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>Duration: {{ runHistory.milliseconds | responseTime}}</p>
     <p>Status: {{runHistory.statusHumanized }}</p>
     <p *ngIf="runHistory.statusDetail">Status Detail: {{runHistory.statusDetail }}</p>
 </div>

@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { disableDebugTools } from '@angular/platform-browser';
-import { AddChildOptions, NgFlowchart, NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
-import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
-import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
-import { OperatorType } from 'src/app/core/models/enums/enums';
-import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from '@auth0/auth0-angular';
+import { NgFlowchart, NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
 import { Store } from '@ngrx/store';
+import { OperatorType } from 'src/app/core/models/enums/enums';
 import { DatasetService } from 'src/app/core/services/dataset.service';
+import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
 import { DataVisualizationDialogComponent } from '../standard-step/data-visualization-dialog/data-visualization-dialog.component';
+import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
 
 @Component({
   selector: 'app-dataset-operator',
@@ -47,8 +46,8 @@ export class DatasetOperatorComponent extends NgFlowchartStepComponent {
 
     const dialogRef = this.matdialog.open(EditDatasetComponent, {
       data: this.data,
-      width: '700px',
-      height: '500px'
+      width: '550px',
+      // height: '500px'
     });
 
     let sub = dialogRef.beforeClosed().subscribe(data => {

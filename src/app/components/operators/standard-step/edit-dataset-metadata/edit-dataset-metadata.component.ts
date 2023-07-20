@@ -47,19 +47,10 @@ export class EditDatasetMetadataComponent implements OnInit {
       "Categorical": [categorical],
       SelectedColumns: this.formBuilder.array(this.selectedColumns)
     });
-
   }
 
   onSave() {
-
     this.formGroup.value["SelectedColumns"].value = this.selectedColumns;
-
-    // this.dialogref.close(this.data.config.map(config => {
-    //   return {
-    //     ...config,
-    //     value: this.formGroup.value[config.name].value
-    //   }
-    // }));
 
     this.dialogref.close(this.data.config.map((config: any) => {
       return {

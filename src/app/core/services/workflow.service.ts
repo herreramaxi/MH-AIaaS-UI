@@ -7,6 +7,8 @@ import { Workflow } from '../models/workflow.model';
 })
 export class WorkflowService {
 
+  constructor(private http: HttpClient) { }
+
   getPreview(workflowDataViewId: any) {
     return this.http.get<any>(`api/workflows/getPreview/${workflowDataViewId}`);
   }
@@ -15,14 +17,8 @@ export class WorkflowService {
     return this.http.get<Workflow>(`api/workflows/${id}`);
   }
 
-  constructor(private http: HttpClient) { }
-
   getWorkflows() {
     return this.http.get<Workflow[]>('api/workflows');
-  }
-
-  getLatestWorkflowRunHistory(workflowId: number) {
-    return this.http.get<any>(`api/workflows/getLatestWorkflowRunHistory/${workflowId}`);
   }
 
   createWorkflow() {

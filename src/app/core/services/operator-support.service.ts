@@ -13,11 +13,12 @@ export class OperatorSupportService {
   constructor(private http: HttpClient) { }
 
   getTemplate(type: OperatorType): any {
+    return StandardStepComponent;
     // op.type === "dataset" ? StandardStepComponent : RouterStepComponent;
-    switch (type) {
-      case OperatorType.Dataset: return DatasetOperatorComponent;
-      default: return StandardStepComponent;
-    }
+    // switch (type) {
+    //   case OperatorType.Dataset: return DatasetOperatorComponent;
+    //   default: return StandardStepComponent;
+    // }
   }
 
   getIcon(type: OperatorType): any {
@@ -34,7 +35,7 @@ export class OperatorSupportService {
   getColor(type: OperatorType): any {
     switch (type) {
       // case OperatorType.Dataset: return "#00b894";
-       case OperatorType.Dataset: return "#00B894";      
+      case OperatorType.Dataset: return "#00B894";
       case OperatorType.EditDataset: return "#00B894";
       case OperatorType.Clean: return "#e17055";
       case OperatorType.Normalize: return "#e17055";
@@ -58,7 +59,7 @@ export class OperatorSupportService {
   }
 
   getTrainers(task: string) {
-    return this.http.get<any[]>('api/operators/getTrainers?task='+ task);
+    return this.http.get<any[]>('api/operators/getTrainers?task=' + task);
   }
 
   getAvailableDataTypes() {

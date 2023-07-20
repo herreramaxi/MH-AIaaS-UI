@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ListBoxToolbarConfig } from '@progress/kendo-angular-listbox';
-import { ColumnSetting } from 'src/app/core/models/column-setting';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 import { EditStepComponent } from '../../standard-step/edit-step/edit-step.component';
 import { StandardStepData } from '../../standard-step/standard-step.component';
@@ -16,8 +15,6 @@ export class EditDatasetComponent implements OnInit {
 
   formGroup: FormGroup;
   datasets: any;
-  public europeanCountries: string[] = ['Germany', 'France', 'Austria', 'Belgium', 'Denmark', 'Netherlands'];
-  public asianCountries: string[] = ['China', 'India', 'Indonesia', 'Nepal', 'Thailand', 'Yemen'];
   public toolbarSettings: ListBoxToolbarConfig = {
     position: "right",
     tools: ["transferTo", "transferFrom", "transferAllTo", "transferAllFrom"],
@@ -49,17 +46,12 @@ export class EditDatasetComponent implements OnInit {
     }
 
     this.formGroup.get("Dataset")?.valueChanges.subscribe(x => {
-      
+
       if (!x) return;
 
       this.selectedColumns = [];
       this.loadDatasetAvailableColumns(x);
     })
-
-    // this.form = new FormGroup(this.data.config.reduce((acc: any, config) => {
-    //   acc[config.name] = new FormControl(config.value || '', []);
-    //   return acc;
-    // }, {}))
   }
 
   private loadDatasetAvailableColumns(selectedDatasetId: any) {
@@ -72,15 +64,7 @@ export class EditDatasetComponent implements OnInit {
   }
 
   onSave() {
-
     this.formGroup.value["SelectedColumns"].value = this.selectedColumns;
-
-    // this.dialogref.close(this.data.config.map(config => {
-    //   return {
-    //     ...config,
-    //     value: this.formGroup.value[config.name].value
-    //   }
-    // }));
 
     this.dialogref.close(this.data.config.map(config => {
       return {

@@ -1,0 +1,43 @@
+<h1>Workflow Jobs</h1>
+<kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
+    [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable"
+    [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true">
+
+    <kendo-grid-column field="id" title="Run Id"></kendo-grid-column>
+    <kendo-grid-column field="workflowName" title="Workflow">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <a [routerLink]="['/workflow-designer', dataItem.workflowId]"> {{dataItem.workflowName}}</a>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="startDate" title="Start Date" filter="date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.startDate | date:'yyyy-MM-dd HH:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="endDate" title="End Date" filter="date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.endDate | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="statusHumanized" title="Status"></kendo-grid-column>
+    <kendo-grid-column field="description" title="Description"></kendo-grid-column>
+    <kendo-grid-column field="milliseconds" title="Duration">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.milliseconds | responseTime}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="statusDetail" title="Status Detail"></kendo-grid-column>
+    <kendo-grid-column field="createdOn" title="Created On" filter="date" [width]="180">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.createdOn | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="createdBy" title="Created By" [width]="200"></kendo-grid-column>
+    <kendo-grid-column field="modifiedOn" title="Modified On" filter="date" [width]="180">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="modifiedBy" title="Modified By" [width]="200"></kendo-grid-column>
+
+</kendo-grid>
