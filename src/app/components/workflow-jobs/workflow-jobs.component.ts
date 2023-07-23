@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
 import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
-import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
 
 @Component({
   selector: 'app-workflow-jobs',

@@ -1,14 +1,3 @@
 <div class="p-2">
-    <!-- <kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
-        [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable"
-        [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true">
-        <ng-container *ngFor="let item of header">
-            <kendo-grid-column [field]="item" [title]="item" [width]="100">
-                <ng-template kendoGridCellTemplate let-dataItem>
-                    <app-ellipsis-text [inputText]="dataItem[item]"></app-ellipsis-text>
-                </ng-template>
-            </kendo-grid-column>
-        </ng-container>
-    </kendo-grid> -->
     <app-dataset-preview  [datasetPreview]="datasetPreview"></app-dataset-preview>
 </div>

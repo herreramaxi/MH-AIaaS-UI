@@ -3,16 +3,17 @@
 <kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
     [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable"
     [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)" (edit)="editHandler($event)"
-    (add)="addHandler($event)" (remove)="removeHandler($event)">
+    (add)="addHandler($event)" (remove)="removeHandler($event)" [resizable]="true" [style.height.%]="100">
     <ng-template kendoGridToolbarTemplate>
         <button kendoGridAddCommand>Add new</button>
     </ng-template>
     <kendo-grid-column field="name" title="Name" [width]="180">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <a [routerLink]="['/datasets', dataItem.id]"> {{dataItem.name}}</a>
+            <a [routerLink]="['/datasets', dataItem.id]">
+                <app-ellipsis-text [inputText]="dataItem.name"></app-ellipsis-text>
+            </a>
         </ng-template>
     </kendo-grid-column>
-    <!-- <kendo-grid-column field="name" title="Name"></kendo-grid-column> -->
     <kendo-grid-column field="description" title="Description" [width]="200">
         <ng-template kendoGridCellTemplate let-dataItem>
             <app-ellipsis-text [inputText]="dataItem.description"></app-ellipsis-text>
@@ -23,14 +24,22 @@
             {{dataItem.createdOn | date: 'dd/MM/yyyy hh:mm:ss'}}
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="createdBy" title="Created By" [width]="200"></kendo-grid-column>
+    <kendo-grid-column field="createdBy" title="Created By" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <app-ellipsis-text [inputText]="dataItem.createdBy"></app-ellipsis-text>
+        </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column field="modifiedOn" title="Modified On" filter="date" [width]="180">
         <ng-template kendoGridCellTemplate let-dataItem>
             {{dataItem.modifiedOn | date: 'dd/MM/yyyy hh:mm:ss'}}
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="modifiedBy" title="Modified By" [width]="200"></kendo-grid-column>
-    <kendo-grid-command-column title="Command" [width]="150">
+    <kendo-grid-column field="modifiedBy" title="Modified By" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <app-ellipsis-text [inputText]="dataItem.modifiedBy"></app-ellipsis-text>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-command-column title="Command" [width]="200">
         <ng-template kendoGridCellTemplate let-isNew="isNew">
             <button kendoGridEditCommand [primary]="true">View</button>
             <button kendoGridRemoveCommand>Remove</button>

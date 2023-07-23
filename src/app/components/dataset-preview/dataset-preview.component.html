@@ -1,4 +1,8 @@
-<div class="p-2">Rows: {{totalRows}}, Columns: {{totalColumns}}</div>
+<div class="p-2">
+    <div *ngIf="totalRows && totalColumns ">
+        Rows: {{totalRows}}, Columns: {{totalColumns}}
+    </div>
+</div>
 <kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
     style="max-width: 1320px;" scrollable="scrollable" [filter]="gridState.filter" filterable="menu"
     (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip"

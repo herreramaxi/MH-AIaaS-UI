@@ -60,10 +60,11 @@ import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
 import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
 import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
-import { KendoGridListComponent } from './kendo-grid-list/kendo-grid-list.component';
+import { KendoGridListComponent } from './core/components/kendo-grid-list/kendo-grid-list.component';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { reducers } from './state-management/reducers/reducers';
 import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,8 @@ import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.
     AngularKendoModule,
     AngularMaterialModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([WorkflowEffects])
+    EffectsModule.forRoot([WorkflowEffects]),
+    LayoutModule,
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.api.serverUrl },

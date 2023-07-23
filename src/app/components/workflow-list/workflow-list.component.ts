@@ -4,7 +4,7 @@ import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
+import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
 
 @Component({
   selector: 'app-workflow-list',

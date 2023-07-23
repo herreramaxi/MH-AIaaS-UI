@@ -7,7 +7,8 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ListBoxModule } from "@progress/kendo-angular-listbox";
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { UploadsModule } from '@progress/kendo-angular-upload';
-
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { IconsModule } from "@progress/kendo-angular-icons";
 @NgModule({
     exports: [
         GridModule,
@@ -17,7 +18,9 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
         NotificationModule,
         ListBoxModule,
         DropDownListModule,
-        DialogsModule
+        DialogsModule,
+        LayoutModule,
+        IconsModule 
     ]
 }
 )

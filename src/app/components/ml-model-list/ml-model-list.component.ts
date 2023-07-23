@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { MlModelService } from 'src/app/core/services/ml-model.service';
-import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
+import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
 
 @Component({
   selector: 'app-ml-model-list',

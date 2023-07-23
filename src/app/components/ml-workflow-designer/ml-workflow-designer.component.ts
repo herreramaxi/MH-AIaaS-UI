@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
-import { NotificationService } from '@progress/kendo-angular-notification';
-
 import { Store } from '@ngrx/store';
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { ClipboardService } from 'ngx-clipboard';
 import { Observable } from 'rxjs';
 import { Workflow } from 'src/app/core/models';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
@@ -15,13 +15,11 @@ import { AppState } from 'src/app/state-management/reducers/reducers';
 import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
-import { ClipboardService } from 'ngx-clipboard';
-
 
 @Component({
   selector: 'app-ml-workflow-designer',
   templateUrl: './ml-workflow-designer.component.html',
-  styleUrls: ['./ml-workflow-designer.component.css']
+  styleUrls: ['./ml-workflow-designer.component.scss']
 })
 
 export class MlWorkflowDesignerComponent implements OnInit {
@@ -210,15 +208,15 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   downloadFlow() {
     let json = this.chart.getFlow().toJSON(4);
-    var x = window.open();
+    if (!json) return;
 
-    if (!x)
-      return;
-
-    x.document.open();
-    x.document.write('<html><head><title>Flowchart Json</title></head><body><pre>' + json + '</pre></body></html>');
-    x.document.close();
-
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (this.workflow?.name ?? "workflow") + ".json";
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   clearCanvas() {

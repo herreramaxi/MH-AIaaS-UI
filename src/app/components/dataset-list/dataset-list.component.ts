@@ -4,7 +4,7 @@ import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { Subject } from 'rxjs';
 import { DatasetService } from 'src/app/core/services/dataset.service';
-import { KendoGridListComponent } from 'src/app/kendo-grid-list/kendo-grid-list.component';
+import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',

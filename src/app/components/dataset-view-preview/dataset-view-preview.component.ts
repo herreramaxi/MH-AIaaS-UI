@@ -19,7 +19,7 @@ export class DatasetViewPreviewComponent implements OnInit {
         return
       }
 
-      this.datasetPreview = { header: data.header, rows: data.rows };
+      this.datasetPreview = { ...data};
     })
   }
 }

@@ -1,6 +1,6 @@
 <div class="d-flex flex-row">
-  <div class="p-2" style="width: 15%;;"></div>
-  <div class="p-2" style="width: 70%;">
+  <div class="ap-2" style="width: 15%;;"></div>
+  <div class="ap-2" style="width: 70%;">
 
     <div style="display: flex; align-items: center;">
 
@@ -10,8 +10,22 @@
         <mat-icon>mode_edit</mat-icon>
       </button>
 
-      <div class="ms-auto"></div>
-      <!-- <div class="p-2" *ngIf="workflowStatus$ | async">{{workflowStatus$ | async }}</div> -->
+      <div class="ap-2" *ngIf="workflowStatus$ | async">{{workflowStatus$ | async }}</div>
+
+      <button mat-icon-button matTooltip="Copy" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ms-auto"
+        (click)="copyWorkflow()">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Paste" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto"
+        (click)="pasteWorkflow()">
+        <mat-icon>content_paste</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Download" style="color: rgb(1, 92, 218);"
+        class="material-symbols-sharp ams-auto" (click)="downloadFlow()">
+        <mat-icon>download</mat-icon>
+      </button>
+      <!-- <div class="ms-auto"></div> -->
+
 
       <button mat-icon-button matTooltip="Undo" style="color: rgb(1, 92, 218);" class="material-symbols-sharp ams-auto">
         <mat-icon>undo</mat-icon>
@@ -39,14 +53,14 @@
 
 
   </div>
-  <div class="p-2" style="width: 15%;;"></div>
+  <div class="ap-2" style="width: 15%;;"></div>
 </div>
 
 <div class="d-flex flex-row" style="height: 100%">
-  <div class="p-2" style="width: 15%;;">
+  <div class="ap-2" style="width: 15%;;">
 
-    <mat-list>
-      <mat-list-item style="height:auto">
+    <mat-list style="padding-top: 0px;">
+      <mat-list-item style="height:auto;">
         <div id="palette-heading">
           <h2 id="palette-title">Operations</h2>
           <span style="flex-grow: 1"></span>
@@ -67,37 +81,14 @@
         </section>
 
       </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section class="palette-section">
-          <button mat-icon-button matTooltip="Copy" style="color: rgb(1, 92, 218);"
-            class="material-symbols-sharp ams-auto" (click)="copyWorkflow()">
-            <mat-icon>content_copy</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Paste" style="color: rgb(1, 92, 218);"
-            class="material-symbols-sharp ams-auto" (click)="pasteWorkflow()">
-            <mat-icon>content_paste</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Download" style="color: rgb(1, 92, 218);"
-            class="material-symbols-sharp ams-auto" (click)="downloadFlow()">
-            <mat-icon>download</mat-icon>
-          </button>
-        </section>
-
-      </mat-list-item>
-      <mat-divider></mat-divider>
     </mat-list>
   </div>
 
-  <div class="p-2" style="width: 70%;">
+  <div class="ap-2" style="width: 70%; height: 100vh;">
     <div id="canvas" ngFlowchartCanvas [ngFlowchartOptions]="options" [ngFlowchartCallbacks]="callbacks">
     </div>
-    <mat-toolbar class="status-bar">
-      <div class="p-2" *ngIf="workflowStatus$ | async">{{workflowStatus$ | async }}</div>
-    </mat-toolbar>
   </div>
-  <div class="p-2" style="width: 15%;;">
+  <div class="px-2" style="width: 15%;">
     <app-workflow-run [workflowId]="workflow?.id"></app-workflow-run>
   </div>
 </div>
-<!-- </div> -->
