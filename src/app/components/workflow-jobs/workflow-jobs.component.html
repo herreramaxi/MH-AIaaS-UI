@@ -16,6 +16,11 @@
             <app-ellipsis-text [inputText]="dataItem.statusDetail"></app-ellipsis-text>
         </ng-template>
     </kendo-grid-column>
+    <kendo-grid-column field="milliseconds" title="Duration" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.milliseconds | responseTime}}
+        </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column field="startDate" title="Start Date" filter="date" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
             {{dataItem.startDate | date:'yyyy-MM-dd HH:mm:ss'}}
@@ -25,12 +30,7 @@
         <ng-template kendoGridCellTemplate let-dataItem>
             {{dataItem.endDate | date: 'dd/MM/yyyy hh:mm:ss'}}
         </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column field="milliseconds" title="Duration" [width]="150">
-        <ng-template kendoGridCellTemplate let-dataItem>
-            {{dataItem.milliseconds | responseTime}}
-        </ng-template>
-    </kendo-grid-column>
+    </kendo-grid-column>   
     <kendo-grid-column field="modifiedBy" title="Run By" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
             <app-ellipsis-text [inputText]="dataItem.modifiedBy"></app-ellipsis-text>

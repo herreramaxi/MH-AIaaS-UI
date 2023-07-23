@@ -9,10 +9,10 @@ export class PredictService {
   constructor(private http: HttpClient) { }
 
   getPredictionInputSample(id: any) {
-    return this.http.get<any>(`api/predict/getPredictionInputSample/${id}`);
+    return this.http.get<any>(`api/predict/ui/getInputSample/${id}`);
   }
 
   getPrediction(endpointId: number, predictionInput: any) {
-    return this.http.post<any>(`api/predict/predictInputSample/${endpointId}`, predictionInput);
+    return this.http.post<any>(`api/predict/ui/getPrediction/${endpointId}`, predictionInput);
   }
 }

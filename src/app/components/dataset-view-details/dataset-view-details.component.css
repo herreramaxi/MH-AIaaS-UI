@@ -20,3 +20,7 @@ a {
     padding: 10px;
     /* Add additional styling for the message content */
   }
+
+  label{
+    font-weight: 600;
+}

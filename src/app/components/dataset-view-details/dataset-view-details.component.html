@@ -1,7 +1,4 @@
 <div *ngIf="dataset" class="p-2">
-
-
-    <!-- <p>Name</p> -->
     <label>Name</label>
     <p>{{dataset.name }}</p>
     <label>Description</label>
@@ -19,6 +16,4 @@
     <label>Size</label>
     <p>{{ dataset.dataViewFileSize ? (dataset.dataViewFileSize/1024/1024 | number):'' }} MB
         ({{dataset.dataViewFileSize | number}} bytes)</p>
-
-
 </div>

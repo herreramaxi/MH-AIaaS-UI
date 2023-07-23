@@ -4,9 +4,9 @@
     </div>
 </div>
 <kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
-    style="max-width: 1320px;" scrollable="scrollable" [filter]="gridState.filter" filterable="menu"
-    (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip"
-    (pageChange)="pageChange($event)" [resizable]="true">
+    scrollable="scrollable" [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)"
+    [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)"
+    [resizable]="true" [style.height.%]="100">
     <ng-container *ngFor="let item of header">
         <kendo-grid-column [field]="item" [title]="item" [width]="100">
             <ng-template kendoGridCellTemplate let-dataItem>

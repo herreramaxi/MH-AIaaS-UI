@@ -20,7 +20,7 @@ export class EndpointEditTestComponent implements OnInit {
     this.predictionService.getPredictionInputSample(this.endpointId).subscribe(data => {  
       if (!data) return;
 
-      this.input = JSON.stringify(data, null, 2)
+      this.input = JSON.stringify(data, null, 4)
     })
   }
 
@@ -33,7 +33,7 @@ export class EndpointEditTestComponent implements OnInit {
       .subscribe(data => {
         if (!data) return;
 
-        this.predictedSample = JSON.stringify(data, null, 2);
+        this.predictedSample = JSON.stringify(data, null, 4);
       })
   }
 }
