@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { SignalRService } from 'src/app/core/services/signalr-service';
 import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
 
@@ -11,6 +11,7 @@ export class WorkflowRunComponent implements OnChanges, OnDestroy {
 
   @Input()
   workflowId?: number;
+
   runHistory?: any;
 
   constructor(private workflowRunHistoryService: WorkflowRunHistoryService, private signalRService: SignalRService) {

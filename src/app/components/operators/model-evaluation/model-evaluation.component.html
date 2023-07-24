@@ -1,29 +1,26 @@
 <h2 mat-dialog-title>
-    <mat-icon >bar_chart_4_bars</mat-icon>
-    <span>Model metrics</span>
+    <mat-icon>bar_chart_4_bars</mat-icon>
+    <span>Model Metrics</span>
 </h2>
 <mat-dialog-content class="mat-typography" *ngIf="metrics?.Task ==='Regression'">
-    <ul>
-        <li> RSquared: {{metrics.RSquared }} </li>
-        <li> MeanSquaredError: {{metrics.MeanSquaredError }} </li>
-        <li> RootMeanSquaredError: {{metrics.RootMeanSquaredError }} </li>
-        <li> LossFunction: {{metrics.LossFunction }} </li>       
-    </ul>
+    <app-label-value label="RSquared" [value]="metrics.RSquared | number : '1.2-4'"></app-label-value>
+    <app-label-value label="MeanSquaredError" [value]="metrics.MeanSquaredError | number : '1.2-4'"></app-label-value>
+    <app-label-value label="RootMeanSquaredError"
+        [value]="metrics.RootMeanSquaredError | number : '1.2-4'"></app-label-value>
+    <app-label-value label="LossFunction" [value]="metrics.LossFunction | number : '1.2-4'"></app-label-value>
 </mat-dialog-content>
 <mat-dialog-content class="mat-typography" *ngIf="metrics?.Task ==='BinaryClassification'">
-    <ul>
-        <li> Accuracy: {{metrics.Accuracy }} </li>
-        <li> F1Score: {{metrics.F1Score }} </li>
-        <li> LogLossReduction: {{metrics.LogLossReduction }} </li>
-        <li> LogLoss: {{metrics.LogLoss }} </li>
-        <li> NegativeRecall: {{metrics.NegativeRecall }} </li>
-        <li> PositiveRecall: {{metrics.PositiveRecall }} </li>
-        <li> AreaUnderPrecisionRecallCurve: {{metrics.AreaUnderPrecisionRecallCurve }} </li>
-        <li> AreaUnderRocCurve: {{metrics.AreaUnderRocCurve }} </li>
-        <li> Entropy: {{metrics.Entropy }} </li>      
-    </ul>
+    <app-label-value label="Accuracy" [value]="metrics.Accuracy | number : '1.2-4'"></app-label-value>
+    <app-label-value label="F1Score" [value]="metrics.F1Score | number : '1.2-4'"></app-label-value>
+    <app-label-value label="LogLossReduction" [value]="metrics.LogLossReduction | number : '1.2-4'"></app-label-value>
+    <app-label-value label="LogLoss" [value]="metrics.LogLoss | number : '1.2-4'"></app-label-value>
+    <app-label-value label="NegativeRecall" [value]="metrics.NegativeRecall | number : '1.2-4'"></app-label-value>
+    <app-label-value label="PositiveRecall" [value]="metrics.PositiveRecall | number : '1.2-4'"></app-label-value>
+    <app-label-value label="AreaUnderPrecisionRecallCurve"
+        [value]="metrics.AreaUnderPrecisionRecallCurve | number : '1.2-4'"></app-label-value>
+    <app-label-value label="AreaUnderRocCurve" [value]="metrics.AreaUnderRocCurve | number : '1.2-4'"></app-label-value>
+    <app-label-value label="Entropy" [value]="metrics.Entropy | number : '1.2-4'"></app-label-value>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
-

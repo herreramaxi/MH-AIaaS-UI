@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { MlModelService } from 'src/app/core/services/ml-model.service';
 import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-ml-model-list',
@@ -13,7 +13,7 @@ import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/
 export class MlModelListComponent extends KendoGridListComponent implements OnInit {
   public itemToRemove: any;
 
-  constructor(private router: Router, private service: MlModelService,  private notificationService: NotificationService) {
+  constructor(private router: Router, private service: MlModelService, private notificationService: NotificationService) {
     super();
   }
 
@@ -35,13 +35,13 @@ export class MlModelListComponent extends KendoGridListComponent implements OnIn
 
   public editHandler(args: AddEvent): void {
     var editDataItem = args.dataItem;
-    this.router.navigate(['/models',editDataItem.id]);
+    this.router.navigate(['/models', editDataItem.id]);
   }
 
   public removeHandler(args: RemoveEvent): void {
     this.itemToRemove = args.dataItem;
   }
-  
+
   public confirmRemove(shouldRemove: boolean): void {
     var dataItemId = this.itemToRemove.id;
     this.itemToRemove = null;
@@ -49,16 +49,8 @@ export class MlModelListComponent extends KendoGridListComponent implements OnIn
     if (!shouldRemove) return;
 
     this.service.remove(dataItemId).subscribe(data => {
-
       this.LoadModels();
-
-      this.notificationService.show({
-        content: "ML Model successfully deleted",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
+      this.notificationService.ShowSuccess("ML Model successfully deleted");
     });
   }
 }

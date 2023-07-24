@@ -42,7 +42,8 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     private operatorSupportService: OperatorSupportService,
     private mlModelService: MlModelService,
     private store: Store<AppState>,
-    private workflowService: WorkflowService) {
+    private workflowService: WorkflowService,
+    private datasetService: DatasetService) {
     super();
   }
 
@@ -67,6 +68,11 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   isPreviewAvailable() {
+    if (this.operatorType == OperatorType.Dataset) {
+      return this.data?.config &&
+        this.data.config.find((x: any) => x.name === "Dataset")?.value;
+    }
+
     return this.operatorType !== OperatorType.Evaluate &&
       this.data?.parameters &&
       this.data.parameters["WorkflowDataViewId"] > 0
@@ -127,6 +133,24 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   visualizePreview() {
+    if (this.operatorType === OperatorType.Dataset) {
+      const datasetId = this.data.config.find((x: any) => x.name === "Dataset")?.value
+      if (!datasetId) return;
+
+      this.datasetService.getFilePreview(datasetId).subscribe(data => {
+        if (!data) return;
+
+        const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
+          data: data,
+          width: '1200px',
+          height: '700px',
+          autoFocus: "first-heading"
+        });
+      });
+
+      return;
+    }
+
     const workflowDataViewId = this.data?.parameters["WorkflowDataViewId"]
     if (!workflowDataViewId) return;
 
@@ -136,11 +160,9 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
       const dialogRef = this.matdialog.open(DataVisualizationDialogComponent, {
         data: data,
         width: '1200px',
+        height: '700px',
         autoFocus: "first-heading"
       });
-
-    })
-
+    });
   }
-
 }

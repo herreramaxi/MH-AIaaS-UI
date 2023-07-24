@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
 import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class EndpointListComponent extends KendoGridListComponent implements OnI
     var editDataItem = args.dataItem;
     this.router.navigate(['/endpoint', editDataItem.id]);
   }
-  
+
   public removeHandler(args: RemoveEvent): void {
     this.itemToRemove = args.dataItem;
   }
@@ -51,16 +51,8 @@ export class EndpointListComponent extends KendoGridListComponent implements OnI
     if (!shouldRemove) return;
 
     this.endpointService.remove(dataItemId).subscribe(data => {
-
       this.GetDatasets();
-
-      this.notificationService.show({
-        content: "Endpoint successfully deleted",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
+      this.notificationService.ShowSuccess("Endpoint successfully deleted");
     });
   }
 }

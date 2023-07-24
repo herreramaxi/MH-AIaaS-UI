@@ -8,8 +8,9 @@ import { map } from "rxjs";
 export class WorkflowRunHistoryService {
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return this.http.get<any[]>('api/workflowJobs').pipe(
+    getAll(workflowId?: number) {
+        var url = workflowId? `api/workflowJobs/${workflowId}`: 'api/workflowJobs';
+        return this.http.get<any[]>(url).pipe(
             map((x: any[]) => {
                 return x.map(y => {
                     y.startDate = y.startDate ? new Date(y.startDate) : y.startDate;

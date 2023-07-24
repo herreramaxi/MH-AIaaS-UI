@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { PageChangeEvent, PagerSettings } from '@progress/kendo-angular-grid';
+import { PageChangeEvent, PagerSettings, ScrollMode } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor, SortDescriptor, State, process } from '@progress/kendo-data-query';
 
 @Component({
@@ -11,14 +11,22 @@ export class DatasetPreviewComponent implements OnChanges {
 
   @Input()
   datasetPreview: any;
-
   @Input()
-  pageSize: number;
+  pageSize: number = 100;
+  @Input()
+  skip: number = 0;
+  @Input()
+  widthInPx?: number;
+  @Input()
+  height: number;
+  @Input()
+  scrollable: ScrollMode = "scrollable";
 
   gridData: any[];
   header: any[];
   totalRows?: number;
   totalColumns?: number;
+  previewRows?:number;
 
   public view: any;
   public sizes = [5, 10, 20, 50, 100];
@@ -28,8 +36,8 @@ export class DatasetPreviewComponent implements OnChanges {
       logic: "and",
       filters: []
     },
-    skip: 0,
-    take: 100,
+    skip: this.skip,
+    take: this.pageSize,
   };
 
   public pageable: PagerSettings = {
@@ -57,10 +65,10 @@ export class DatasetPreviewComponent implements OnChanges {
     this.view = process(this.gridData, this.gridState)
   }
 
-  public filterChange(filter: CompositeFilterDescriptor): void {
+  public filterChange(filter: CompositeFilterDescriptor): void {    
     this.gridState.filter = filter;
     this.loadData();
-  }
+  } 
 
   public pageChange({ skip, take }: PageChangeEvent): void {
     this.gridState.skip = skip;
@@ -79,6 +87,7 @@ export class DatasetPreviewComponent implements OnChanges {
     this.header = datasetPreview.header;
     this.totalRows = datasetPreview.totalRows;
     this.totalColumns = datasetPreview.totalColumns;
+    this.previewRows = datasetPreview.previewRows;
 
     if (!this.header) return;
     if (!datasetPreview.rows) return;

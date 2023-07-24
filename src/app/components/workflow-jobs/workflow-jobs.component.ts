@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
 import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
 
@@ -7,17 +8,19 @@ import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-hi
   templateUrl: './workflow-jobs.component.html',
   styleUrls: ['./workflow-jobs.component.css']
 })
-export class WorkflowJobsComponent extends KendoGridListComponent  implements  OnInit {
+export class WorkflowJobsComponent extends KendoGridListComponent implements OnInit {
+  workflowId?: number;
 
-  constructor(private service: WorkflowRunHistoryService) {
+  constructor(private service: WorkflowRunHistoryService, private route: ActivatedRoute) {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.workflowId = this.route.snapshot.params['id'];
     this.getWorkflowJobs();
   }
   getWorkflowJobs() {
-    this.service.getAll().subscribe(data => {
+    this.service.getAll(this.workflowId).subscribe(data => {
       if (!data) return;
 
       this.gridData = data;

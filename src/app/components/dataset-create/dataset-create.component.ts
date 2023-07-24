@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { DatasetService } from 'src/app/core/services/dataset.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-dataset-create',
@@ -51,52 +51,25 @@ export class DatasetCreateComponent {
     this.datasetService.createDataset(dataset).subscribe({
       next: data => {
         if (!data) {
-          this.notificationService.show({
-            content: "There was an error when trying to store the dataset",
-            position: { horizontal: "center", vertical: "top" },
-            animation: { type: "fade", duration: 500 },
-            closable: false,
-            type: { style: "error", icon: true },
-          });
+          this.notificationService.ShowError("There was an error when trying to store the dataset");
 
           return;
         }
 
         this.datasetService.uploadDataset(files[0], data).subscribe({
           next: x => {
-            this.notificationService.show({
-              content: "Dataset successfully created",
-              position: { horizontal: "center", vertical: "top" },
-              animation: { type: "fade", duration: 500 },
-              closable: false,
-              type: { style: "success", icon: true },
-            });
-
+            this.notificationService.ShowSuccess("Dataset successfully created");
             this.router.navigate([`/datasets`]);
           },
           error: err => {
             console.log('Error when uploading file storage', err);
-
-            this.notificationService.show({
-              content: "There was an error when trying to store the file storage ==> " + err.error,
-              position: { horizontal: "center", vertical: "top" },
-              animation: { type: "fade", duration: 500 },
-              closable: false,
-              type: { style: "error", icon: true },
-            });
+            this.notificationService.ShowError("There was an error when trying to store the file storage");
           }
         });
       },
       error: err => {
         console.log('Error when creating dataset', err);
-
-        this.notificationService.show({
-          content: "There was an error when trying to create the dataset ==> " + err.error,
-          position: { horizontal: "center", vertical: "top" },
-          animation: { type: "fade", duration: 500 },
-          closable: false,
-          type: { style: "error", icon: true },
-        });
+        this.notificationService.ShowError("There was an error when trying to create the dataset");
       }
     })
   }

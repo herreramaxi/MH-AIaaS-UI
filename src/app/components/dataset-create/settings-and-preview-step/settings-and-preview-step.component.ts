@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-settings-and-preview-step',
@@ -26,14 +26,14 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   missingRealsAsNaNsSubscription?: Subscription;
   datasetPreview?: any;
 
-  constructor(private http: HttpClient, private notificationService: NotificationService) {  
+  constructor(private http: HttpClient, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.SubscribeToDelimiterChanges();
     this.SubscribeToMissingRealsChanges();
 
-    this.stepper.selectionChange.subscribe(x => {  
+    this.stepper.selectionChange.subscribe(x => {
       if (x.selectedIndex === 1) {
         var fileInput = this.secondFormGroup.get("file")?.value;
         var file = fileInput[0];
@@ -79,9 +79,9 @@ export class SettingsAndPreviewStepComponent implements OnInit {
   private RequestPreview(formData: any, fileName: any, inferDelimiter = false) {
     this.http.post('api/datasets/preview', formData, fileName)
       .subscribe({
-        next: (res: any) => {
+        next: (res: any) => {          
           this.fileAnalysis = res;
-          this.datasetPreview = { header: res.header, rows: res.data };
+          this.datasetPreview = { ...res };
           this.formGroup.get("fileAnalysis")?.patchValue(this.fileAnalysis);
 
           if (inferDelimiter) {
@@ -92,13 +92,7 @@ export class SettingsAndPreviewStepComponent implements OnInit {
         },
         error: (e: any) => {
           console.log(e)
-          this.notificationService.show({
-            content: "There was an error when trying to preview the dataset => " + e.error,
-            position: { horizontal: "center", vertical: "top" },
-            animation: { type: "fade", duration: 500 },
-            closable: false,
-            type: { style: "error", icon: true },
-          });
+          this.notificationService.ShowError("There was an error when trying to preview the dataset => " + e.error);
         }
       })
   }

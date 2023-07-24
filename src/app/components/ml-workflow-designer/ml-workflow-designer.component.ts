@@ -4,7 +4,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
 import { Store } from '@ngrx/store';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { ClipboardService } from 'ngx-clipboard';
 import { Observable } from 'rxjs';
 import { Workflow } from 'src/app/core/models';
@@ -43,7 +42,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private service: WorkflowService,
     private registry: NgFlowchartStepRegistry,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
     private operatorService: OperatorSupportService,
     private store: Store<AppState>,
     private clipboardService: ClipboardService

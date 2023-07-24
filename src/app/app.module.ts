@@ -65,6 +65,7 @@ import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { reducers } from './state-management/reducers/reducers';
 import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { LabelValueComponent } from './core/components/label-value/label-value.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     WorkflowRunComponent,
     ResponseTimePipe,
     WorkflowJobsComponent,
+    LabelValueComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
-import { NotificationService } from '@progress/kendo-angular-notification';
-import { CompositeFilterDescriptor, filterBy, orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
-import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
 
 @Component({
   selector: 'app-workflow-list',
@@ -56,16 +55,8 @@ export class WorkflowListComponent extends KendoGridListComponent implements OnI
     if (!shouldRemove) return;
 
     this.service.remove(dataItemId).subscribe(data => {
-
       this.GetWorkflows();
-
-      this.notificationService.show({
-        content: "Workflow successfully deleted",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
+      this.notificationService.ShowSuccess("Workflow successfully deleted");
     });
   }
 }

@@ -1,22 +1,22 @@
-<h1>{{firstFormGroup.get("datasetName")?.value ? "Dataset: " + firstFormGroup.get("datasetName")?.value : "New
-    Dataset"}}</h1>
+<h1>{{firstFormGroup.get("datasetName")?.value ?
+    "Dataset: " + firstFormGroup.get("datasetName")?.value :
+    "New Dataset"}}</h1>
 
 <mat-stepper linear #stepper>
-    <div class="d-flex flex-column">
+    <div class="ad-flex aflex-column">
         <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>Basic Settings</ng-template>
             <app-basic-settings-step [formGroup]="firstFormGroup" class="p-2"></app-basic-settings-step>
         </mat-step>
         <mat-step [stepControl]="thirdFormGroup">
             <ng-template matStepLabel>Settings and Preview</ng-template>
-            <app-settings-and-preview-step [formGroup]="thirdFormGroup" [secondFormGroup]="firstFormGroup"
+            <app-settings-and-preview-step [formGroup]="thirdFormGroup" [secondFormGroup]="firstFormGroup" class="p-2"
                 [stepper]="stepper"></app-settings-and-preview-step>
         </mat-step>
         <mat-step [stepControl]="forthFormGroup">
             <ng-template matStepLabel>Schema</ng-template>
-            <app-schema-step [formGroup]="forthFormGroup" [thirdFormGroup]="thirdFormGroup"
+            <app-schema-step [formGroup]="forthFormGroup" [thirdFormGroup]="thirdFormGroup" class="p-2"
                 [stepper]="stepper"></app-schema-step>
-
             <div class="p-2 d-flex">
                 <div class="p-2">
                     <button mat-raised-button matStepperPrevious>Back</button>

@@ -12,7 +12,7 @@ export class NotificationService {
   public ShowSuccess(message: string) {
     this.notificationService.show({
       content: message,
-      position: { horizontal: "center", vertical: "top" },
+      position: { horizontal: "center", vertical: "bottom" },
       animation: { type: "fade", duration: 500 },
       closable: false,
       hideAfter: 5000,
@@ -24,7 +24,7 @@ export class NotificationService {
   public ShowError(errorMessage: string) {
     this.notificationService.show({
       content: errorMessage,
-      position: { horizontal: "center", vertical: "top" },
+      position: { horizontal: "center", vertical: "bottom" },
       animation: { type: "fade", duration: 500 },
       closable: true,
       hideAfter: 8000,
@@ -47,7 +47,7 @@ export class NotificationService {
 
       this.notificationService.show({
         content: errorMessage + ' Errors: ' + errors.join(','),
-        position: { horizontal: "center", vertical: "top" },
+        position: { horizontal: "center", vertical: "bottom" },
         animation: { type: "fade", duration: 500 },
         closable: true,
         hideAfter: 10000,
@@ -59,7 +59,7 @@ export class NotificationService {
 
     this.notificationService.show({
       content: errorResponse.message,
-      position: { horizontal: "center", vertical: "top" },
+      position: { horizontal: "center", vertical: "bottom" },
       animation: { type: "fade", duration: 500 },
       closable: true,
       hideAfter: 10000,

@@ -24,11 +24,7 @@ export class SchemaStepComponent implements OnInit {
   availableDataTypes: any[];
   public sizes = [5, 10, 20, 50, 100];
   public gridState: State = {
-    sort: [
-      {
-        field: "columnName",
-        dir: "asc",
-      },
+    sort: [     
     ],
     filter: {
       logic: "and",

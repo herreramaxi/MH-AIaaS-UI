@@ -1,8 +1,11 @@
 <div *ngIf="runHistory">
     <h2>Workflow Properties</h2>
-    <p>Start Date: {{runHistory.startDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-    <p>End Date: {{runHistory.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-    <p>Duration: {{ runHistory.milliseconds | responseTime}}</p>
-    <p>Status: {{runHistory.statusHumanized }}</p>
-    <p *ngIf="runHistory.statusDetail">Status Detail: {{runHistory.statusDetail }}</p>
+    <app-label-value label="Start Date"
+        [value]="runHistory.startDate | date:'yyyy-MM-dd HH:mm:ss'"></app-label-value>
+    <app-label-value label="End Date"
+        [value]="runHistory.endDate | date:'yyyy-MM-dd HH:mm:ss'"></app-label-value>
+    <app-label-value label="Duration" [value]="runHistory.milliseconds | responseTime"></app-label-value>
+    <app-label-value label="Status" [value]="runHistory.statusHumanized"></app-label-value>
+    <app-label-value label="Status Detail" [value]="runHistory.statusDetail"></app-label-value>
+    <a [routerLink]="['/workflowJobs', workflowId]">View Workflow Run History</a>
 </div>

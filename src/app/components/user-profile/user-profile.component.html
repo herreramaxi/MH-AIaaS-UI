@@ -1,4 +1,4 @@
-<div class="container">
+<div class="p-2">
     <h1 id="page-title" class="content__title">Profile</h1>
     <div class="content__body">
         <ng-container *ngIf="user$ | async as user">
@@ -6,11 +6,16 @@
                 <img [src]="user.picture" alt="Profile" class="profile__avatar" />
                 <div class="profile__headline">
                     <h2 class="profile__title">{{ user.name }}</h2>
-                    <p>Email: {{ user.email }}</p>
-                    <p>Last name: {{ user.family_name }}</p>
-                    <p>First name: {{ user.given_name }}</p>
-                    <p>Roles: {{user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']}}</p>
-                    <p>Email verified: {{user['email_verified']}}</p>
+                    <label>Email</label>
+                    <p>{{user.email }}</p>
+                    <label>Last name</label>
+                    <p>{{user.family_name }}</p>
+                    <label>First name</label>
+                    <p>{{user.given_name }}</p>
+                    <label>Roles</label>
+                    <p>{{user.given_name }}</p>
+                    <label>Email verified</label>
+                    <p>{{user['email_verified']}}</p>
                 </div>
             </div>
         </ng-container>

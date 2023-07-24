@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { Subject } from 'rxjs';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 import { KendoGridListComponent } from 'src/app/core/components/kendo-grid-list/kendo-grid-list.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',
@@ -56,16 +56,8 @@ export class DatasetListComponent extends KendoGridListComponent implements OnIn
     if (!shouldRemove) return;
 
     this.datasetService.remove(dataItemId).subscribe(data => {
-
       this.GetDatasets();
-
-      this.notificationService.show({
-        content: "Dataset successfully deleted",
-        position: { horizontal: "center", vertical: "top" },
-        animation: { type: "fade", duration: 500 },
-        closable: false,
-        type: { style: "success", icon: true },
-      });
+      this.notificationService.ShowSuccess("Dataset successfully deleted");
     });
   }
 }

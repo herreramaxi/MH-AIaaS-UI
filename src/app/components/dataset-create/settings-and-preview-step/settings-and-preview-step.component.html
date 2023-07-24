@@ -7,16 +7,16 @@
         <mat-slide-toggle class="example-margin" [color]="color" formControlName="missingRealsAsNaNs">
             Missing Reals as NaNs
         </mat-slide-toggle>
-        <div *ngIf="datasetPreview" class="mt-4">
-            <app-dataset-preview [datasetPreview]="datasetPreview" [pageSize]="10"></app-dataset-preview>
+    </div>
+    <div *ngIf="datasetPreview" class="mt-4">
+        <app-dataset-preview [datasetPreview]="datasetPreview" [pageSize]="100" [height]="500" [widthInPx]="1737" scrollable="virtual"></app-dataset-preview>
+    </div>
+    <div class="p-2 d-flex">
+        <div class="p-2">
+            <button mat-raised-button matStepperPrevious>Back</button>
         </div>
-        <div class="p-2 d-flex">
-            <div class="p-2">
-                <button mat-raised-button matStepperPrevious>Back</button>
-            </div>
-            <div class="p-2">
-                <button mat-raised-button matStepperNext color="primary">Next</button>
-            </div>
+        <div class="p-2">
+            <button mat-raised-button matStepperNext color="primary">Next</button>
         </div>
     </div>
 </form>

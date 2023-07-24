@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'datasetCreate', component: DatasetCreateComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflows', component: WorkflowListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflowJobs', component: WorkflowJobsComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'workflowJobs/:id', component: WorkflowJobsComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflow-designer/:id', component: MlWorkflowDesignerComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'models', component: MlModelListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'models/:id', component: MlModelEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
