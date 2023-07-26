@@ -34,23 +34,27 @@ export class WorkflowService {
     return this.http.get<any[]>('api/operators');
   }
 
-  save(workflow: Workflow){
+  save(workflow: Workflow) {
     return this.http.put<Workflow>('api/workflows', workflow);
   }
 
-  remove(id:number){
+  remove(id: number) {
     return this.http.delete<Workflow>(`api/workflows/${id}`);
   }
 
-  run(workflow: Workflow){
+  run(workflow: Workflow) {
     return this.http.post<Workflow>('api/workflows/run', workflow);
   }
 
-  validate(workflow: Workflow){
+  validate(workflow: Workflow) {
     return this.http.post<Workflow>('api/workflows/validate', workflow);
   }
 
   publish(workflow: Workflow) {
     return this.http.post<Workflow>(`api/workflows/publish`, workflow);
+  }
+
+  scheduleWorkflow(workflowId: number) {
+    return this.http.post<Workflow>('api/workflows/scheduleJob/' + workflowId, null);
   }
 }

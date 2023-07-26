@@ -8,4 +8,6 @@ export interface Dataset extends AuditModel {
     size?: number;
     dataViewFileName?: string;
     dataViewFileSize?: number;
+    fileUrl?: string;
+    dataViewFileUrl?: string;
 }

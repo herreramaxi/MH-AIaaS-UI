@@ -19,27 +19,5 @@ export class DatasetViewDetailsComponent implements OnInit {
       if (!data) return;
       this.dataset = data;
     })
-  }
-
-  downloadFile(): void {
-    this.datasetService.downloadOriginalFile(this.dataset.id).subscribe(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = this.dataset.fileName ?? "file";
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
-  }
-
-  downloadDataviewFile(): void {
-    this.datasetService.downloadDataviewFile(this.dataset.id).subscribe(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = this.dataset.dataViewFileName ?? "file";
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
-  }
+  } 
 }
