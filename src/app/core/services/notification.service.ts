@@ -33,9 +33,11 @@ export class NotificationService {
   }
 
   public ShowErrorResponse(errorResponse: HttpErrorResponse) {
+    var errorMessage = errorResponse.message;
 
+    //FluentValidation
     if (errorResponse.error.errors) {
-      var errorMessage = errorResponse.error.errors.title ?? "One or more validation errors occurred."
+      errorMessage = errorResponse.error.errors.title ?? "One or more validation errors occurred."
       const errors: string[] = [];
 
       Object.keys(errorResponse.error.errors).forEach((prop) => {
@@ -57,8 +59,13 @@ export class NotificationService {
       return;
     }
 
+    //Ardalis Result
+    if (errorResponse.error?.detail) {
+      errorMessage = errorResponse.error?.detail;
+    }
+
     this.notificationService.show({
-      content: errorResponse.message,
+      content: errorMessage,
       position: { horizontal: "center", vertical: "bottom" },
       animation: { type: "fade", duration: 500 },
       closable: true,
