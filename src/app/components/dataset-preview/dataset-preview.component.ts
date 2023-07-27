@@ -24,9 +24,7 @@ export class DatasetPreviewComponent implements OnChanges {
 
   gridData: any[];
   header: any[];
-  totalRows?: number;
-  totalColumns?: number;
-  previewRows?:number;
+  previewRows?: number;
 
   public view: any;
   public sizes = [5, 10, 20, 50, 100];
@@ -65,10 +63,10 @@ export class DatasetPreviewComponent implements OnChanges {
     this.view = process(this.gridData, this.gridState)
   }
 
-  public filterChange(filter: CompositeFilterDescriptor): void {    
+  public filterChange(filter: CompositeFilterDescriptor): void {
     this.gridState.filter = filter;
     this.loadData();
-  } 
+  }
 
   public pageChange({ skip, take }: PageChangeEvent): void {
     this.gridState.skip = skip;
@@ -83,16 +81,13 @@ export class DatasetPreviewComponent implements OnChanges {
       return;
     }
 
-    const datasetPreview = change.currentValue;
-    this.header = datasetPreview.header;
-    this.totalRows = datasetPreview.totalRows;
-    this.totalColumns = datasetPreview.totalColumns;
-    this.previewRows = datasetPreview.previewRows;
-
+    this.datasetPreview = change.currentValue;
+    this.header =    this.datasetPreview .header;
+    
     if (!this.header) return;
-    if (!datasetPreview.rows) return;
+    if (!this.datasetPreview.rows) return;
 
-    const objects = datasetPreview.rows.map((row: any) => {
+    const objects = this.datasetPreview.rows.map((row: any) => {
       const obj = {} as any;
 
       this.header.forEach((property: any, index: any) => {

@@ -1,10 +1,9 @@
-<div class="p-2" *ngIf="totalRows && totalColumns">
-    Rows: {{totalRows}}, Columns: {{totalColumns}}
+<div class="p-2" *ngIf="datasetPreview?.totalRows && datasetPreview.totalColumns && datasetPreview.topRows< datasetPreview.totalRows">
+    Columns: {{datasetPreview.totalColumns}}, Rows: top {{datasetPreview.topRows}} of {{datasetPreview.totalRows}}
 </div>
-<div *ngIf="previewRows">
-    Preview top {{previewRows}} rows
+<div class="p-2" *ngIf="datasetPreview?.totalRows && datasetPreview.totalColumns && datasetPreview.topRows>= datasetPreview.totalRows">
+    Columns: {{datasetPreview.totalColumns}}, Rows: {{datasetPreview.totalRows}}
 </div>
-
 <kendo-grid [data]="view" [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)"
     [scrollable]="scrollable" [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)"
     [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)"
