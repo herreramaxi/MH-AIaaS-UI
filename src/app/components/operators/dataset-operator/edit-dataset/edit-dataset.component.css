@@ -1,8 +1,0 @@
-kendo-listbox {
-    height: 270px;
-    width: 240px;
-}
-
-kendo-listbox:nth-of-type(1) {
-    margin-right: 8px;
-}

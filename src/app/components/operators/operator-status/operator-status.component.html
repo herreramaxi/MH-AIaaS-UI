@@ -1,4 +1,5 @@
 <!-- <div>     -->
-<mat-icon *ngIf="isFailed" [ngStyle]="{ color: 'red' }" matTooltip="{{message}}">error</mat-icon>
-<mat-icon *ngIf="!isFailed" [ngStyle]="{ color: 'green' }" matTooltip="Successfully Executed">done</mat-icon>
+<mat-icon *ngIf="status == 3" [ngStyle]="{ color: 'red' }" matTooltip="{{message}}">error</mat-icon>
+<mat-icon *ngIf="status == 2" [ngStyle]="{ color: 'green' }" matTooltip="Successfully Executed">done</mat-icon>
+<mat-progress-spinner *ngIf="status == 1" mode="indeterminate" diameter="20" [color]="'primary'"></mat-progress-spinner>
 <!-- </div> -->

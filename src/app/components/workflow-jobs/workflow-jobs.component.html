@@ -16,9 +16,9 @@
             <app-ellipsis-text [inputText]="dataItem.statusDetail"></app-ellipsis-text>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="milliseconds" title="Duration" [width]="150">
+    <kendo-grid-column field="totalMilliseconds" title="Duration" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
-            {{dataItem.milliseconds | responseTime}}
+            {{dataItem.totalMilliseconds | responseTime}}
         </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="startDate" title="Start Date" filter="date" [width]="150">

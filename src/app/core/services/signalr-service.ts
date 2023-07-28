@@ -27,4 +27,12 @@ export class SignalRService {
     removeHandlerReceiveWorkflowRunHistoryUpdate() {
         this.hubConnection.off('ReceiveWorkflowRunHistoryUpdate');
     }
+
+    registerHandlerReceiveWorkflowNodeRunHistoryUpdate(handler: any) {
+        this.hubConnection.on('ReceiveWorkflowNodeRunHistoryUpdate', handler);
+    }
+
+    removeHandlerReceiveWorkflowNodeRunHistoryUpdate() {
+        this.hubConnection.off('ReceiveWorkflowNodeRunHistoryUpdate');
+    }
 }

@@ -39,8 +39,7 @@ import { DialogChangeNameComponent } from './components/ml-workflow-designer/dia
 import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
 import { PublishWorkflowComponent } from './components/ml-workflow-designer/publish-workflow/publish-workflow.component';
 import { CustomStepComponent } from './components/operators/custom-step/custom-step.component';
-import { DatasetOperatorComponent } from './components/operators/dataset-operator/dataset-operator.component';
-import { EditDatasetComponent } from './components/operators/dataset-operator/edit-dataset/edit-dataset.component';
+import { EditDatasetComponent } from './components/operators/standard-step/edit-dataset/edit-dataset.component';
 import { ModelEvaluationComponent } from './components/operators/model-evaluation/model-evaluation.component';
 import { OperatorStatusComponent } from './components/operators/operator-status/operator-status.component';
 import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
@@ -92,7 +91,6 @@ import { LabelValueComponent } from './core/components/label-value/label-value.c
     MlModelEditComponent,
     EndpointListComponent,
     EndpointEditComponent,
-    DatasetOperatorComponent,
     EditDatasetComponent,
     OperatorStatusComponent,
     ModelEvaluationComponent,

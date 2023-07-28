@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ListBoxToolbarConfig } from '@progress/kendo-angular-listbox';
 import { DatasetService } from 'src/app/core/services/dataset.service';
-import { EditStepComponent } from '../../standard-step/edit-step/edit-step.component';
-import { StandardStepData } from '../../standard-step/standard-step.component';
+import { EditStepComponent } from '../edit-step/edit-step.component';
+import { StandardStepData } from '../standard-step.component';
 
 @Component({
   selector: 'app-edit-dataset',

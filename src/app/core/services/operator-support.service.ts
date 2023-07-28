@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DatasetOperatorComponent } from 'src/app/components/operators/dataset-operator/dataset-operator.component';
 import { StandardStepComponent } from 'src/app/components/operators/standard-step/standard-step.component';
 import { OperatorType } from '../models/enums/enums';
 

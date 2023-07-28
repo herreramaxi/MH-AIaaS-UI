@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
 import { Store } from '@ngrx/store';
-import { OperatorType } from 'src/app/core/models/enums/enums';
+import { OperatorType, WorkflowRunStatus } from 'src/app/core/models/enums/enums';
 import { MlModelService } from 'src/app/core/services/ml-model.service';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
@@ -17,7 +17,8 @@ import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { DatasetPreviewComponent } from '../../dataset-preview/dataset-preview.component';
 import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
 import { DatasetService } from 'src/app/core/services/dataset.service';
-import { EditDatasetComponent } from '../dataset-operator/edit-dataset/edit-dataset.component';
+import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
+import { SignalRService } from 'src/app/core/services/signalr-service';
 
 export type StandardStepData = {
   name: string,
@@ -31,19 +32,20 @@ export type StandardStepData = {
   templateUrl: './standard-step.component.html',
   styleUrls: ['./standard-step.component.scss']
 })
-export class StandardStepComponent extends NgFlowchartStepComponent {
+export class StandardStepComponent extends NgFlowchartStepComponent implements OnDestroy {
   name: string;
-  isFailed?: boolean;
-  validationMessage: string;
+  statusDetail: string;
   operatorType?: OperatorType;
   showEdit?: boolean;
+  status?: WorkflowRunStatus;
 
   constructor(private matdialog: MatDialog,
     private operatorSupportService: OperatorSupportService,
     private mlModelService: MlModelService,
     private store: Store<AppState>,
     private workflowService: WorkflowService,
-    private datasetService: DatasetService) {
+    private datasetService: DatasetService,
+    private signalRService: SignalRService) {
     super();
   }
 
@@ -51,14 +53,26 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     super.ngOnInit();
 
     this.name = this.data.name;
-    this.isFailed = this.data.isFailed;
-    this.validationMessage = this.data.validationMessage;
+    this.status = this.data.isFailed ? 3 : 2;
+    this.statusDetail = this.data.validationMessage;
 
     var operatorTypeString = this.type as keyof typeof OperatorType;
     this.operatorType = OperatorType[operatorTypeString ?? OperatorType.Nop]
     this.data.color = this.operatorSupportService.getColor(this.operatorType);
     this.data.icon = this.operatorSupportService.getIcon(this.operatorType);
     this.showEdit = this.operatorType !== OperatorType.Evaluate;
+
+    this.signalRService.startConnection();
+    this.signalRService.registerHandlerReceiveWorkflowNodeRunHistoryUpdate((workflowNodeRunHistory: any) => {
+      if (this.id !== workflowNodeRunHistory?.nodeId || this.type !== workflowNodeRunHistory?.nodeType) return;
+
+      this.status = workflowNodeRunHistory.status;
+      this.statusDetail = workflowNodeRunHistory.statusDetail;
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.signalRService.removeHandlerReceiveWorkflowRunHistoryUpdate();
   }
 
   areMetricsAvailable() {

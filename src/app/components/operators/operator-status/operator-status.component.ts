@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { WorkflowRunStatus } from 'src/app/core/models/enums/enums';
 
 @Component({
   selector: 'app-operator-status',
@@ -8,12 +9,26 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 export class OperatorStatusComponent implements OnInit {
 
   @Input()
-  isFailed?: boolean;
+  status?: WorkflowRunStatus;
   @Input()
   message: string;
 
   ngOnInit(): void {
 
     this.message = this.message ?? 'Please configure the operator and run it'
+  }
+
+  
+  ngOnChanges(changes: SimpleChanges) {
+    const status = changes['status'];
+    const message = changes['message'];
+    
+    if (status?.currentValue) {
+      this.status = status?.currentValue;
+    }
+
+    if (message?.currentValue) {
+      this.message = message?.currentValue;
+    }
   }
 }

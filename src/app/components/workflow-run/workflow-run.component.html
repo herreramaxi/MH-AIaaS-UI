@@ -4,7 +4,7 @@
         [value]="runHistory.startDate | date:'yyyy-MM-dd HH:mm:ss'"></app-label-value>
     <app-label-value label="End Date"
         [value]="runHistory.endDate | date:'yyyy-MM-dd HH:mm:ss'"></app-label-value>
-    <app-label-value label="Duration" [value]="runHistory.milliseconds | responseTime"></app-label-value>
+    <app-label-value label="Duration" [value]="runHistory.totalMilliseconds | responseTime"></app-label-value>
     <app-label-value label="Status" [value]="runHistory.statusHumanized"></app-label-value>
     <app-label-value label="Status Detail" [value]="runHistory.statusDetail"></app-label-value>
     <a [routerLink]="['/workflowJobs', workflowId]">View Workflow Run History</a>

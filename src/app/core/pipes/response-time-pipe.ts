@@ -7,7 +7,7 @@ export class ResponseTimePipe implements PipeTransform {
         
         const minutes = Math.floor(value / 60000);
         const seconds = Math.floor((value % 60000) / 1000);
-        const milliseconds = value % 1000;
+        const milliseconds = (value % 1000).toFixed(4);
 
         let result = '';
         if (minutes > 0) {

@@ -10,12 +10,19 @@ export enum OperatorType {
 }
 
 export enum AuthenticationType {
-    NA=0,
+    NA = 0,
     TokenBased = 2,
 }
 
 export enum MetricType {
-    NA=0,
+    NA = 0,
     Regression = 1,
     BinaryClassification = 2,
+}
+
+export enum WorkflowRunStatus {
+    Pending = 0,
+    Running = 1,
+    Finished = 2,
+    Failed = 3
 }
