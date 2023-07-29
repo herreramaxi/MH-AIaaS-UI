@@ -14,6 +14,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
 import { DatasetViewComponent } from './components/dataset-view/dataset-view.component';
 import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
+import { WorkflowJobDetailsComponent } from './components/workflow-job-details/workflow-job-details.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'workflows', component: WorkflowListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflowJobs', component: WorkflowJobsComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflowJobs/:id', component: WorkflowJobsComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
+  { path: 'workflowJobDetails/:id', component: WorkflowJobDetailsComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'workflow-designer/:id', component: MlWorkflowDesignerComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'models', component: MlModelListComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },
   { path: 'models/:id', component: MlModelEditComponent, canActivate: [AuthGuardByRole], data: { roles: ['Administrator'] } },

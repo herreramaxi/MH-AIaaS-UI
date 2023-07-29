@@ -57,10 +57,8 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     this.showEdit = this.operatorType !== OperatorType.Evaluate;
 
     this.websocketRouterService.workflowNodeRunHistoryEvent.subscribe((workflowNodeRunHistory: any) => {
-      debugger
       if (this.id !== workflowNodeRunHistory?.nodeId || this.type !== workflowNodeRunHistory?.nodeType) return;
 
-      debugger
       this.data.status = workflowNodeRunHistory.status;
       this.data.statusDetail = workflowNodeRunHistory.statusDetail;
     })

@@ -9,6 +9,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Cleaning mode</mat-label>
                     <mat-select formControlName="Cleaning mode">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let cleanMode of cleanModes async" [value]="cleanMode.id">
                             {{cleanMode.name}}
                         </mat-option>

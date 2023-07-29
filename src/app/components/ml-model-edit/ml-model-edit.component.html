@@ -9,10 +9,8 @@
                 <p><a [routerLink]="['/workflow-designer', model.workflowId]"> {{model.name}}</a></p>
                 <label>File</label>
                 <p><a href="javascript:void(0)" (click)="downloadFile()">{{model.fileName}}</a></p>
-                <app-label-value label="Size"
-                    value="{{ model.size ? (model.size/1024/1024 | number):'' }} MB ({{model.size | number}} bytes)"></app-label-value>
-                <label>Size</label>
-                <!-- <p>{{ model.size ? (model.size/1024/1024 | number):'' }} MB ({{model.size | number}} bytes)</p> -->
+                <app-label-value label="Size" value="{{ model.size  | storageSize}}"></app-label-value>        
+
                 <app-label-value label="Published" [value]="model.isPublished"></app-label-value>
                 <app-label-value label="Created On" [value]="model.createdOn| date:'dd/MM/yyyy'"></app-label-value>
                 <app-label-value label="Created By" [value]="model.createdBy"></app-label-value>

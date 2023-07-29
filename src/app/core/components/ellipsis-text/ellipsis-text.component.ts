@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class EllipsisTextComponent {
   @Input()
-  inputText: string;
+  inputText?: string;
 }

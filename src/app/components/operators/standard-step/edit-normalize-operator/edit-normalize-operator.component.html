@@ -9,6 +9,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Normalize mode</mat-label>
                     <mat-select formControlName="Normalization mode">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let mode of modes async" [value]="mode.id">
                             {{mode.name}}
                         </mat-option>

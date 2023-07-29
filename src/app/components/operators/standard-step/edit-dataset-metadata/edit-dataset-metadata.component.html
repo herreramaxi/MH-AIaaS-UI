@@ -9,6 +9,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Data Type Conversion</mat-label>
                     <mat-select formControlName="DataType">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let dataType of dataTypes" [value]="dataType.id">
                             {{dataType.name}}
                         </mat-option>
@@ -20,6 +21,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Categorical</mat-label>
                     <mat-select formControlName="Categorical">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let categoricalType of categoricalTypes" [value]="categoricalType.id">
                             {{categoricalType.name}}
                         </mat-option>

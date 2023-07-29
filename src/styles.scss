@@ -44,3 +44,7 @@ body {
 .k-notification-group{
   z-index: 10000;
 }
+
+.k-grid a {
+  color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+}

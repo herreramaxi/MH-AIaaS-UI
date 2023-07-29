@@ -10,10 +10,9 @@
     <label>File Name</label>
     <p><a [href]="dataset.fileUrl" [download]="dataset.fileName">{{dataset.fileName}}</a></p>
     <label>Size</label>
-    <p>{{ dataset.size ? (dataset.size/1024/1024 | number):'' }} MB ({{dataset.size | number}} bytes)</p>
+    <p>{{ dataset.size | storageSize}}</p>
     <label>Binary IDV File</label>
     <p><a [href]="dataset.dataViewFileUrl" [download]="dataset.dataViewFileName">{{dataset.dataViewFileName}}</a></p>
     <label>Size</label>
-    <p>{{ dataset.dataViewFileSize ? (dataset.dataViewFileSize/1024/1024 | number):'' }} MB
-        ({{dataset.dataViewFileSize | number}} bytes)</p>
+    <p>{{ dataset.dataViewFileSize | storageSize}}</p>
 </div>

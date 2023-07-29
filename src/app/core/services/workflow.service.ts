@@ -45,16 +45,8 @@ export class WorkflowService {
   run(workflow: Workflow) {
     return this.http.post<Workflow>('api/workflows/run', workflow);
   }
-
-  validate(workflow: Workflow) {
-    return this.http.post<Workflow>('api/workflows/validate', workflow);
-  }
-
+  
   publish(workflow: Workflow) {
     return this.http.post<Workflow>(`api/workflows/publish`, workflow);
-  }
-
-  scheduleWorkflow(workflowId: number) {
-    return this.http.post<Workflow>('api/workflows/scheduleJob/' + workflowId, null);
-  }
+  } 
 }

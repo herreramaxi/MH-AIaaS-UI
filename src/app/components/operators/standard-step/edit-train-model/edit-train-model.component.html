@@ -9,6 +9,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Label</mat-label>
                     <mat-select formControlName="Label">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let datasetColumn of datasetColumns" [value]="datasetColumn">
                             {{datasetColumn}}
                         </mat-option>
@@ -20,6 +21,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Task</mat-label>
                     <mat-select formControlName="Task">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let task of tasks" [value]="task.id">
                             {{task.name}}
                         </mat-option>
@@ -32,6 +34,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Trainer</mat-label>
                     <mat-select formControlName="Trainer">
+                        <mat-option>None</mat-option>    
                         <mat-option *ngFor="let trainer of trainers" [value]="trainer.id">
                             {{trainer.name}}
                         </mat-option>

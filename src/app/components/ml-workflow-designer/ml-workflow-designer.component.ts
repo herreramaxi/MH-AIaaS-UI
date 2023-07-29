@@ -54,7 +54,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.options.manualConnectors = false;
 
     this.callbacks.onDropStep = (x) => {
-      debugger
       console.log("designer-onDropStep")
       this.triggerWorkflowChange();
     };
@@ -182,18 +181,18 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
     this.isPublished$ = this.store.select(selectWorkflowIsPublished);
 
-    this.workflow$.subscribe(m => {
-      console.log("designer-workflow")      
+    this.workflow$.subscribe(async m => {
+      console.log("designer-workflow")
       if (!m) return;
 
       this.workflow = m;
 
       if (this.workflow.root) {
-        this.chart.getFlow().upload(this.workflow.root);
+        await this.chart.getFlow().upload(this.workflow.root);
       }
     })
 
-    this.workflowValidated$.subscribe(m => {      
+    this.workflowValidated$.subscribe(m => {
       if (!m) return;
 
       console.log("designer-workflowValidated")
@@ -201,7 +200,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     })
 
     this.operatorSaved$.subscribe(data => {
-      if(!data) return
+      if (!data) return
 
       console.log("designer-operatorSaved")
       this.triggerWorkflowChange();
@@ -272,13 +271,13 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   pasteWorkflow() {
-
     navigator.clipboard.readText()
-      .then(clipboardContent => {
+      .then(async clipboardContent => {        
         const tree = JSON.parse(clipboardContent);
 
         this.cleanTree(tree.root);
-        this.chart.getFlow().upload(tree);
+        await this.chart.getFlow().upload(tree);
+
         console.log("designer-pasteWorkflow")
         this.triggerWorkflowChange();
       })

@@ -65,6 +65,8 @@ import { reducers } from './state-management/reducers/reducers';
 import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { LabelValueComponent } from './core/components/label-value/label-value.component';
+import { WorkflowJobDetailsComponent } from './components/workflow-job-details/workflow-job-details.component';
+import { StorageSizePipe } from './core/pipes/storage-size-pipe';
 
 @NgModule({
   declarations: [
@@ -112,8 +114,10 @@ import { LabelValueComponent } from './core/components/label-value/label-value.c
     KendoGridListComponent,
     WorkflowRunComponent,
     ResponseTimePipe,
+    StorageSizePipe,
     WorkflowJobsComponent,
     LabelValueComponent,
+    WorkflowJobDetailsComponent,
   ],
   imports: [
     BrowserModule,

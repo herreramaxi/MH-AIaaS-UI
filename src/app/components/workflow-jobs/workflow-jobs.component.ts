@@ -20,7 +20,7 @@ export class WorkflowJobsComponent extends KendoGridListComponent implements OnI
     this.getWorkflowJobs();
   }
   getWorkflowJobs() {
-    this.service.getAll(this.workflowId).subscribe(data => {
+    this.service.getJobs(this.workflowId).subscribe(data => {
       if (!data) return;
 
       this.gridData = data;
