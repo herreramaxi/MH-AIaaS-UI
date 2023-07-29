@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowPublishType, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
+import { operatorSaved, workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowPublishType, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
+import { WorkflowState, selectWorkflow } from '../reducers/workflow.reducers';
+import { AppState } from '../reducers/reducers';
+import { Store } from '@ngrx/store';
+import { Workflow } from 'src/app/core/models';
 
 @Injectable()
 export class WorkflowEffects {
@@ -26,25 +30,24 @@ export class WorkflowEffects {
 
     workflowChanged$ = createEffect(() => this.actions$.pipe(
         ofType(workflowChange),
-        concatMap((action) => this.service.validate(action.workflow)
+        concatMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
-                    return workflowChangedSuccess(response)
+                    return workflowSavedSuccess(response)
                 }),
                 catchError((response: any) => {
                     console.log(`Error on action ${workflowChangeActionType} - workflowChangedError`)
                     console.log(response)
-                    return of(workflowChangedError({ error: response.error }))
+                    return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
     ));
-
 
     workflowSaved$ = createEffect(() => this.actions$.pipe(
         ofType(workflowSave),
         exhaustMap((action) => this.service.save(action.workflow)
             .pipe(
-                map(response => {                 
+                map(response => {
                     return workflowSavedSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -52,13 +55,13 @@ export class WorkflowEffects {
                     return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
-    ));
+    ));   
 
     workflowRun$ = createEffect(() => this.actions$.pipe(
         ofType(workflowRun),
         concatMap((action) => this.service.run(action.workflow)
             .pipe(
-                map(response => {                    
+                map(response => {
                     return workflowRunSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -72,7 +75,7 @@ export class WorkflowEffects {
         ofType(workflowPublish),
         exhaustMap((action) => this.endpointService.create(action.endpoint)
             .pipe(
-                map(response => {               
+                map(response => {
                     return workflowPublishSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -85,6 +88,7 @@ export class WorkflowEffects {
     constructor(
         private actions$: Actions,
         private service: WorkflowService,
-        private endpointService: EndpointService
+        private endpointService: EndpointService,
+        private store: Store<AppState>
     ) { }
 }

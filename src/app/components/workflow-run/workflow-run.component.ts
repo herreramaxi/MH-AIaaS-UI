@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { SignalRService } from 'src/app/core/services/signalr-service';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { WebSocketRouterService } from 'src/app/core/services/websocket-router.service';
 import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
 
 @Component({
@@ -7,14 +7,14 @@ import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-hi
   templateUrl: './workflow-run.component.html',
   styleUrls: ['./workflow-run.component.css']
 })
-export class WorkflowRunComponent implements OnChanges, OnDestroy {
+export class WorkflowRunComponent implements OnChanges {
 
   @Input()
   workflowId?: number;
 
   runHistory?: any;
 
-  constructor(private workflowRunHistoryService: WorkflowRunHistoryService, private signalRService: SignalRService) {
+  constructor(private workflowRunHistoryService: WorkflowRunHistoryService, private websocketRouterService: WebSocketRouterService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -24,8 +24,7 @@ export class WorkflowRunComponent implements OnChanges, OnDestroy {
       return;
     }
 
-    this.signalRService.startConnection();
-    this.signalRService.registerHandlerReceiveWorkflowRunHistoryUpdate((workflowRunHistory: any) => {
+    this.websocketRouterService.workflowRunHistoryEvent.subscribe((workflowRunHistory: any) => {
       console.log(`ReceiveWorkflowRunHistoryUpdate:`);
       console.log(workflowRunHistory)
 
@@ -42,10 +41,6 @@ export class WorkflowRunComponent implements OnChanges, OnDestroy {
 
       this.loadData(data);
     })
-  }
-
-  ngOnDestroy(): void {
-    this.signalRService.removeHandlerReceiveWorkflowRunHistoryUpdate();
   }
 
   private loadData(data: any) {

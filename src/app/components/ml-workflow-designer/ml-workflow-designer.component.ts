@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
+import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ClipboardService } from 'ngx-clipboard';
 import { Observable } from 'rxjs';
@@ -26,7 +27,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   workflow$: Observable<Workflow | undefined>;
   workflowValidated$: Observable<Workflow | undefined>;
-  operatorSaved$: Observable<boolean | undefined>;
+  operatorSaved$: Observable<Date | undefined>;
   workflowStatus$: Observable<string | undefined>;
   isModelGenerated$: Observable<boolean | undefined>;
   isPublished$: Observable<boolean | undefined>;
@@ -44,19 +45,25 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private operatorService: OperatorSupportService,
     private store: Store<AppState>,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+
+    private actions$: Actions,
   ) {
 
     this.options = new NgFlowchart.Options();
     this.options.manualConnectors = false;
 
     this.callbacks.onDropStep = (x) => {
+      debugger
+      console.log("designer-onDropStep")
       this.triggerWorkflowChange();
     };
 
-    this.callbacks.afterDeleteStep = (x) => {
-      this.triggerWorkflowChange();
-    }
+    // this.callbacks.afterDeleteStep = (x) => {
+    //   debugger
+    //   console.log("designer-afterDeleteStep")
+    //   this.triggerWorkflowChange();
+    // }
 
     this.callbacks.onDropError = (x) => {
       console.log(`onDropError: ${x.error.message}`);
@@ -92,9 +99,10 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   private triggerWorkflowChange() {
     const json = this.chart.getFlow().toJSON();
+    console.log("triggerWorkflowChange:")
+    console.log(json)
+
     if (this.workflow) {
-
-
       this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
     }
   }
@@ -119,8 +127,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
       const validatedNode = this.getNodeFromTree(validatedTreeNode, node.id)
 
       if (validatedNode?.data) {
-        node.data.isFailed = validatedNode.data.isFailed;
-        node.data.validationMessage = validatedNode.data.validationMessage;
+        node.data.status = validatedNode.data.status;
+        node.data.statusDetail = validatedNode.data.statusDetail;
         node.data.parameters = validatedNode.data.parameters;
         node.data.datasetColumns = validatedNode.data.datasetColumns;
       }
@@ -141,8 +149,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
     if (!node) return node;
 
     if (node.data) {
-      node.data.isFailed = false;
-      node.data.validationMessage = undefined;
+      node.data.status = undefined;
+      node.data.statusDetail = undefined;
       node.data.parameters = undefined;
     }
 
@@ -175,6 +183,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
     this.isPublished$ = this.store.select(selectWorkflowIsPublished);
 
     this.workflow$.subscribe(m => {
+      console.log("designer-workflow")      
       if (!m) return;
 
       this.workflow = m;
@@ -184,18 +193,21 @@ export class MlWorkflowDesignerComponent implements OnInit {
       }
     })
 
-    this.workflowValidated$.subscribe(m => {
+    this.workflowValidated$.subscribe(m => {      
       if (!m) return;
 
+      console.log("designer-workflowValidated")
       this.validate(m);
     })
 
     this.operatorSaved$.subscribe(data => {
+      if(!data) return
 
-      if (!data) return;
-
+      console.log("designer-operatorSaved")
       this.triggerWorkflowChange();
     });
+
+
 
     this.activatedRoute.paramMap.subscribe(params => {
       var id = +this.activatedRoute.snapshot.params['id'];
@@ -267,6 +279,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
         this.cleanTree(tree.root);
         this.chart.getFlow().upload(tree);
+        console.log("designer-pasteWorkflow")
         this.triggerWorkflowChange();
       })
       .catch(error => {
@@ -274,6 +287,4 @@ export class MlWorkflowDesignerComponent implements OnInit {
       });
   }
 }
-
-
 

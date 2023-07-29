@@ -26,6 +26,8 @@
             border-width: 1px;
             color: rgb(0, 0, 0);
         }
+
+       
 }
 
 .operation {
@@ -71,7 +73,15 @@
 
 }
 .operation:hover {
-    background-color: rgba(240, 240, 240, 0.5);
+    // background-color: rgba(240, 240, 240, 0.5);
+   
+    // box-sizing: border-box;
+    //  border-color: rgb(1, 92, 218);
+    // background-color: rgb(243, 248, 253);
+    background-color: rgb(191, 218, 246);
+    // border-style: solid;
+    // border-width: 1px;
+    // color: rgb(0, 0, 0);
 }
 
 /** The drop icon outer circle */

@@ -20,19 +20,11 @@ export class SignalRService {
         });
     }
 
-    registerHandlerReceiveWorkflowRunHistoryUpdate(handler: any) {
-        this.hubConnection.on('ReceiveWorkflowRunHistoryUpdate', handler);
+    registerHandlerReceiveWorkflowUpdate(handler: any) {
+        this.hubConnection.on('ReceiveWorkflowUpdate', handler);
     }
 
-    removeHandlerReceiveWorkflowRunHistoryUpdate() {
-        this.hubConnection.off('ReceiveWorkflowRunHistoryUpdate');
-    }
-
-    registerHandlerReceiveWorkflowNodeRunHistoryUpdate(handler: any) {
-        this.hubConnection.on('ReceiveWorkflowNodeRunHistoryUpdate', handler);
-    }
-
-    removeHandlerReceiveWorkflowNodeRunHistoryUpdate() {
-        this.hubConnection.off('ReceiveWorkflowNodeRunHistoryUpdate');
+    removeHandlerReceiveWorkflowUpdate() {
+        this.hubConnection.off('ReceiveWorkflowUpdate');
     }
 }

@@ -1,24 +1,23 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgFlowchartStepComponent } from '@joelwenzel/ng-flowchart';
 import { Store } from '@ngrx/store';
-import { OperatorType, WorkflowRunStatus } from 'src/app/core/models/enums/enums';
+import { OperatorType } from 'src/app/core/models/enums/enums';
+import { DatasetService } from 'src/app/core/services/dataset.service';
 import { MlModelService } from 'src/app/core/services/ml-model.service';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
+import { WebSocketRouterService } from 'src/app/core/services/websocket-router.service';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
+import { AppState } from 'src/app/state-management/reducers/reducers';
 import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
+import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
 import { EditCleanOperatorComponent } from './edit-clean-operator/edit-clean-operator.component';
 import { EditDatasetMetadataComponent } from './edit-dataset-metadata/edit-dataset-metadata.component';
+import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
 import { EditNormalizeOperatorComponent } from './edit-normalize-operator/edit-normalize-operator.component';
 import { ConfigData, EditStepComponent } from './edit-step/edit-step.component';
 import { EditTrainModelComponent } from './edit-train-model/edit-train-model.component';
-import { AppState } from 'src/app/state-management/reducers/reducers';
-import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { DatasetPreviewComponent } from '../../dataset-preview/dataset-preview.component';
-import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
-import { DatasetService } from 'src/app/core/services/dataset.service';
-import { EditDatasetComponent } from './edit-dataset/edit-dataset.component';
-import { SignalRService } from 'src/app/core/services/signalr-service';
 
 export type StandardStepData = {
   name: string,
@@ -32,12 +31,10 @@ export type StandardStepData = {
   templateUrl: './standard-step.component.html',
   styleUrls: ['./standard-step.component.scss']
 })
-export class StandardStepComponent extends NgFlowchartStepComponent implements OnDestroy {
+export class StandardStepComponent extends NgFlowchartStepComponent {
   name: string;
-  statusDetail: string;
   operatorType?: OperatorType;
   showEdit?: boolean;
-  status?: WorkflowRunStatus;
 
   constructor(private matdialog: MatDialog,
     private operatorSupportService: OperatorSupportService,
@@ -45,7 +42,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent implements O
     private store: Store<AppState>,
     private workflowService: WorkflowService,
     private datasetService: DatasetService,
-    private signalRService: SignalRService) {
+    private websocketRouterService: WebSocketRouterService) {
     super();
   }
 
@@ -53,26 +50,20 @@ export class StandardStepComponent extends NgFlowchartStepComponent implements O
     super.ngOnInit();
 
     this.name = this.data.name;
-    this.status = this.data.isFailed ? 3 : 2;
-    this.statusDetail = this.data.validationMessage;
-
     var operatorTypeString = this.type as keyof typeof OperatorType;
     this.operatorType = OperatorType[operatorTypeString ?? OperatorType.Nop]
     this.data.color = this.operatorSupportService.getColor(this.operatorType);
     this.data.icon = this.operatorSupportService.getIcon(this.operatorType);
     this.showEdit = this.operatorType !== OperatorType.Evaluate;
 
-    this.signalRService.startConnection();
-    this.signalRService.registerHandlerReceiveWorkflowNodeRunHistoryUpdate((workflowNodeRunHistory: any) => {
+    this.websocketRouterService.workflowNodeRunHistoryEvent.subscribe((workflowNodeRunHistory: any) => {
+      debugger
       if (this.id !== workflowNodeRunHistory?.nodeId || this.type !== workflowNodeRunHistory?.nodeType) return;
 
-      this.status = workflowNodeRunHistory.status;
-      this.statusDetail = workflowNodeRunHistory.statusDetail;
+      debugger
+      this.data.status = workflowNodeRunHistory.status;
+      this.data.statusDetail = workflowNodeRunHistory.statusDetail;
     })
-  }
-
-  ngOnDestroy(): void {
-    this.signalRService.removeHandlerReceiveWorkflowRunHistoryUpdate();
   }
 
   areMetricsAvailable() {
@@ -94,6 +85,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent implements O
 
   onDelete() {
     this.destroy(false);
+    this.store.dispatch(operatorSaved());
   }
 
   onEdit() {

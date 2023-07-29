@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap, createReducer, on } from "@ngrx/store";
+import { Action, createReducer, on } from "@ngrx/store";
 import * as moment from 'moment';
 import { Workflow } from "src/app/core/models";
 import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSaveFailed, workflowSavedSuccess } from "../actions/workflow.actions";
@@ -9,7 +9,7 @@ export interface WorkflowState {
     workflowValidated?: Workflow;
     isModelGenerated?: boolean;
     isPublished?: boolean;
-    operatorSaved?: boolean;
+    operatorSaved?: Date;
     status?: string;
     error?: string;
 }
@@ -29,15 +29,11 @@ export const workflowReducer = createReducer(
         console.log("workflowReducer-workflowLoad")
         return ({ ...state })
     }),
-    on(workflowChange, (state) => {
-        console.log("workflowReducer-workflowChange")
-        return ({ ...state })
-    }),
     on(workflowLoadSuccess, (state, result) => {
         console.log("workflowReducer-workflowLoadSuccess")
         console.log(`isModelGenerated: ${result.isModelGenerated}`)
         console.log(`isPublished: ${result.isPublished}`)
-        return ({ workflow: result, operatorSaved: false, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
+        return ({ workflow: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
     }),
     on(workflowLoadError, (state, result: any) => {
 
@@ -45,6 +41,10 @@ export const workflowReducer = createReducer(
         console.log(`error: ${result}`)
         console.log(result)
         return ({ ...state, error: result, status: 'Load failed...' })
+    }),
+    on(workflowChange, (state) => {
+        console.log("workflowReducer-workflowChange")
+        return ({ ...state })
     }),
     on(workflowChangedSuccess, (state, result) => {
 
@@ -60,7 +60,7 @@ export const workflowReducer = createReducer(
     }),
     on(operatorSaved, (state) => {
         console.log("workflowReducer-operatorSaved")
-        return ({ ...state, operatorSaved: true })
+        return ({ ...state, operatorSaved: new Date() })
     }),
     on(workflowSave, (state) => {
 
@@ -70,7 +70,7 @@ export const workflowReducer = createReducer(
     on(workflowSavedSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowSaveSuccess")
-        return ({ ...state, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
+        return ({ ...state, workflowValidated: result, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
     }),
     on(workflowRun, (state) => {
 

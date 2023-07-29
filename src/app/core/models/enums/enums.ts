@@ -26,3 +26,10 @@ export enum WorkflowRunStatus {
     Finished = 2,
     Failed = 3
 }
+
+export enum WebSocketMessageType
+{
+    None = 0,
+    WorkflowRunHistory=1 ,
+    WorkflowNodeRunHistory = 2,
+}
