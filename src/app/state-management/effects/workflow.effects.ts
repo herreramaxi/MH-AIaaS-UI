@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, of } from 'rxjs';
-import { catchError, concatMap, exhaustMap, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
-import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { operatorSaved, workflowChange, workflowChangeType as workflowChangeActionType, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowPublishType, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
-import { EndpointService } from 'src/app/core/services/endpoint.service';
-import { WorkflowState, selectWorkflow } from '../reducers/workflow.reducers';
-import { AppState } from '../reducers/reducers';
 import { Store } from '@ngrx/store';
-import { Workflow } from 'src/app/core/models';
+import { of } from 'rxjs';
+import { catchError, concatMap, exhaustMap, map, switchMap } from 'rxjs/operators';
+import { EndpointService } from 'src/app/core/services/endpoint.service';
+import { WorkflowService } from 'src/app/core/services/workflow.service';
+import { workflowChange, workflowChangeType as workflowChangeActionType, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
+import { AppState } from '../reducers/reducers';
 
 @Injectable()
 export class WorkflowEffects {
@@ -45,7 +43,7 @@ export class WorkflowEffects {
 
     workflowSaved$ = createEffect(() => this.actions$.pipe(
         ofType(workflowSave),
-        exhaustMap((action) => this.service.save(action.workflow)
+        concatMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
                     return workflowSavedSuccess(response)

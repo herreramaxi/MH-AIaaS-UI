@@ -1,0 +1,33 @@
+.example-ripple-container {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 7px !important;
+    width: 200px;
+    height: 100px;
+    // line-height: 300px;
+  
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 20px;
+  }
+  
+
+  .micon{
+    color: rgb(1, 92, 218);
+    font-size: 90px;
+    font-weight: 100 ;
+    /* Use absolute positioning to center the mat-icon inside the container */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .mat-icon{
+    height: unset;
+    width: unset;
+  }

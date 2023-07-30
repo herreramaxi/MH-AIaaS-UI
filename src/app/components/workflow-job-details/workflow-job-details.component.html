@@ -3,8 +3,8 @@
     [filter]="gridState.filter" filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable"
     [pageSize]="gridState.take" [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true"
     [style.height.%]="100">
-    <kendo-grid-column field="id" title="Id" [width]="110">    </kendo-grid-column>
-    <kendo-grid-column field="nodeId" title="Node Id" [width]="150"></kendo-grid-column>
+    <kendo-grid-column field="id" title="Id" [width]="100">    </kendo-grid-column>
+    <kendo-grid-column field="nodeGuid" title="Node Guid" [width]="300"></kendo-grid-column>
     <kendo-grid-column field="nodeType" title="Node Type" [width]="150"></kendo-grid-column>
     <kendo-grid-column field="statusHumanized" title="Status" [width]="100"></kendo-grid-column>
     <kendo-grid-column field="statusDetail" title="Status Detail" [width]="150">

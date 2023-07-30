@@ -42,10 +42,10 @@ export const workflowReducer = createReducer(
         console.log(result)
         return ({ ...state, error: result, status: 'Load failed...' })
     }),
-    on(workflowChange, (state) => {
-        console.log("workflowReducer-workflowChange")
-        return ({ ...state })
-    }),
+    // on(workflowChange, (state) => {
+    //     console.log("workflowReducer-workflowChange")
+    //     return ({ ...state })
+    // }),
     on(workflowChangedSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowChangedSuccess")

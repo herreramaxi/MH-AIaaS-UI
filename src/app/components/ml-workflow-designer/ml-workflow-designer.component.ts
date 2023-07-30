@@ -15,6 +15,8 @@ import { AppState } from 'src/app/state-management/reducers/reducers';
 import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
+import { v4 as uuid4 } from 'uuid';
+import { StandardWorkflowSample } from 'src/app/core/models/standard-workflow-sample';
 
 @Component({
   selector: 'app-ml-workflow-designer',
@@ -52,23 +54,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     this.options = new NgFlowchart.Options();
     this.options.manualConnectors = false;
-
-    this.callbacks.onDropStep = (x) => {
-      console.log("designer-onDropStep")
-      this.triggerWorkflowChange();
-    };
-
-    // this.callbacks.afterDeleteStep = (x) => {
-    //   debugger
-    //   console.log("designer-afterDeleteStep")
-    //   this.triggerWorkflowChange();
-    // }
-
-    this.callbacks.onDropError = (x) => {
-      console.log(`onDropError: ${x.error.message}`);
-      console.log(x.error);
-
-    }
   }
 
   save() {
@@ -97,7 +82,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   private triggerWorkflowChange() {
-    const json = this.chart.getFlow().toJSON();
+        const json = this.chart.getFlow().toJSON();
     console.log("triggerWorkflowChange:")
     console.log(json)
 
@@ -123,13 +108,18 @@ export class MlWorkflowDesignerComponent implements OnInit {
     if (!node) return node;
 
     if (node.data) {
-      const validatedNode = this.getNodeFromTree(validatedTreeNode, node.id)
+      const validatedNode = this.getNodeFromTree(validatedTreeNode, node)
 
       if (validatedNode?.data) {
         node.data.status = validatedNode.data.status;
         node.data.statusDetail = validatedNode.data.statusDetail;
         node.data.parameters = validatedNode.data.parameters;
         node.data.datasetColumns = validatedNode.data.datasetColumns;
+
+        if (!node.data.nodeGuid) {
+          //exceptional case: if UI was not able to generate guid, so I will assign what backend has generated
+          node.data.nodeGuid = validatedNode.data.nodeGuid;
+        }
       }
     }
 
@@ -137,17 +127,20 @@ export class MlWorkflowDesignerComponent implements OnInit {
     return this.traverse(child, validatedTreeNode);
   }
 
-  getNodeFromTree(node: any, id: any): any {
-    if (!node || node.id === id) return node;
+  getNodeFromTree(validatedTreeNode: any, node: any): any {
+    if (!validatedTreeNode ||
+      (validatedTreeNode.data && (validatedTreeNode.data.nodeGuid === node.data.nodeGuid)) ||
+      validatedTreeNode.id === node.id) return validatedTreeNode;
 
-    const child = node.children?.find((o: any) => true);
-    return this.getNodeFromTree(child, id)
+    const child = validatedTreeNode.children?.find((o: any) => true);
+    return this.getNodeFromTree(child, node)
   }
 
   cleanTree(node: any): any {
     if (!node) return node;
 
     if (node.data) {
+      node.data.nodeGuid = uuid4();
       node.data.status = undefined;
       node.data.statusDetail = undefined;
       node.data.parameters = undefined;
@@ -158,6 +151,23 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.callbacks.onDropStep = (x) => {
+      x.step.data.nodeGuid = uuid4();
+      debugger;
+      console.log("designer-onDropStep")
+      this.triggerWorkflowChange();
+    };
+
+    // this.callbacks.afterDeleteStep = (x) => {
+    //   console.log("designer-afterDeleteStep")
+    //   this.triggerWorkflowChange();
+    // }
+
+    this.callbacks.onDropError = (x) => {
+      console.log(`onDropError: ${x.error.message}`);
+      console.log(x.error);
+
+    }
 
     this.service.getOperators().subscribe(ops => {
       this.operations = ops;
@@ -272,7 +282,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   pasteWorkflow() {
     navigator.clipboard.readText()
-      .then(async clipboardContent => {        
+      .then(async clipboardContent => {
         const tree = JSON.parse(clipboardContent);
 
         this.cleanTree(tree.root);
@@ -284,6 +294,11 @@ export class MlWorkflowDesignerComponent implements OnInit {
       .catch(error => {
         console.error('Failed to read clipboard content:', error);
       });
+  }
+
+  async pasteWorkflowSample() {
+    await this.chart.getFlow().upload(StandardWorkflowSample);
+    this.triggerWorkflowChange();
   }
 }
 

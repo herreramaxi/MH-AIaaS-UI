@@ -1,14 +1,36 @@
-<h1>Workflows</h1>
-<kendo-grid [data]="view" (edit)="editHandler($event)" (add)="addHandler($event)" (remove)="removeHandler($event)"
-    [sort]="gridState.sort" [sortable]="true" (sortChange)="sortChange($event)" [filter]="gridState.filter"
-    filterable="menu" (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take"
-    [skip]="gridState.skip" (pageChange)="pageChange($event)" [resizable]="true" [style.height.%]="100">
-    <ng-template kendoGridToolbarTemplate>
-        <button kendoGridAddCommand>Add new</button>
-    </ng-template>
+<h1 style="margin-bottom: 5px;">Workflows</h1>
+<h3 class="p-2" style="
+    font-weight: 500;
+    margin-bottom: 0px;
+    padding-bottom: 0px !important;
+">Create New Workflow</h3>
+<div class="d-flex mb-2">
+    <div class="p-2">
+        <div class="example-ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered"
+            [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius"
+            [matRippleColor]="color" (click)="addHandler()">
+            <mat-icon class="micon" fontIcon="add"></mat-icon>
+        </div>
+        <div class="text-center">Create New</div>
+    </div>
+    <div class="p-2">
+        <div class="example-ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered"
+            [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius"
+            [matRippleColor]="color" (click)="addHandler(true)">
+            <img src="assets/images/workflow5.png" alt="Image Description" style="height: 80px;margin-top: 10px;">
+        </div>
+        <div class="text-center">Use Standard ML Template</div>
+    </div>
+</div>
+<mat-divider class="p-2"></mat-divider>
+<h2 style="margin-bottom: 5px;">Workflows</h2> 
 
+<kendo-grid [data]="view" (edit)="editHandler($event)" (remove)="removeHandler($event)" [sort]="gridState.sort"
+    [sortable]="true" (sortChange)="sortChange($event)" [filter]="gridState.filter" filterable="menu"
+    (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip"
+    (pageChange)="pageChange($event)" [resizable]="true" [style.height.%]="100" [height]="620"> 
     <kendo-grid-column field="id" title="Id" [width]="80"> </kendo-grid-column>
-    <kendo-grid-column field="name" title="Name" [width]="220">
+    <kendo-grid-column field="name" title="Name" [width]="230">
         <ng-template kendoGridCellTemplate let-dataItem>
             <a [routerLink]="['/workflow-designer', dataItem.id]">
                 <app-ellipsis-text [inputText]="dataItem.name"></app-ellipsis-text> </a>

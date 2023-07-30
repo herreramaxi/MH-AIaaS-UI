@@ -21,7 +21,7 @@ export class DatasetCreateComponent {
 
   thirdFormGroup = this.formBuilder.group({
     delimiter: [',', Validators.required],
-    missingRealsAsNaNs: [false, Validators.required],
+    missingRealsAsNaNs: [true, Validators.required],
     fileAnalysis: ['']
   });
 

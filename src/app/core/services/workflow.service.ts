@@ -21,20 +21,19 @@ export class WorkflowService {
     return this.http.get<Workflow[]>('api/workflows');
   }
 
-  createWorkflow() {
-    return this.http.post<Workflow>('api/workflows', null);
+  createWorkflow(useSampleTemplate = false) {
+    return this.http.post<Workflow>('api/workflows',  useSampleTemplate );
   }
 
   rename(workflow: any) {
     return this.http.post<Workflow>('api/workflows/rename', workflow);
   }
 
-
   getOperators() {
     return this.http.get<any[]>('api/operators');
   }
 
-  save(workflow: Workflow) {
+  save(workflow: Workflow) {    
     return this.http.put<Workflow>('api/workflows', workflow);
   }
 
@@ -45,8 +44,8 @@ export class WorkflowService {
   run(workflow: Workflow) {
     return this.http.post<Workflow>('api/workflows/run', workflow);
   }
-  
+
   publish(workflow: Workflow) {
     return this.http.post<Workflow>(`api/workflows/publish`, workflow);
-  } 
+  }
 }
