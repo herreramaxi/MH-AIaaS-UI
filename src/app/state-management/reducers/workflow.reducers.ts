@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import * as moment from 'moment';
 import { Workflow } from "src/app/core/models";
-import { operatorSaved, workflowChange, workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSaveFailed, workflowSavedSuccess } from "../actions/workflow.actions";
+import { workflowChangedError, workflowChangedSuccess, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowSave, workflowSaveFailed, workflowSavedSuccess } from "../actions/workflow.actions";
 import { AppState } from "./reducers";
 
 export interface WorkflowState {
@@ -9,7 +9,7 @@ export interface WorkflowState {
     workflowValidated?: Workflow;
     isModelGenerated?: boolean;
     isPublished?: boolean;
-    operatorSaved?: Date;
+    // operatorSaved?: Date;
     status?: string;
     error?: string;
 }
@@ -58,10 +58,10 @@ export const workflowReducer = createReducer(
         console.log(result)
         return ({ ...state, error: result, status: 'Processing failed...' })
     }),
-    on(operatorSaved, (state) => {
-        console.log("workflowReducer-operatorSaved")
-        return ({ ...state, operatorSaved: new Date() })
-    }),
+    // on(operatorSaved, (state) => {
+    //     console.log("workflowReducer-operatorSaved")
+    //     return ({ operatorSaved: new Date() })
+    // }),
     on(workflowSave, (state) => {
 
         console.log("workflowReducer-workflowSave")
@@ -70,7 +70,8 @@ export const workflowReducer = createReducer(
     on(workflowSavedSuccess, (state, result) => {
 
         console.log("workflowReducer-workflowSaveSuccess")
-        return ({ ...state, workflowValidated: result, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
+        // return ({ ...state, workflowValidated: result, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
+        return ({ ...state, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
     }),
     on(workflowRun, (state) => {
 
@@ -120,7 +121,7 @@ export function reducer(state: WorkflowState | undefined, action: Action): any {
 export const selectWorkflow = (appState: AppState) => appState.workflowState.workflow;
 export const selectWorkflowValidated = (appState: AppState) => appState.workflowState.workflowValidated;
 export const selectWorkflowStatus = (appState: AppState) => appState.workflowState.status;
-export const selectOperatorSaved = (appState: AppState) => appState.workflowState.operatorSaved;
+// export const selectOperatorSaved = (appState: AppState) => appState.workflowState.operatorSaved;
 export const selectWorkflowError = (appState: AppState) => appState.workflowState.error;
 export const selectWorkflowIsModelGenerated = (appState: AppState) => appState.workflowState.isModelGenerated;
 export const selectWorkflowIsPublished = (appState: AppState) => appState.workflowState.isPublished;

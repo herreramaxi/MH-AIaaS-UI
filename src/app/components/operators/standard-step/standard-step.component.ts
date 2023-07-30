@@ -8,7 +8,6 @@ import { MlModelService } from 'src/app/core/services/ml-model.service';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { WebSocketRouterService } from 'src/app/core/services/websocket-router.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
-import { operatorSaved } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/reducers';
 import { ModelEvaluationComponent } from '../model-evaluation/model-evaluation.component';
 import { DataVisualizationDialogComponent } from './data-visualization-dialog/data-visualization-dialog.component';
@@ -56,11 +55,12 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
     this.data.icon = this.operatorSupportService.getIcon(this.operatorType);
     this.showEdit = this.operatorType !== OperatorType.Evaluate;
 
-    this.websocketRouterService.workflowNodeRunHistoryEvent.subscribe((workflowNodeRunHistory: any) => {
-      if (this.data.nodeGuid && this.data.nodeGuid !== workflowNodeRunHistory?.nodeGuid) return;
+    this.websocketRouterService.workflowNodeRunHistoryEvent.subscribe((workflowNodeRunUpdate: any) => {
+      if (this.data.nodeGuid && this.data.nodeGuid !== workflowNodeRunUpdate?.nodeGuid) return;
 
-      this.data.status = workflowNodeRunHistory.status;
-      this.data.statusDetail = workflowNodeRunHistory.statusDetail;
+      this.data.status = workflowNodeRunUpdate.status;
+      this.data.statusDetail = workflowNodeRunUpdate.statusDetail;
+      this.data.datasetColumns = workflowNodeRunUpdate.datasetColumns;
     })
   }
 
@@ -82,8 +82,10 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
   }
 
   onDelete() {
+    console.log("onDelete")
     this.destroy(false);
-    this.store.dispatch(operatorSaved());
+    this.operatorSupportService.notifyOperatorSave(this);
+    // this.store.dispatch(operatorSaved());
   }
 
   onEdit() {
@@ -112,10 +114,13 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
       width: '550px'
     });
     let sub = dialogRef.beforeClosed().subscribe(data => {
+
+      console.log("dialogRef.beforeClosed()")
       if (data) {
         this.data.config = data;
 
-        this.store.dispatch(operatorSaved());
+        // this.store.dispatch(operatorSaved());
+        this.operatorSupportService.notifyOperatorSave(this);
       }
 
       sub.unsubscribe();

@@ -85,6 +85,6 @@
     </div>
   </div>
   <div class="px-2" style="width: 15%;">
-    <app-workflow-run [workflowId]="workflow?.id"></app-workflow-run>
+    <app-workflow-run *ngIf="workflow" [workflowId]="workflow.id"></app-workflow-run>
   </div>
 </div>

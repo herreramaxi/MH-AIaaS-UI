@@ -18,7 +18,7 @@ export const workflowPublishType = '[WorkflowDesigner] Publish';
 export const workflowPublishSuccessType = '[WorkflowDesigner] Publish Success';
 export const workflowPublishFailedType = '[WorkflowDesigner] Publish Failed';
 
-export const operatorSavedType = '[Operator Page] Saved';
+// export const operatorSavedType = '[Operator Page] Saved';
 
 export const workflowLoad = createAction(workflowLoadType, props<{ workflowId: number }>());
 export const workflowLoadSuccess = createAction(workflowLoadSuccessType, props<any>());
@@ -38,4 +38,4 @@ export const workflowPublish = createAction(workflowPublishType, props<{ endpoin
 export const workflowPublishSuccess = createAction(workflowPublishSuccessType, props<any>());
 export const workflowPublishFailed = createAction(workflowPublishFailedType, props<{ error: string }>());
 
-export const operatorSaved = createAction(operatorSavedType);
+// export const operatorSaved = createAction(operatorSavedType);

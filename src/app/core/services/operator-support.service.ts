@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { StandardStepComponent } from 'src/app/components/operators/standard-step/standard-step.component';
 import { OperatorType } from '../models/enums/enums';
 
@@ -8,6 +8,8 @@ import { OperatorType } from '../models/enums/enums';
 })
 export class OperatorSupportService {
 
+  @Output()
+  operatorSaveEvent = new EventEmitter<any>();
 
   constructor(private http: HttpClient) { }
 
@@ -67,5 +69,9 @@ export class OperatorSupportService {
 
   getCategoricalTypes() {
     return this.http.get<any[]>('api/operators/getCategoricalTypes');
+  }
+
+  notifyOperatorSave(node: any) {
+    this.operatorSaveEvent.emit(node);
   }
 }

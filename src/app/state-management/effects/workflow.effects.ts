@@ -13,7 +13,7 @@ export class WorkflowEffects {
 
     loadWorkflow$ = createEffect(() => this.actions$.pipe(
         ofType(workflowLoad),
-        switchMap((action) => this.service.getWorkflowById(action.workflowId)
+        concatMap((action) => this.service.getWorkflowById(action.workflowId)
             .pipe(
                 map(response => {
                     return workflowLoadSuccess(response)
@@ -24,7 +24,7 @@ export class WorkflowEffects {
                     return of(workflowLoadError({ error: response.error }))
                 })
             ))
-    ));
+    ), { dispatch: true });
 
     workflowChanged$ = createEffect(() => this.actions$.pipe(
         ofType(workflowChange),
@@ -39,7 +39,7 @@ export class WorkflowEffects {
                     return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
-    ));
+    ), { dispatch: true });
 
     workflowSaved$ = createEffect(() => this.actions$.pipe(
         ofType(workflowSave),
@@ -53,7 +53,7 @@ export class WorkflowEffects {
                     return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
-    ));   
+    ), { dispatch: true });
 
     workflowRun$ = createEffect(() => this.actions$.pipe(
         ofType(workflowRun),
@@ -67,11 +67,11 @@ export class WorkflowEffects {
                     return of(workflowRunFailed({ error: response.error }))
                 })
             ))
-    ));
+    ), { dispatch: true });
 
     workflowPublish$ = createEffect(() => this.actions$.pipe(
         ofType(workflowPublish),
-        exhaustMap((action) => this.endpointService.create(action.endpoint)
+        concatMap((action) => this.endpointService.create(action.endpoint)
             .pipe(
                 map(response => {
                     return workflowPublishSuccess(response)
@@ -81,7 +81,7 @@ export class WorkflowEffects {
                     return of(workflowPublishFailed({ error: response.error }))
                 })
             ))
-    ));
+    ), { dispatch: true });
 
     constructor(
         private actions$: Actions,

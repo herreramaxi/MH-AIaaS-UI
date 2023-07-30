@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { WebSocketRouterService } from 'src/app/core/services/websocket-router.service';
 import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-history-service';
 
@@ -7,14 +7,32 @@ import { WorkflowRunHistoryService } from 'src/app/core/services/workflow-run-hi
   templateUrl: './workflow-run.component.html',
   styleUrls: ['./workflow-run.component.css']
 })
-export class WorkflowRunComponent implements OnChanges {
+export class WorkflowRunComponent implements OnInit {//OnChanges {
 
   @Input()
-  workflowId?: number;
-
+  workflowId: number;
   runHistory?: any;
 
   constructor(private workflowRunHistoryService: WorkflowRunHistoryService, private websocketRouterService: WebSocketRouterService) {
+  }
+  ngOnInit(): void {
+
+    this.websocketRouterService.workflowRunHistoryEvent.subscribe((workflowRunHistory: any) => {
+      console.log(`ReceiveWorkflowRunHistoryUpdate:`);
+      console.log(workflowRunHistory)
+
+      if (this.workflowId !== workflowRunHistory?.workflowId) return;
+
+      this.loadData(workflowRunHistory);
+    })
+
+    this.workflowRunHistoryService.getLatestWorkflowRunHistory(this.workflowId).subscribe(data => {
+      console.log(data)
+
+      if (!data) return;
+
+      this.loadData(data);
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -24,15 +42,6 @@ export class WorkflowRunComponent implements OnChanges {
       return;
     }
 
-    this.websocketRouterService.workflowRunHistoryEvent.subscribe((workflowRunHistory: any) => {
-      console.log(`ReceiveWorkflowRunHistoryUpdate:`);
-      console.log(workflowRunHistory)
-
-      if (this.workflowId !== workflowRunHistory?.workflowId) return;
-
-      this.loadData(workflowRunHistory);
-      // Handle the incoming message as needed
-    })
 
     this.workflowRunHistoryService.getLatestWorkflowRunHistory(change.currentValue).subscribe(data => {
       console.log(data)

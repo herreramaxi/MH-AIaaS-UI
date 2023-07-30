@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { OperatorSupportService } from 'src/app/core/services/operator-support.s
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowLoad, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/reducers';
-import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
 import { v4 as uuid4 } from 'uuid';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
@@ -28,7 +28,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   workflow$: Observable<Workflow | undefined>;
   workflowValidated$: Observable<Workflow | undefined>;
-  operatorSaved$: Observable<Date | undefined>;
   workflowStatus$: Observable<string | undefined>;
   isModelGenerated$: Observable<boolean | undefined>;
   isPublished$: Observable<boolean | undefined>;
@@ -46,19 +45,73 @@ export class MlWorkflowDesignerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private operatorService: OperatorSupportService,
     private store: Store<AppState>,
-    private clipboardService: ClipboardService,
-
-    private actions$: Actions,
+    private clipboardService: ClipboardService
   ) {
-
     this.options = new NgFlowchart.Options();
     this.options.manualConnectors = false;
+
+    this.callbacks.onDropStep = (x) => {
+      x.step.data.nodeGuid = uuid4();
+      console.log("designer-onDropStep")
+      this.triggerWorkflowChange();
+    };
+
+    // this.callbacks.afterDeleteStep = (x) => {
+    //   console.log("designer-afterDeleteStep")
+    //   this.triggerWorkflowChange();
+    // }
+
+    this.callbacks.onDropError = (x) => {
+      console.log(`onDropError: ${x.error.message}`);
+      console.log(x.error);
+    }
   }
 
+  ngOnInit(): void {
+    this.workflow$ = this.store.select(selectWorkflow);
+    this.workflowStatus$ = this.store.select(selectWorkflowStatus);
+    this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
+    this.isPublished$ = this.store.select(selectWorkflowIsPublished);
+
+    this.service.getOperators().subscribe(ops => {
+      this.operations = ops;
+
+      this.operations.forEach((op: any) => {
+        op.template = this.operatorService.getTemplate(op.type);
+        op.data.icon = this.operatorService.getIcon(op.type);
+        op.data.color = this.operatorService.getColor(op.type);
+        this.registry.registerStep(op.type, op.template);
+      });
+    });
+
+    this.operatorService.operatorSaveEvent.subscribe(node => {
+      this.triggerWorkflowChange();
+    });
+
+    this.workflow$.subscribe(async data => {
+      console.log("designer-workflow")
+      if (!data?.root) return;
+
+      this.workflow = data;
+
+      var flow = this.getFlow();
+      if (!flow) return;
+
+      flow.upload(this.workflow.root);
+    })
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      var id = +this.activatedRoute.snapshot.params['id'];
+
+      this.store.dispatch(workflowLoad({ workflowId: id }));
+    });
+  }
+  
   save() {
     if (!this.workflow) return;
 
-    const json = this.chart.getFlow().toJSON();
+    const json = this.getWorkflowJson();
+    if (!json) return;
 
     this.store.dispatch(workflowSave({ workflow: { ...this.workflow, root: json } }));
   }
@@ -66,7 +119,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   runWorkflow() {
     if (!this.workflow) return;
 
-    const json = this.chart.getFlow().toJSON();
+    const json = this.getWorkflowJson();
     this.store.dispatch(workflowRun({ workflow: { ...this.workflow, root: json } }));
   }
 
@@ -81,13 +134,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   private triggerWorkflowChange() {
-    const json = this.chart.getFlow().toJSON();
+    const json = this.getWorkflowJson();
+
     console.log("triggerWorkflowChange:")
     console.log(json)
 
-    if (this.workflow) {
-      this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
-    }
+    if (!json || !this.workflow) { return; }
+
+    this.store.dispatch(workflowChange({ workflow: { ...this.workflow, root: json } }));
   }
 
   validate(validatedWorkflow: any) {
@@ -149,83 +203,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
     return this.cleanTree(child);
   }
 
-  ngOnInit(): void {
-    this.callbacks.onDropStep = (x) => {
-      x.step.data.nodeGuid = uuid4();
-      debugger;
-      console.log("designer-onDropStep")
-      this.triggerWorkflowChange();
-    };
-
-    // this.callbacks.afterDeleteStep = (x) => {
-    //   console.log("designer-afterDeleteStep")
-    //   this.triggerWorkflowChange();
-    // }
-
-    this.callbacks.onDropError = (x) => {
-      console.log(`onDropError: ${x.error.message}`);
-      console.log(x.error);
-
-    }
-
-    this.service.getOperators().subscribe(ops => {
-      this.operations = ops;
-
-
-      this.operations.forEach((op: any) => {
-        op.template = this.operatorService.getTemplate(op.type);
-        op.data.icon = this.operatorService.getIcon(op.type);
-        op.data.color = this.operatorService.getColor(op.type);
-        this.registry.registerStep(op.type, op.template);
-      });
-      // this.registry.registerStep('route', StandardStepComponent);
-    });
-
-
-    // this.data$ = this.store.pipe(select(selectWorkflow));
-    this.workflow$ = this.store.select(selectWorkflow);
-    this.workflowValidated$ = this.store.select(selectWorkflowValidated);
-    this.operatorSaved$ = this.store.select(selectOperatorSaved);
-    this.workflowStatus$ = this.store.select(selectWorkflowStatus);
-    this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
-    this.isPublished$ = this.store.select(selectWorkflowIsPublished);
-
-    this.workflow$.subscribe(async m => {
-      console.log("designer-workflow")
-      if (!m) return;
-
-      this.workflow = m;
-
-      if (this.workflow.root) {
-        await this.chart.getFlow().upload(this.workflow.root);
-      }
-    })
-
-    this.workflowValidated$.subscribe(m => {
-      if (!m) return;
-
-      console.log("designer-workflowValidated")
-      this.validate(m);
-    })
-
-    this.operatorSaved$.subscribe(data => {
-      if (!data) return
-
-      console.log("designer-operatorSaved")
-      this.triggerWorkflowChange();
-    });
-
-
-
-    this.activatedRoute.paramMap.subscribe(params => {
-      var id = +this.activatedRoute.snapshot.params['id'];
-
-      this.store.dispatch(workflowLoad({ workflowId: id }));
-    });
-  }
-
   downloadFlow() {
-    let json = this.chart.getFlow().toJSON(4);
+    var json = this.getWorkflowJson(4);
     if (!json) return;
 
     const blob = new Blob([json], { type: 'application/json' });
@@ -238,23 +217,10 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   clearCanvas() {
-    if (this.chart.getFlow().getRoot()) {
-      this.chart.getFlow().clear();
-    }
-  }
+    var flow = this.getFlow();
+    if (!flow || !flow.getRoot()) return;
 
-  onGapChanged(event: any) {
-    this.options = {
-      ...this.options,
-      stepGap: parseInt(event.target.value)
-    };
-  }
-
-  onSequentialChange(event: any) {
-    this.options = {
-      ...this.options,
-      isSequential: event.target.checked
-    }
+    flow.clear();
   }
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
@@ -275,7 +241,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   };
 
   copyWorkflow() {
-    const json = this.chart.getFlow().toJSON();
+    const json = this.getWorkflowJson();
     this.clipboardService.copy(json ?? "");
   }
 
@@ -285,7 +251,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
         const tree = JSON.parse(clipboardContent);
 
         this.cleanTree(tree.root);
-        await this.chart.getFlow().upload(tree);
+        var flow = this.getFlow();
+
+        if (!flow) {
+          console.log("not able to retrieve flow");
+          return;
+        }
+
+        await flow.upload(tree);
 
         console.log("designer-pasteWorkflow")
         this.triggerWorkflowChange();
@@ -293,6 +266,14 @@ export class MlWorkflowDesignerComponent implements OnInit {
       .catch(error => {
         console.error('Failed to read clipboard content:', error);
       });
+  }
+
+  private getWorkflowJson(indent?: number) {
+    return this.getFlow()?.toJSON(indent);
+  }
+
+  private getFlow() {
+    return this.chart?.getFlow();
   }
 }
 
