@@ -13,10 +13,9 @@ import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowLoad, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/reducers';
 import { selectOperatorSaved, selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { v4 as uuid4 } from 'uuid';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
-import { v4 as uuid4 } from 'uuid';
-import { StandardWorkflowSample } from 'src/app/core/models/standard-workflow-sample';
 
 @Component({
   selector: 'app-ml-workflow-designer',
@@ -82,7 +81,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   private triggerWorkflowChange() {
-        const json = this.chart.getFlow().toJSON();
+    const json = this.chart.getFlow().toJSON();
     console.log("triggerWorkflowChange:")
     console.log(json)
 
@@ -294,11 +293,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
       .catch(error => {
         console.error('Failed to read clipboard content:', error);
       });
-  }
-
-  async pasteWorkflowSample() {
-    await this.chart.getFlow().upload(StandardWorkflowSample);
-    this.triggerWorkflowChange();
   }
 }
 
