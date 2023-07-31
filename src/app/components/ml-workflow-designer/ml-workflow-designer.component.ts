@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
-import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ClipboardService } from 'ngx-clipboard';
 import { Observable } from 'rxjs';
@@ -12,7 +11,7 @@ import { OperatorSupportService } from 'src/app/core/services/operator-support.s
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowLoad, workflowRun, workflowSave } from 'src/app/state-management/actions/workflow.actions';
 import { AppState } from 'src/app/state-management/reducers/reducers';
-import { selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus, selectWorkflowValidated } from 'src/app/state-management/reducers/workflow.reducers';
+import { selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublished, selectWorkflowStatus } from 'src/app/state-management/reducers/workflow.reducers';
 import { v4 as uuid4 } from 'uuid';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
@@ -24,7 +23,7 @@ import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.co
 })
 
 export class MlWorkflowDesignerComponent implements OnInit {
-  @ViewChild(NgFlowchartCanvasDirective) chart: NgFlowchartCanvasDirective;
+  @ViewChild(NgFlowchartCanvasDirective, { static: false }) chart: NgFlowchartCanvasDirective;
 
   workflow$: Observable<Workflow | undefined>;
   workflowValidated$: Observable<Workflow | undefined>;
@@ -106,7 +105,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
       this.store.dispatch(workflowLoad({ workflowId: id }));
     });
   }
-  
+
   save() {
     if (!this.workflow) return;
 
