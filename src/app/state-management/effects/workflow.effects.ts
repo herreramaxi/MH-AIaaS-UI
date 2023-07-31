@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, concatMap, exhaustMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map } from 'rxjs/operators';
 import { EndpointService } from 'src/app/core/services/endpoint.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowChangeType as workflowChangeActionType, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
@@ -24,7 +24,7 @@ export class WorkflowEffects {
                     return of(workflowLoadError({ error: response.error }))
                 })
             ))
-    ), { dispatch: true });
+    ));
 
     workflowChanged$ = createEffect(() => this.actions$.pipe(
         ofType(workflowChange),
@@ -39,7 +39,7 @@ export class WorkflowEffects {
                     return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
-    ), { dispatch: true });
+    ));
 
     workflowSaved$ = createEffect(() => this.actions$.pipe(
         ofType(workflowSave),
@@ -53,7 +53,7 @@ export class WorkflowEffects {
                     return of(workflowSaveFailed({ error: response.error }))
                 })
             ))
-    ), { dispatch: true });
+    ));
 
     workflowRun$ = createEffect(() => this.actions$.pipe(
         ofType(workflowRun),
@@ -67,7 +67,7 @@ export class WorkflowEffects {
                     return of(workflowRunFailed({ error: response.error }))
                 })
             ))
-    ), { dispatch: true });
+    ));
 
     workflowPublish$ = createEffect(() => this.actions$.pipe(
         ofType(workflowPublish),
@@ -81,7 +81,7 @@ export class WorkflowEffects {
                     return of(workflowPublishFailed({ error: response.error }))
                 })
             ))
-    ), { dispatch: true });
+    ));
 
     constructor(
         private actions$: Actions,

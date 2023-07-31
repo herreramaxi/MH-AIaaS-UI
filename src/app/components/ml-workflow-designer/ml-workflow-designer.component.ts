@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { NgFlowchart, NgFlowchartCanvasDirective, NgFlowchartStepRegistry } from '@joelwenzel/ng-flowchart';
 import { Store } from '@ngrx/store';
 import { ClipboardService } from 'ngx-clipboard';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Workflow } from 'src/app/core/models';
 import { OperatorSupportService } from 'src/app/core/services/operator-support.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
@@ -22,11 +22,11 @@ import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.co
   styleUrls: ['./ml-workflow-designer.component.scss']
 })
 
-export class MlWorkflowDesignerComponent implements OnInit {
-  @ViewChild(NgFlowchartCanvasDirective, { static: false }) chart: NgFlowchartCanvasDirective;
+export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
+  @ViewChild(NgFlowchartCanvasDirective) chart: NgFlowchartCanvasDirective;
 
+  workflowId?: number;
   workflow$: Observable<Workflow | undefined>;
-  workflowValidated$: Observable<Workflow | undefined>;
   workflowStatus$: Observable<string | undefined>;
   isModelGenerated$: Observable<boolean | undefined>;
   isPublished$: Observable<boolean | undefined>;
@@ -57,7 +57,7 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
     // this.callbacks.afterDeleteStep = (x) => {
     //   console.log("designer-afterDeleteStep")
-    //   this.triggerWorkflowChange();
+    //   //   this.triggerWorkflowChange();
     // }
 
     this.callbacks.onDropError = (x) => {
@@ -66,6 +66,8 @@ export class MlWorkflowDesignerComponent implements OnInit {
     }
   }
 
+  private workflowSubscription: Subscription;
+  private routeSubscription: Subscription;
   ngOnInit(): void {
     this.workflow$ = this.store.select(selectWorkflow);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
@@ -87,23 +89,25 @@ export class MlWorkflowDesignerComponent implements OnInit {
       this.triggerWorkflowChange();
     });
 
-    this.workflow$.subscribe(async data => {
-      console.log("designer-workflow")
-      if (!data?.root) return;
+    this.workflowSubscription = this.workflow$.subscribe(data => {
+      if (!data || data.id != this.workflowId) return;
 
       this.workflow = data;
-
       var flow = this.getFlow();
-      if (!flow) return;
+      if (!flow || !this.workflow.root) return;
 
-      flow.upload(this.workflow.root);
-    })
-
-    this.activatedRoute.paramMap.subscribe(params => {
-      var id = +this.activatedRoute.snapshot.params['id'];
-
-      this.store.dispatch(workflowLoad({ workflowId: id }));
+      flow.upload(this.workflow.root).then(() => {
+        console.log("uploaded")
+      });
     });
+
+    this.workflowId = +this.activatedRoute.snapshot.params['id'];
+    this.store.dispatch(workflowLoad({ workflowId: this.workflowId }));
+  }
+
+  ngOnDestroy(): void {
+    this.workflowSubscription?.unsubscribe();
+    this.routeSubscription?.unsubscribe();
   }
 
   save() {
@@ -134,7 +138,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
 
   private triggerWorkflowChange() {
     const json = this.getWorkflowJson();
-
     console.log("triggerWorkflowChange:")
     console.log(json)
 
@@ -223,7 +226,6 @@ export class MlWorkflowDesignerComponent implements OnInit {
   }
 
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
-
   openDialog(): void {
     if (!this.workflow)
       return;
@@ -257,10 +259,10 @@ export class MlWorkflowDesignerComponent implements OnInit {
           return;
         }
 
-        await flow.upload(tree);
-
-        console.log("designer-pasteWorkflow")
-        this.triggerWorkflowChange();
+        await flow.upload(tree).then(() => {
+          console.log("designer-pasteWorkflow")
+          this.triggerWorkflowChange();
+        });
       })
       .catch(error => {
         console.error('Failed to read clipboard content:', error);

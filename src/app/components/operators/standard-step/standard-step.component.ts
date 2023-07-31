@@ -57,7 +57,7 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
 
     this.websocketRouterService.workflowNodeRunHistoryEvent.subscribe((workflowNodeRunUpdate: any) => {
       if (this.data.nodeGuid && this.data.nodeGuid !== workflowNodeRunUpdate?.nodeGuid) return;
-      
+
       this.data.status = workflowNodeRunUpdate.status;
       this.data.statusDetail = workflowNodeRunUpdate.statusDetail;
       this.data.datasetColumns = workflowNodeRunUpdate.datasetColumns;
@@ -115,7 +115,6 @@ export class StandardStepComponent extends NgFlowchartStepComponent {
       width: '550px'
     });
     let sub = dialogRef.beforeClosed().subscribe(data => {
-
       console.log("dialogRef.beforeClosed()")
       if (data) {
         this.data.config = data;

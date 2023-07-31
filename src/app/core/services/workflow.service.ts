@@ -22,7 +22,7 @@ export class WorkflowService {
   }
 
   createWorkflow(useSampleTemplate = false) {
-    return this.http.post<Workflow>('api/workflows',  useSampleTemplate );
+    return this.http.post<Workflow>('api/workflows', useSampleTemplate);
   }
 
   rename(workflow: any) {
@@ -33,7 +33,7 @@ export class WorkflowService {
     return this.http.get<any[]>('api/operators');
   }
 
-  save(workflow: Workflow) {    
+  save(workflow: Workflow) {
     return this.http.put<Workflow>('api/workflows', workflow);
   }
 

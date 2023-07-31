@@ -37,5 +37,3 @@ export const workflowRunFailed = createAction(workflowRunFailedType, props<{ err
 export const workflowPublish = createAction(workflowPublishType, props<{ endpoint: Endpoint }>());
 export const workflowPublishSuccess = createAction(workflowPublishSuccessType, props<any>());
 export const workflowPublishFailed = createAction(workflowPublishFailedType, props<{ error: string }>());
-
-// export const operatorSaved = createAction(operatorSavedType);
