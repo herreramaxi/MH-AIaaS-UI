@@ -20,6 +20,14 @@ export class SignalRService {
         });
     }
 
+    stopConnection() {
+        this.hubConnection.stop().then(() => {
+            console.log('SignalR connection stopped.');
+        }).catch(err => {
+            console.error('Error stopping SignalR connection:', err);
+        });
+    }
+
     registerHandlerReceiveWorkflowUpdate(handler: any) {
         this.hubConnection.on('ReceiveWorkflowUpdate', handler);
     }

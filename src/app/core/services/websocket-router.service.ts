@@ -14,8 +14,11 @@ export class WebSocketRouterService implements OnDestroy {
     workflowNodeRunHistoryEvent = new EventEmitter<any>();
 
     constructor(private signalRService: SignalRService) { }
+    
     ngOnDestroy(): void {
+        console.log("WebSocketRouterService-ngOnDestroy: stopping websocket connection")
         this.signalRService.removeHandlerReceiveWorkflowUpdate();
+        this.signalRService.stopConnection();
     }
 
     startConnection() {

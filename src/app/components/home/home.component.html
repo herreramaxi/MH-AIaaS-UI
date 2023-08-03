@@ -1,60 +1,71 @@
-<div class="row row-cols-1 row-cols-md-4">
-  <div class="col mb-4 d-flex">
-    <mat-card class="w-100">
-      <mat-card-header>
-        <mat-card-title>Datasets</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Collection of data that serves as a data source for machine learning tasks and is used to train models.</p>      
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions style="justify-content: center;">
-        <button mat-raised-button routerLink="/datasets">START WORKING</button>
-      </mat-card-actions>
-    </mat-card>
+<div class="container">
+  <h1 class="pt-5" style="font-size: 36px;font-weight: 550;">Welcome to Artificial Intelligence as a Service
+    (AIaaS)</h1>
+  <p class="mb-2" style="font-size: 16px;">AIaaS is designed to facilitates the process of machine learning model
+    generation, allowing users to generate ML models graphically and seemingly deploy it to the Cloud.</p>
+  <div class="row row-cols-1 row-cols-md-4 pt-5">
+    <div class="col mb-4 d-flex">
+      <mat-card class="w-100">
+        <mat-card-header>
+          <mat-card-title>Datasets</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Collection of data that serves as a data source for machine learning tasks and is used to train models.</p>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions style="justify-content: center;">
+          <button mat-raised-button routerLink="/datasets">START NOW</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col mb-4 d-flex">
+      <mat-card class="w-100">
+        <mat-card-header>
+          <mat-card-title>Workflows</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Pipeline definition consisting of a sequence of operations applied to a dataset to construct a machine
+            learning model.</p>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions style="justify-content: center;">
+          <button mat-raised-button routerLink="/workflows">START NOW</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col mb-4 d-flex">
+      <mat-card class="w-100">
+        <mat-card-header>
+          <mat-card-title>Models</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Produced by workflows, it outlines the necessary steps to convert input data into a prediction.
+          </p>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions style="justify-content: center;">
+          <button mat-raised-button routerLink="/models">START NOW</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col mb-4 d-flex">
+      <mat-card class="w-100">
+        <mat-card-header>
+          <mat-card-title>Endpoints</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>It allows clients to consume a machine learning model that was previously run and published.</p>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions style="justify-content: center;">
+          <button mat-raised-button routerLink="/endpoints">START NOW</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
-  <div class="col mb-4 d-flex">
-    <mat-card class="w-100">
-      <mat-card-header>
-        <mat-card-title>Workflows</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Pipeline definition consisting of a sequence of operations applied to a dataset to construct a machine
-          learning model.</p>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions style="justify-content: center;">
-        <button mat-raised-button routerLink="/workflows">START WORKING</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <div class="col mb-4 d-flex">
-    <mat-card class="w-100">
-      <mat-card-header>
-        <mat-card-title>Models</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Produced by workflows, it outlines the necessary steps to convert input data into a prediction.
-        </p>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions style="justify-content: center;">
-        <button mat-raised-button routerLink="/models">START WORKING</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <div class="col mb-4 d-flex">
-    <mat-card class="w-100">
-      <mat-card-header>
-        <mat-card-title>Endpoints</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>It allows clients to consume a machine learning model that was previously run and published.</p>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions style="justify-content: center;">
-        <button mat-raised-button routerLink="/endpoints">START WORKING</button>
-      </mat-card-actions>
-    </mat-card>
+  <h2 class="text-center pt-5">Input a dataset, define your workflow, generate a machine learning model and deploy it to
+    the Cloud!!!</h2>
+  <div class="text-center">
+    <img src="assets/images/systemProcess.png" alt="System Process" style="height: 249px;width: auto;">
   </div>
 </div>

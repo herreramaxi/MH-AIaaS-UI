@@ -1,23 +1,15 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
+import { DrawerItemExpandedFn } from '@progress/kendo-angular-layout';
+import {
+  SVGIcon,
+  bellIcon
+} from "@progress/kendo-svg-icons";
 import { Observable } from 'rxjs';
 import { AppState } from './state-management/reducers/reducers';
 import { selectSpinnerIsLoading } from './state-management/reducers/spinner.reducers';
-import { DrawerItemExpandedFn, DrawerItem, DrawerSelectEvent } from '@progress/kendo-angular-layout';
-import {
-  SVGIcon,
-  bellIcon,
-  calendarIcon,
-  circleIcon,
-  envelopLinkIcon,
-  inboxIcon,
-  pencilIcon,
-  starOutlineIcon, menuIcon,
-
-} from "@progress/kendo-svg-icons";
-import { AuthService } from '@auth0/auth0-angular';
-import { Router } from '@angular/router';
-import { WebSocketRouterService } from './core/services/websocket-router.service';
 
 
 
@@ -27,7 +19,7 @@ import { WebSocketRouterService } from './core/services/websocket-router.service
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
- 
+
   title = 'AIaaS_UI';
   isLoading$: Observable<boolean | undefined>;
 
@@ -80,11 +72,10 @@ export class AppComponent implements OnInit {
   ];
 
   panelVisible = false;
-  constructor(private store: Store<AppState>, public auth: AuthService, private router: Router, private webSocketRouterService: WebSocketRouterService) {
+  constructor(private store: Store<AppState>, public auth: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.webSocketRouterService.startConnection();
     this.isLoading$ = this.store.select(selectSpinnerIsLoading);
     this.auth.user$.subscribe(user => {
       if (!user) {
@@ -102,7 +93,7 @@ export class AppComponent implements OnInit {
   public menuSvg: SVGIcon = bellIcon;
   public expandedIndices = [2];
 
-  public isItemExpanded: DrawerItemExpandedFn = (item): boolean => { 
+  public isItemExpanded: DrawerItemExpandedFn = (item): boolean => {
     return this.expandedIndices.indexOf(item.id) >= 0;
   };
 

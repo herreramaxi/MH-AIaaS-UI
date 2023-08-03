@@ -15,6 +15,7 @@ import { selectWorkflow, selectWorkflowIsModelGenerated, selectWorkflowIsPublish
 import { v4 as uuid4 } from 'uuid';
 import { DialogChangeNameComponent } from './dialog-change-name/dialog-change-name.component';
 import { PublishWorkflowComponent } from './publish-workflow/publish-workflow.component';
+import { WebSocketRouterService } from 'src/app/core/services/websocket-router.service';
 
 @Component({
   selector: 'app-ml-workflow-designer',
@@ -44,7 +45,8 @@ export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private operatorService: OperatorSupportService,
     private store: Store<AppState>,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private webSocketRouterService: WebSocketRouterService
   ) {
     this.options = new NgFlowchart.Options();
     this.options.manualConnectors = false;
@@ -69,6 +71,10 @@ export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
   private workflowSubscription: Subscription;
   private routeSubscription: Subscription;
   ngOnInit(): void {
+
+    // open websocket connection
+    this.webSocketRouterService.startConnection();
+
     this.workflow$ = this.store.select(selectWorkflow);
     this.workflowStatus$ = this.store.select(selectWorkflowStatus);
     this.isModelGenerated$ = this.store.select(selectWorkflowIsModelGenerated);
@@ -108,6 +114,10 @@ export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.workflowSubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
+
+    console.log("designer ngOnDestroy()")
+    // stopping websocket connection
+    this.webSocketRouterService.ngOnDestroy();
   }
 
   save() {
