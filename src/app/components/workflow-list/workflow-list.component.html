@@ -24,13 +24,12 @@
 </div>
 <mat-divider class="p-2"></mat-divider>
 <h2 style="margin-bottom: 5px;">Workflows</h2> 
-
 <kendo-grid [data]="view" (edit)="editHandler($event)" (remove)="removeHandler($event)" [sort]="gridState.sort"
     [sortable]="true" (sortChange)="sortChange($event)" [filter]="gridState.filter" filterable="menu"
     (filterChange)="filterChange($event)" [pageable]="pageable" [pageSize]="gridState.take" [skip]="gridState.skip"
     (pageChange)="pageChange($event)" [resizable]="true" [style.height.%]="100" [height]="620"> 
     <kendo-grid-column field="id" title="Id" [width]="80"> </kendo-grid-column>
-    <kendo-grid-column field="name" title="Name" [width]="230">
+    <kendo-grid-column field="name" title="Name" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
             <a [routerLink]="['/workflow-designer', dataItem.id]">
                 <app-ellipsis-text [inputText]="dataItem.name"></app-ellipsis-text> </a>

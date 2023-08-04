@@ -13,7 +13,8 @@
                     <label>First name</label>
                     <p>{{user.given_name }}</p>
                     <label>Roles</label>
-                    <p>{{user.given_name }}</p>
+                    <p>{{ user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']?.toString()?.replace(',', ', ')}}
+                    </p>
                     <label>Email verified</label>
                     <p>{{user['email_verified']}}</p>
                 </div>

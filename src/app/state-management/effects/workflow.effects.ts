@@ -7,9 +7,11 @@ import { EndpointService } from 'src/app/core/services/endpoint.service';
 import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowChangeType as workflowChangeActionType, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
 import { AppState } from '../reducers/reducers';
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class WorkflowEffects {
+
 
     loadWorkflow$ = createEffect(() => this.actions$.pipe(
         ofType(workflowLoad),
@@ -31,7 +33,7 @@ export class WorkflowEffects {
         concatMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
-                    return workflowSavedSuccess(response)
+                    return workflowSavedSuccess({ response: response, savedAt: this.datePipe.transform(response.modifiedOn, 'H:mm:ss') })
                 }),
                 catchError((response: any) => {
                     console.log(`Error on action ${workflowChangeActionType} - workflowChangedError`)
@@ -46,7 +48,7 @@ export class WorkflowEffects {
         concatMap((action) => this.service.save(action.workflow)
             .pipe(
                 map(response => {
-                    return workflowSavedSuccess(response)
+                    return workflowSavedSuccess({ response: response, savedAt: this.datePipe.transform(response.modifiedOn, 'H:mm') })
                 }),
                 catchError((response: any) => {
                     console.log(`Error on action ${workflowRunType}`)
@@ -87,6 +89,7 @@ export class WorkflowEffects {
         private actions$: Actions,
         private service: WorkflowService,
         private endpointService: EndpointService,
-        private store: Store<AppState>
+        private store: Store<AppState>,
+        private datePipe: DatePipe
     ) { }
 }

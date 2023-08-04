@@ -1,3 +1,5 @@
+import { LayoutModule } from '@angular/cdk/layout';
+import { DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,34 +41,33 @@ import { DialogChangeNameComponent } from './components/ml-workflow-designer/dia
 import { MlWorkflowDesignerComponent } from './components/ml-workflow-designer/ml-workflow-designer.component';
 import { PublishWorkflowComponent } from './components/ml-workflow-designer/publish-workflow/publish-workflow.component';
 import { CustomStepComponent } from './components/operators/custom-step/custom-step.component';
-import { EditDatasetComponent } from './components/operators/standard-step/edit-dataset/edit-dataset.component';
 import { ModelEvaluationComponent } from './components/operators/model-evaluation/model-evaluation.component';
 import { OperatorStatusComponent } from './components/operators/operator-status/operator-status.component';
 import { DataVisualizationDialogComponent } from './components/operators/standard-step/data-visualization-dialog/data-visualization-dialog.component';
 import { EditCleanOperatorComponent } from './components/operators/standard-step/edit-clean-operator/edit-clean-operator.component';
 import { EditDatasetMetadataComponent } from './components/operators/standard-step/edit-dataset-metadata/edit-dataset-metadata.component';
+import { EditDatasetComponent } from './components/operators/standard-step/edit-dataset/edit-dataset.component';
 import { EditNormalizeOperatorComponent } from './components/operators/standard-step/edit-normalize-operator/edit-normalize-operator.component';
 import { EditStepComponent } from './components/operators/standard-step/edit-step/edit-step.component';
 import { EditTrainModelComponent } from './components/operators/standard-step/edit-train-model/edit-train-model.component';
 import { StandardStepComponent } from './components/operators/standard-step/standard-step.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WorkflowCreateComponent } from './components/workflow-create/workflow-create.component';
+import { WorkflowJobDetailsComponent } from './components/workflow-job-details/workflow-job-details.component';
+import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
 import { WorkflowListComponent } from './components/workflow-list/workflow-list.component';
 import { WorkflowRunComponent } from './components/workflow-run/workflow-run.component';
 import { EllipsisTextComponent } from './core/components/ellipsis-text/ellipsis-text.component';
+import { KendoGridListComponent } from './core/components/kendo-grid-list/kendo-grid-list.component';
+import { LabelValueComponent } from './core/components/label-value/label-value.component';
 import { ResponseTimePipe } from './core/pipes/response-time-pipe';
+import { StorageSizePipe } from './core/pipes/storage-size-pipe';
 import { BaseUrlInterceptor } from './infrastructure/BaseUrlInterceptor';
 import { ErrorInterceptor } from './infrastructure/ErrorInterceptor';
 import { LoadingInterceptor } from './infrastructure/LoadingInterceptor';
 import { AuthGuardByRole } from './infrastructure/auth-guard-by-role';
-import { KendoGridListComponent } from './core/components/kendo-grid-list/kendo-grid-list.component';
 import { WorkflowEffects } from './state-management/effects/workflow.effects';
 import { reducers } from './state-management/reducers/reducers';
-import { WorkflowJobsComponent } from './components/workflow-jobs/workflow-jobs.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { LabelValueComponent } from './core/components/label-value/label-value.component';
-import { WorkflowJobDetailsComponent } from './components/workflow-job-details/workflow-job-details.component';
-import { StorageSizePipe } from './core/pipes/storage-size-pipe';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { StorageSizePipe } from './core/pipes/storage-size-pipe';
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     AuthGuardByRole,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

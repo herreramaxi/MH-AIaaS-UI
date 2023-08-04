@@ -60,10 +60,9 @@ export const workflowReducer = createReducer(
         return ({ ...state, status: "Saving..." })
     }),
     on(workflowSavedSuccess, (state, result) => {
-
         console.log("workflowReducer-workflowSaveSuccess")
         // return ({ ...state, workflowValidated: result, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
-        return ({ ...state, status: `Saved at ${new Date(result.modifiedOn).toLocaleTimeString(undefined, { hour12: false })}` })
+        return ({ ...state, status: `Saved at ${result.savedAt}` })
     }),
     on(workflowRun, (state) => {
 

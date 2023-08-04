@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PageChangeEvent, PagerSettings } from '@progress/kendo-angular-grid';
+import { PageChangeEvent, PagerSettings, ScrollMode } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor, SortDescriptor, State, process } from '@progress/kendo-data-query';
 import { DatasetService } from 'src/app/core/services/dataset.service';
 
@@ -13,12 +13,13 @@ export class DatasetViewSchemaComponent implements OnInit {
   @Input()
   datasetId: number;
 
+  scrollable: ScrollMode = "virtual";
   availableDataTypes: any[];
   gridData: any[];
   header?: any[];
 
   public view: any;
-  public sizes = [5, 10, 20, 50, 100];
+  public sizes = [5, 15, 20, 50, 100];
   public gridState: State = {
     sort: [],
     filter: {
@@ -26,7 +27,7 @@ export class DatasetViewSchemaComponent implements OnInit {
       filters: []
     },
     skip: 0,
-    take: 20,
+    take: 100,
   };
 
   public pageable: PagerSettings = {
