@@ -22,74 +22,36 @@ export const initialState: WorkflowState = {
 export const workflowReducer = createReducer(
     initialState,
     on(workflowLoadSuccess, (state, result) => {
-        console.log("workflowReducer-workflowLoadSuccess")
-        console.log(`isModelGenerated: ${result.isModelGenerated}`)
-        console.log(`isPublished: ${result.isPublished}`)
         return ({ workflow: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
     }),
     on(workflowLoadError, (state, result: any) => {
-
-        console.log("workflowReducer-workflowLoadError")
-        console.log(`error: ${result}`)
-        console.log(result)
         return ({ ...state, error: result, status: 'Load failed...' })
     }),
-    // on(workflowChange, (state) => {
-    //     console.log("workflowReducer-workflowChange")
-    //     return ({ ...state })
-    // }),
     on(workflowChangedSuccess, (state, result) => {
-
-        console.log("workflowReducer-workflowChangedSuccess")
         return ({ workflowValidated: result, isModelGenerated: result.isModelGenerated, isPublished: result.isPublished })
     }),
     on(workflowChangedError, (state, result: any) => {
-
-        console.log("workflowReducer-workflowChangedError")
-        console.log(`error: ${result}`)
-        console.log(result)
         return ({ ...state, error: result, status: 'Processing failed...' })
     }),
-    // on(operatorSaved, (state) => {
-    //     console.log("workflowReducer-operatorSaved")
-    //     return ({ operatorSaved: new Date() })
-    // }),
     on(workflowSave, (state) => {
-
-        console.log("workflowReducer-workflowSave")
         return ({ ...state, status: "Saving..." })
     }),
-    on(workflowSavedSuccess, (state, result) => {
-        console.log("workflowReducer-workflowSaveSuccess")
-        // return ({ ...state, workflowValidated: result, status: `Saved at ${moment(new Date(result.modifiedOn)).format("H:MM:ss")}` })
+    on(workflowSavedSuccess, (state, result) => {  
         return ({ ...state, status: `Saved at ${result.savedAt}` })
     }),
     on(workflowRun, (state) => {
-
-        console.log("workflowReducer-workflowRun")
         return ({ ...state, status: "Running..." })
     }),
     on(workflowRunSuccess, (state, result) => {
-
-        console.log("workflowReducer-workflowRunSuccess")
         return ({ ...state, workflowValidated: result, isModelGenerated: result.isModelGenerated, status: `Finished running` })
     }),
     on(workflowSaveFailed, (state, result: any) => {
-
-        console.log("workflowReducer-workflowSaveFailed")
-        console.log(`error: ${result}`)
-        console.log(result)
         return ({ ...state, error: result, status: 'Save failed...' })
     }),
     on(workflowRunFailed, (state, result: any) => {
-
-        console.log("workflowReducer-workflowRunFailed")
-        console.log(`error: ${result}`)
-        console.log(result)
         return ({ ...state, error: result, status: 'Running failed...' })
     }),
     on(workflowPublish, (state) => {
-        console.log("workflowReducer-workflowPublish")
         return ({ ...state, status: "Publishing..." })
     }),
     on(workflowPublishSuccess, (state, result) => {
@@ -97,10 +59,6 @@ export const workflowReducer = createReducer(
         return ({ ...state, status: `Finished publishing`, isPublished: true })
     }),
     on(workflowPublishFailed, (state, result: any) => {
-
-        console.log("workflowReducer-workflowPublishFailed")
-        console.log(`error: ${result}`)
-        console.log(result)
         return ({ ...state, error: result, status: 'Publishing failed...' })
     }),
 );

@@ -41,8 +41,8 @@ export class WorkflowService {
     return this.http.delete<Workflow>(`api/workflows/${id}`);
   }
 
-  run(workflow: Workflow) {
-    return this.http.post<Workflow>('api/workflows/run', workflow);
+  run(workflow: Workflow, generateIntermediateData: boolean = false) {
+    return this.http.post<Workflow>('api/workflows/run', { ...workflow, generateIntermediateData: generateIntermediateData });
   }
 
   publish(workflow: Workflow) {

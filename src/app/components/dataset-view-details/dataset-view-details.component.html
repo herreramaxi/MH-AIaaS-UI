@@ -1,18 +1,12 @@
 <div *ngIf="dataset" class="p-2">
-    <label>Name</label>
-    <p>{{dataset.name }}</p>
-    <label>Description</label>
-    <p>{{dataset.description }}</p>
-    <label>Modified Date</label>
-    <p>{{dataset.modifiedOn| date:'dd/MM/yyyy' }}</p>
-    <label>Modified By</label>
-    <p>{{dataset.modifiedBy }}</p>
+    <app-label-value label="Name" [value]="dataset.name" ></app-label-value>
+    <app-label-value label="Description" [value]="dataset.description" ></app-label-value>
+    <app-label-value label="Modified Date" [value]="dataset.modifiedOn| date:'dd/MM/yyyy'" ></app-label-value>
+    <app-label-value label="Modified By" [value]="dataset.modifiedBy" ></app-label-value> 
     <label>File Name</label>
     <p><a [href]="dataset.fileUrl" [download]="dataset.fileName">{{dataset.fileName}}</a></p>
-    <label>Size</label>
-    <p>{{ dataset.size | storageSize}}</p>
+    <app-label-value label="Size" [value]="dataset.size | storageSize" ></app-label-value>
     <label>Binary IDV File</label>
     <p><a [href]="dataset.dataViewFileUrl" [download]="dataset.dataViewFileName">{{dataset.dataViewFileName}}</a></p>
-    <label>Size</label>
-    <p>{{ dataset.dataViewFileSize | storageSize}}</p>
+    <app-label-value label="Size" [value]="dataset.dataViewFileSize | storageSize" ></app-label-value> 
 </div>

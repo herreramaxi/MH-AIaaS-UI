@@ -26,6 +26,7 @@ import { WebSocketRouterService } from 'src/app/core/services/websocket-router.s
 export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
   @ViewChild(NgFlowchartCanvasDirective) chart: NgFlowchartCanvasDirective;
 
+  generateIntermediateData = true;
   workflowId?: number;
   workflow$: Observable<Workflow | undefined>;
   workflowStatus$: Observable<string | undefined>;
@@ -133,7 +134,7 @@ export class MlWorkflowDesignerComponent implements OnInit, OnDestroy {
     if (!this.workflow) return;
 
     const json = this.getWorkflowJson();
-    this.store.dispatch(workflowRun({ workflow: { ...this.workflow, root: json } }));
+    this.store.dispatch(workflowRun({ workflow: { ...this.workflow, root: json }, generateIntermediateData: this.generateIntermediateData }));
   }
 
   publishWorkflow() {

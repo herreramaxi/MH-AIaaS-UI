@@ -8,6 +8,7 @@ import { WorkflowService } from 'src/app/core/services/workflow.service';
 import { workflowChange, workflowChangeType as workflowChangeActionType, workflowLoad, workflowLoadError, workflowLoadSuccess, workflowPublish, workflowPublishFailed, workflowPublishSuccess, workflowRun, workflowRunFailed, workflowRunSuccess, workflowRunType, workflowSave, workflowSaveFailed, workflowSavedSuccess } from '../actions/workflow.actions';
 import { AppState } from '../reducers/reducers';
 import { DatePipe } from '@angular/common';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Injectable()
 export class WorkflowEffects {
@@ -59,7 +60,7 @@ export class WorkflowEffects {
 
     workflowRun$ = createEffect(() => this.actions$.pipe(
         ofType(workflowRun),
-        concatMap((action) => this.service.run(action.workflow)
+        concatMap((action) => this.service.run(action.workflow, action.generateIntermediateData)
             .pipe(
                 map(response => {
                     return workflowRunSuccess(response)
@@ -76,6 +77,7 @@ export class WorkflowEffects {
         concatMap((action) => this.endpointService.create(action.endpoint)
             .pipe(
                 map(response => {
+                    this.notificationService.ShowSuccess("Endpoint successfully created, and model is marked as published")
                     return workflowPublishSuccess(response)
                 }),
                 catchError((response: any) => {
@@ -90,6 +92,7 @@ export class WorkflowEffects {
         private service: WorkflowService,
         private endpointService: EndpointService,
         private store: Store<AppState>,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private notificationService: NotificationService
     ) { }
 }

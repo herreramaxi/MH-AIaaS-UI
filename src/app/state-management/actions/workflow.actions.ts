@@ -30,7 +30,7 @@ export const workflowChangedError = createAction(workflowChangedErrorType, props
 export const workflowSave = createAction(workflowSaveType, props<{ workflow: Workflow }>());
 export const workflowSavedSuccess = createAction(workflowSavedSuccessType, props<any>());
 export const workflowSaveFailed = createAction(workflowSaveFailedType, props<{ error: string }>());
-export const workflowRun = createAction(workflowRunType, props<{ workflow: Workflow }>());
+export const workflowRun = createAction(workflowRunType, props<{ workflow: Workflow, generateIntermediateData?: boolean }>());
 export const workflowRunSuccess = createAction(workflowRunSuccessType, props<any>());
 export const workflowRunFailed = createAction(workflowRunFailedType, props<{ error: string }>());
 
